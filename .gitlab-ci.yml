@@ -66,9 +66,10 @@ deploy-helper-release-zip:
   dependencies:
     - build
   only:
-    - tags
+    - /^helper-v.*$/
   except:
     - branches
+    - triggers
   cache: {}
   allow_failure: true
   script:
@@ -76,7 +77,7 @@ deploy-helper-release-zip:
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - version=$(git describe --tags $(git rev-list --tags --max-count=1))
+    - version=$(cat ./projects/dfx-translate/package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
     - cd dist/
     - zip -r "dfx-helper-${version}.zip" ./dfx-helper >> /dev/null
     - cp "dfx-helper-${version}.zip" dfx-helper-latest.zip
@@ -89,9 +90,10 @@ deploy-helper-release-npm:
   dependencies:
     - build
   only:
-    - tags
+    - /^helper-v.*$/
   except:
     - branches
+    - triggers
   cache: {}
   script:
     - cd dist/dfx-helper/
@@ -122,9 +124,10 @@ deploy-translate-release-zip:
   dependencies:
     - build
   only:
-    - tags
+    - /^translate-v.*$/
   except:
     - branches
+    - triggers
   cache: {}
   script:
     - apt-get update -qq && apt-get install -y -qq zip git openssh-client >> /dev/null
@@ -133,22 +136,23 @@ deploy-translate-release-zip:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - version=$(git describe --tags $(git rev-list --tags --max-count=1))
+    - version=$(cat ./projects/dfx-translate/package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
     - cd dist/
     - zip -r "dfx-translate-${version}.zip" ./dfx-translate >> /dev/null
     - cp "dfx-translate-${version}.zip" dfx-translate-latest.zip
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-translate-latest.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-translate/ > /dev/null
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "dfx-translate-${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-translate/ > /dev/null
 
-deploy-helper-release-npm:
+deploy-translate-release-npm:
   stage: deploy
   allow_failure: true
   dependencies:
     - build
   only:
-    - tags
+    - /^translate-v.*$/
   except:
     - branches
+    - triggers
   cache: {}
   script:
     - cd dist/dfx-translate/
