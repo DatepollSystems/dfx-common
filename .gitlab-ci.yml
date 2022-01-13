@@ -25,8 +25,9 @@ test:
     #    - export CHROME_BIN=/usr/bin/google-chrome
     - npm install --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
-    - npm run helper:test:ci
+    - npm run helper:test:coverage
     - npm run translate:build
+    - npm run table:bs:build
 
 build-helper:
   stage: build
@@ -145,5 +146,98 @@ deploy-translate-release-npm:
   cache: {}
   script:
     - cd dist/dfx-translate/
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_PUBLISH_TOKEN}
+    - npm publish
+
+build-bootstrap-table-demo:
+  stage: build
+  only:
+    - develop
+  artifacts:
+    paths:
+      - dist/
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm install --loglevel=error --no-progress
+    - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
+    - npm run table:bs:demo:build
+    - cd dist/
+    - ls -al
+
+deploy-bootstrap-table-demo:
+  stage: deploy
+  dependencies:
+    - build-bootstrap-table-demo
+  only:
+    - develop
+  cache: {}
+  script:
+    - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$SSH_TESTING_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - cd dist/
+    - zip -r dfx-bootstrap-table-demo.zip ./dfx-bootstrap-table-demo >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-bootstrap-table-demo.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-bootstrap-table/ > /dev/null
+    - scp -P $SSH_TESTING_PORT -o StrictHostKeyChecking=no -rp ./dfx-bootstrap-table-demo/* $SSH_TESTING_USERNAME@$SSH_TESTING_HOST:/var/www/dfx-bootstrap-table-demo > /dev/null
+
+build-bootstrap-table:
+  stage: build
+  only:
+    - /^bs-table-v.*$/
+  except:
+    - branches
+    - triggers
+  artifacts:
+    paths:
+      - dist/
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm install --loglevel=error --no-progress
+    - npm run ngcc # Run ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
+    - npm run table:bs:build
+    - cd dist/
+    - ls -al
+
+deploy-bootstrap-table-release-zip:
+  stage: deploy
+  dependencies:
+    - build-bootstrap-table
+  only:
+    - /^bs-table-v.*$/
+  except:
+    - branches
+    - triggers
+  cache: {}
+  allow_failure: true
+  script:
+    - apt-get update -qq && apt-get install -y -qq zip git openssh-client >> /dev/null
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - version=$(git describe --tags $(git rev-list --tags --max-count=1))
+    - cd dist/
+    - zip -r "dfx-bootstrap-table-${version}.zip" ./dfx-bootstrap-table >> /dev/null
+    - cp "dfx-bootstrap-table-${version}.zip" dfx-bootstrap-table-latest.zip
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-bootstrap-table-latest.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-bootstrap-table/ > /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "dfx-bootstrap-table-${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-bootstrap-table/ > /dev/null
+
+deploy-bootstrap-table-release-npm:
+  stage: deploy
+  dependencies:
+    - build-bootstrap-table
+  only:
+    - /^bs-table-v.*$/
+  except:
+    - branches
+    - triggers
+  cache: {}
+  script:
+    - cd dist/dfx-bootstrap-table/
     - npm config set //registry.npmjs.org/:_authToken ${NPM_PUBLISH_TOKEN}
     - npm publish
