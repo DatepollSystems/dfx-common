@@ -22,11 +22,11 @@
     "url": "https://liberapay.com/Dafnik"
   },
   "bugs": {
-    "url": "https://gitlab.com/DatePoll/common/dfx-helper/-/issues"
+    "url": "https://gitlab.com/DatePoll/common/dfx-common/-/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/DatePoll/common/dfx-helper.git"
+    "url": "git+https://gitlab.com/DatePoll/common/dfx-common.git"
   },
   "peerDependencies": {
     "@angular/common": "4 - 13",
