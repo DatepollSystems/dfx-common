@@ -1,0 +1,132 @@
+import {StorageHelper} from '../helper/StorageHelper';
+
+describe('StorageHelper', () => {
+  it('checkExists&Remove&Size&Empty&hasEntries', () => {
+    StorageHelper.set('key1', 'This is a test');
+    StorageHelper.set('key2', 'werwerwero1234567890ß__....-,,;;;+++#ä#!"§$%&/()=?`~+.:,;·|<>');
+    StorageHelper.set('key3', '202012312341234201.12112341234');
+    StorageHelper.set('key4', 'true');
+
+    expect(StorageHelper.exists('key1000')).toBeFalse();
+    expect(StorageHelper.exists('key1')).toBeTrue();
+    expect(StorageHelper.size()).toBe(4);
+    StorageHelper.remove('key1');
+    expect(StorageHelper.exists('key1')).toBeFalse();
+    expect(StorageHelper.size()).toBe(3);
+    expect(StorageHelper.hasEntries()).toBeTrue();
+    expect(StorageHelper.isEmpty()).toBeFalse();
+    StorageHelper.removeAll();
+    expect(StorageHelper.isEmpty()).toBeTrue();
+    expect(StorageHelper.hasEntries()).toBe(false);
+  });
+  it('set&GetNumber', () => {
+    StorageHelper.set('key1', 1);
+    StorageHelper.set('key2', 222222222222222222222222222222222222222222);
+    StorageHelper.set('key3', 2020201.12);
+
+    expect(StorageHelper.getNumber('key1')).toBe(1);
+    expect(StorageHelper.getNumber('key2')).toBe(222222222222222222222222222222222222222222);
+    expect(StorageHelper.getNumber('key3')).toBe(2020201.12);
+    expect(StorageHelper.getNumber('key1000')).toBe(undefined);
+    StorageHelper.removeAll();
+  });
+  it('set&GetString', () => {
+    StorageHelper.set('key1', 'This is a test');
+    StorageHelper.set('key2', 'werwerwero1234567890ß__....-,,;;;+++#ä#!"§$%&/()=?`~+.:,;·|<>');
+    StorageHelper.set('key3', '202012312341234201.12112341234');
+    StorageHelper.set('key4', 'true');
+
+    StorageHelper.set('key20', 'test');
+    expect(StorageHelper.getString('key20')).toBe('test');
+    StorageHelper.set('key20', null);
+    expect(StorageHelper.getString('key20')).toBe(undefined);
+    expect(StorageHelper.exists('key20')).toBeFalse();
+
+    expect(StorageHelper.getString('key1')).toBe('This is a test');
+    expect(StorageHelper.getString('key2')).toBe('werwerwero1234567890ß__....-,,;;;+++#ä#!"§$%&/()=?`~+.:,;·|<>');
+    expect(StorageHelper.getString('key3')).toBe('202012312341234201.12112341234');
+    expect(StorageHelper.getString('key4')).toBe('true');
+    expect(StorageHelper.getString('key1000')).toBe(undefined);
+    StorageHelper.removeAll();
+  });
+  it('set&GetBoolean', () => {
+    StorageHelper.set('key1', true);
+    StorageHelper.set('key2', false);
+
+    expect(StorageHelper.getBoolean('key1')).toBeTrue();
+    expect(StorageHelper.getBoolean('key2')).toBeFalse();
+    expect(StorageHelper.getBoolean('key1000')).toBe(undefined);
+    StorageHelper.removeAll();
+  });
+  it('set&GetDate', () => {
+    const d1 = new Date();
+    const d2 = new Date();
+    d2.setDate(3);
+    StorageHelper.set('key1', d1);
+    StorageHelper.set('key2', d2);
+
+    expect(StorageHelper.getDate('key1')).toEqual(d1);
+    expect(StorageHelper.getDate('key2')).toEqual(d2);
+    expect(StorageHelper.getDate('key1000')).toBe(undefined);
+    StorageHelper.removeAll();
+  });
+  it('set&GetObject', () => {
+    const o1 = {test: 'wowowoww', bub: 'bib'};
+    const o2 = {'12341234': '333333', '--.:dasdf': 'wowowowo'};
+    StorageHelper.setObject('key1', o1);
+    StorageHelper.setObject('key2', o2);
+    StorageHelper.setObject('key3', null);
+    StorageHelper.setObject('key4', undefined);
+
+    expect(StorageHelper.getObject('key1')).toEqual(o1);
+    expect(StorageHelper.getObject('key2')).toEqual(o2);
+    expect(StorageHelper.getObject('key3')).toBe(undefined);
+    expect(StorageHelper.getObject('key4')).toBe(undefined);
+    expect(StorageHelper.getObject('key1000')).toBe(undefined);
+    StorageHelper.removeAll();
+  });
+  it('set&GetUndefinied', () => {
+    StorageHelper.set('key1', 'test');
+    StorageHelper.set('key2', 1);
+    StorageHelper.set('key3', false);
+    const o = {'bla': 'bli', 'test': 'tust'};
+    StorageHelper.setObject('key4', o);
+    expect(StorageHelper.getString('key1')).toBe('test');
+    expect(StorageHelper.getNumber('key2')).toBe(1);
+    expect(StorageHelper.getBoolean('key3')).toBeFalse();
+    expect(StorageHelper.getObject('key4')).toEqual(o);
+    expect(StorageHelper.size()).toBe(4);
+
+    StorageHelper.set('key1', undefined);
+    StorageHelper.set('key2', undefined);
+    StorageHelper.set('key3', undefined);
+    StorageHelper.set('key4', undefined);
+
+    expect(StorageHelper.exists('key1')).toBeFalse();
+    expect(StorageHelper.exists('key2')).toBeFalse();
+    expect(StorageHelper.exists('key3')).toBeFalse();
+    expect(StorageHelper.exists('key4')).toBeFalse();
+    expect(StorageHelper.getString('key1')).toBe(undefined);
+    expect(StorageHelper.getNumber('key2')).toBe(undefined);
+    expect(StorageHelper.getBoolean('key3')).toBe(undefined);
+    expect(StorageHelper.getObject('key4')).toBe(undefined);
+    expect(StorageHelper.isEmpty()).toBeTrue();
+
+    StorageHelper.set('key1', null);
+    StorageHelper.set('key2', null);
+    StorageHelper.set('key3', null);
+    StorageHelper.set('key4', null);
+
+    expect(StorageHelper.exists('key1')).toBeFalse();
+    expect(StorageHelper.exists('key2')).toBeFalse();
+    expect(StorageHelper.exists('key3')).toBeFalse();
+    expect(StorageHelper.exists('key4')).toBeFalse();
+    expect(StorageHelper.getString('key1')).toBe(undefined);
+    expect(StorageHelper.getNumber('key2')).toBe(undefined);
+    expect(StorageHelper.getBoolean('key3')).toBe(undefined);
+    expect(StorageHelper.getObject('key4')).toBe(undefined);
+    expect(StorageHelper.isEmpty()).toBeTrue();
+
+    StorageHelper.removeAll();
+  });
+});

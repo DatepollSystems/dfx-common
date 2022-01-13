@@ -1,0 +1,86 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "dfx-helper": {
+      "projectType": "library",
+      "root": "projects/dfx-helper",
+      "sourceRoot": "projects/dfx-helper/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/dfx-helper/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/dfx-helper/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/dfx-helper/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dfx-helper/src/test.ts",
+            "tsConfig": "projects/dfx-helper/tsconfig.spec.json",
+            "karmaConfig": "projects/dfx-helper/karma.conf.js",
+            "codeCoverageExclude": [
+              "projects/dfx-helper/styles/**",
+              "projects/dfx-helper/src/lib/services/**",
+              "projects/dfx-helper/src/lib/helper/Logger.ts",
+              "projects/dfx-helper/src/lib/helper/BrowserHelper.ts",
+              "projects/dfx-helper/src/lib/helper/ClipboardHelper.ts",
+              "projects/dfx-helper/src/lib/helper/Stopwatch.ts",
+              "projects/dfx-helper/src/lib/helper/Thread.ts"
+            ]
+          }
+        }
+      }
+    },
+    "dfx-translate": {
+      "projectType": "library",
+      "root": "projects/dfx-translate",
+      "sourceRoot": "projects/dfx-translate/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/dfx-translate/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/dfx-translate/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/dfx-translate/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dfx-translate/src/test.ts",
+            "tsConfig": "projects/dfx-translate/tsconfig.spec.json",
+            "karmaConfig": "projects/dfx-translate/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "dfx-helper",
+  "cli": {
+    "cache": {
+      "enabled": true,
+      "path": ".cache",
+      "environment": "all"
+    }
+  }
+}
