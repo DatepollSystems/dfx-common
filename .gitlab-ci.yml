@@ -77,7 +77,7 @@ deploy-helper-release-zip:
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - version=$(cat ./projects/dfx-translate/package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
+    - version=$(node -p "require('./package.json').version")
     - cd dist/
     - zip -r "dfx-helper-${version}.zip" ./dfx-helper >> /dev/null
     - cp "dfx-helper-${version}.zip" dfx-helper-latest.zip
@@ -136,7 +136,7 @@ deploy-translate-release-zip:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - version=$(cat ./projects/dfx-translate/package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
+    - version=$(node -p "require('./package.json').version")
     - cd dist/
     - zip -r "dfx-translate-${version}.zip" ./dfx-translate >> /dev/null
     - cp "dfx-translate-${version}.zip" dfx-translate-latest.zip
