@@ -7,7 +7,7 @@
     "ngcc": "ngcc --properties es2015 browser module main --async false --first-only --create-ivy-entry-points",
     "prepare": "husky install",
     "pre-commit-hook": "pretty-quick --staged",
-    "helper:build": "rm -rf ./dist/dfx-helper/ && mkdir -p ./dist/dfx-helper && ng build dfx-helper --configuration production && cp ./LICENSE ./dist/dfx-helper/ && cp ./projects/dfx-helper/README.md ./dist/dfx-helper/",
+    "helper:build": "rm -rf ./dist/dfx-helper/ && mkdir -p ./dist/dfx-helper && ng build dfx-helper --configuration production && cp ./LICENSE ./dist/dfx-helper/ && cp ./projects/dfx-helper/README.md ./dist/dfx-helper/ && cp ./projects/dfx-helper/CHANGELOG.md ./dist/dfx-helper/",
     "helper:publish": "cd ./dist/dfx-helper && npm publish && cd -",
     "helper:watch": "ng build dfx-helper --watch --configuration development",
     "helper:test": "ng test dfx-helper",

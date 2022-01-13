@@ -1,5 +1,29 @@
 # Changelog
 
+##v4.0.6
+
+### Fixes
+
+Fixes error handling in `HttpService`
+
+##v4.0.5
+
+### Fixes
+
+Fixes indexOf not checking entity ids for `EntityList`
+
+##v4.0.4
+
+### Fixes
+
+Return `EntityList` on clone function from `EntityList`
+
+##v4.0.3
+
+### Fixes
+
+Log bug where empty http responses where marked as error
+
 ## v4.0.2
 
 ### New
