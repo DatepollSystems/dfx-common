@@ -41,7 +41,7 @@ export class List<T> extends Array<T> implements IList<T> {
 
   public add(items: ManyOrUndefinedOrNullOr<T>): IList<T> {
     if (Array.isArray(items)) {
-      items.forEach(item => this.push(item));
+      items.forEach((item) => this.push(item));
     } else if (items) {
       this.push(items);
     }
@@ -50,7 +50,7 @@ export class List<T> extends Array<T> implements IList<T> {
 
   public addIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): IList<T> {
     if (Array.isArray(items)) {
-      items.forEach(item => {
+      items.forEach((item) => {
         if (item && filterFn(item)) {
           this.add(item);
         }
@@ -64,12 +64,12 @@ export class List<T> extends Array<T> implements IList<T> {
   }
 
   public addIfAbsent(items: ManyOrUndefinedOrNullOr<T>): IList<T> {
-    return this.addIf(items, item => this.containsNone(item));
+    return this.addIf(items, (item) => this.containsNone(item));
   }
 
   public remove(items: ManyOrUndefinedOrNullOr<T>): IList<T> {
     if (Array.isArray(items)) {
-      items.forEach(item => {
+      items.forEach((item) => {
         if (item) {
           const itemIndex = this.indexOf(item);
           if (itemIndex !== -1) {
@@ -88,11 +88,11 @@ export class List<T> extends Array<T> implements IList<T> {
 
   public removeIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): IList<T> {
     if (Array.isArray(items)) {
-      items.forEach(item => {
+      items.forEach((item) => {
         if (item && filterFn(item)) {
           const itemIndex = this.indexOf(item);
           if (itemIndex !== -1) {
-            this.splice(itemIndex, 1) ;
+            this.splice(itemIndex, 1);
           }
         }
       });
@@ -106,7 +106,7 @@ export class List<T> extends Array<T> implements IList<T> {
   }
 
   public removeIfPresent(items: ManyOrUndefinedOrNullOr<T>): IList<T> {
-    return this.removeIf(items, item => {
+    return this.removeIf(items, (item) => {
       return this.containsAny(item);
     });
   }
@@ -139,16 +139,16 @@ export class List<T> extends Array<T> implements IList<T> {
   }
 
   public computeIfPresent(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>): IList<T> {
-    return this.computeIf(items, callbackFn, item => this.containsAny(item));
+    return this.computeIf(items, callbackFn, (item) => this.containsAny(item));
   }
 
   public computeIfAbsent(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>): IList<T> {
-    return this.computeIf(items, callbackFn, item => this.containsNone(item));
+    return this.computeIf(items, callbackFn, (item) => this.containsNone(item));
   }
 
   private computeIf(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>, filterFn: IPredicate<T>): IList<T> {
     if (Array.isArray(items)) {
-      items.forEach(item => {
+      items.forEach((item) => {
         if (item && filterFn(item)) {
           callbackFn(item);
         }
@@ -166,4 +166,8 @@ export class List<T> extends Array<T> implements IList<T> {
     }
     return this;
   }
+}
+
+export function listOf<T>(...items: T[]): List<T> {
+  return new List<T>(items);
 }
