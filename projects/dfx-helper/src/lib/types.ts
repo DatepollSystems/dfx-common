@@ -20,6 +20,10 @@ export type HasIDAndName<T> = IHasID<T> & IHasName;
 export type HasNumberIDAndName = HasIDAndName<number>;
 export type HasStringIDAndName = HasIDAndName<string>;
 
-export type Params = HttpParams | {
-  [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-}
+export type Params =
+  | HttpParams
+  | {
+      [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
+    };
+
+export type UrlKeyPair = {key: string; value: string | boolean | number};

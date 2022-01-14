@@ -4,10 +4,11 @@ import {AHttpService} from '../../services/abstract-http.service';
 
 import {IEntity} from '../entity.interface';
 import {IList} from '../../collection/list.interface';
+import {ICompute} from '../../functions.interface';
 
 import {EntityList} from '../../collection/entity-list';
-import {ICompute} from '../../functions.interface';
-import {AnyOr, Params, StringOrNumber, UndefinedOr} from '../../types';
+import {AnyOr, Params, StringOrNumber, UndefinedOr, UrlKeyPair} from '../../types';
+import {Converter} from '../../helper/Converter';
 
 export abstract class AEntityService<idType extends StringOrNumber, EntityType extends IEntity<idType>> {
   public allChange: Subject<IList<EntityType>> = new Subject<IList<EntityType>>();
@@ -59,8 +60,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
 
   //endregion
 
-  protected constructor(protected httpService: AHttpService, protected url: string) {
-  }
+  protected constructor(protected httpService: AHttpService, protected url: string) {}
 
   //region Config setter
   /**
@@ -97,8 +97,8 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   //endregion
 
   //region getAll
-  public getAll(): IList<EntityType> {
-    this.fetchAll();
+  public getAll(urlKeyPairs?: IList<UrlKeyPair>): IList<EntityType> {
+    this.fetchAll(urlKeyPairs);
     return this.entities.clone();
   }
 
@@ -106,11 +106,16 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     this.setAll(new EntityList());
   }
 
-  public fetchAll(): void {
-    this.httpService.get(
-      this.globalGetAllUrl ? this.globalGetAllUrl : this.url,
-      this.globalGetAllParams,
-      'fetchAll').subscribe({
+  public fetchAll(urlKeyPairs?: IList<UrlKeyPair>): void {
+    const url: string | undefined = undefined;
+    if (urlKeyPairs) {
+      urlKeyPairs.forEach((urlKeyPair) => {
+        const key = '{' + urlKeyPair.key + '}';
+        this.globalGetAllUrl?.replace(key, Converter.toString(urlKeyPair.value));
+      });
+    }
+
+    this.httpService.get(this.globalGetAllUrl ? this.globalGetAllUrl : this.url, this.globalGetAllParams, 'fetchAll').subscribe({
       next: (data: any) => {
         const entities = [];
         for (const dto of data) {
@@ -118,7 +123,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
         }
         this.setAll(entities);
       },
-      error: error => console.log(error)
+      error: (error) => console.log(error),
     });
   }
 
@@ -139,15 +144,18 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
 
   public fetchSingle(id: idType, params?: Params, url?: string): void {
-    this.httpService.get(
-      url ? url : ((this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id),
-      this.globalGetSingleParams ? this.globalGetSingleParams : params,
-      'fetchSingle').subscribe({
-      next: (data: any) => {
-        this.setSingle(this.convert(data));
-      },
-      error: error => console.log(error)
-    });
+    this.httpService
+      .get(
+        url ? url : (this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id,
+        params ? params : this.globalGetSingleParams,
+        'fetchSingle'
+      )
+      .subscribe({
+        next: (data: any) => {
+          this.setSingle(this.convert(data));
+        },
+        error: (error) => console.log(error),
+      });
   }
 
   protected setSingle(entity: EntityType): void {
@@ -157,20 +165,20 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   //endregion
 
   public _create(entity: AnyOr<EntityType>, params?: Params, url?: string): Observable<unknown> {
-    return this.httpService.post(
-      url ? url : (this.globalCreateUrl ? this.globalCreateUrl : this.url),
-      entity, params, 'create');
+    return this.httpService.post(url ? url : this.globalCreateUrl ? this.globalCreateUrl : this.url, entity, params, 'create');
   }
 
   public _update(entity: AnyOr<EntityType>, params?: Params, url?: UndefinedOr<string>): Observable<unknown> {
     return this.httpService.put(
-      url ? url : ((this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? ('/' + entity.id) : '')),
-      entity, params, 'update');
+      url ? url : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + entity.id : ''),
+      entity,
+      params,
+      'update'
+    );
   }
 
   public _delete(id: idType, params?: Params, url?: UndefinedOr<string>): Observable<unknown> {
-    return this.httpService.delete(
-      url ? url : ((this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id), params, 'delete');
+    return this.httpService.delete(url ? url : (this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id, params, 'delete');
   }
 
   public delete(id: idType, successFn?: ICompute<any>, params?: Params, url?: string): void {
@@ -181,7 +189,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
           successFn(responseData);
         }
       },
-      error: error => console.log(error)
+      error: (error) => console.log(error),
     });
   }
 
@@ -193,7 +201,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
           successFn(responseData);
         }
       },
-      error: error => console.log(error)
+      error: (error) => console.log(error),
     });
   }
 
@@ -205,7 +213,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
           successFn(responseData);
         }
       },
-      error: error => console.log(error)
+      error: (error) => console.log(error),
     });
   }
 
