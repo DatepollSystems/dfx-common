@@ -97,7 +97,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   //endregion
 
   //region getAll
-  public getAll(urlKeyPairs?: IList<UrlKeyPair>): IList<EntityType> {
+  public getAll(urlKeyPairs?: [UrlKeyPair]): IList<EntityType> {
     this.fetchAll(urlKeyPairs);
     return this.entities.clone();
   }
@@ -106,25 +106,20 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     this.setAll(new EntityList());
   }
 
-  public fetchAll(urlKeyPairs?: IList<UrlKeyPair>): void {
-    const url: string | undefined = undefined;
-    if (urlKeyPairs) {
-      urlKeyPairs.forEach((urlKeyPair) => {
-        const key = '{' + urlKeyPair.key + '}';
-        this.globalGetAllUrl?.replace(key, Converter.toString(urlKeyPair.value));
+  public fetchAll(urlKeyPairs?: [UrlKeyPair]): void {
+    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
+    this.httpService
+      .get(url ? url : this.globalGetAllUrl ? this.globalGetAllUrl : this.url, this.globalGetAllParams, 'fetchAll')
+      .subscribe({
+        next: (data: any) => {
+          const entities = [];
+          for (const dto of data) {
+            entities.push(this.convert(dto));
+          }
+          this.setAll(entities);
+        },
+        error: (error) => console.log(error),
       });
-    }
-
-    this.httpService.get(this.globalGetAllUrl ? this.globalGetAllUrl : this.url, this.globalGetAllParams, 'fetchAll').subscribe({
-      next: (data: any) => {
-        const entities = [];
-        for (const dto of data) {
-          entities.push(this.convert(dto));
-        }
-        this.setAll(entities);
-      },
-      error: (error) => console.log(error),
-    });
   }
 
   protected setAll(entities: EntityType[]): void {
@@ -134,8 +129,8 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   //endregion
 
   //region getSingle
-  public getSingle(id: idType, params?: Params, url?: string): UndefinedOr<EntityType> {
-    this.fetchSingle(id, params, url);
+  public getSingle(id: idType, params?: Params, urlKeyPairs?: [UrlKeyPair]): UndefinedOr<EntityType> {
+    this.fetchSingle(id, params, urlKeyPairs);
     return this.entity;
   }
 
@@ -143,7 +138,8 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     this.entity = undefined;
   }
 
-  public fetchSingle(id: idType, params?: Params, url?: string): void {
+  public fetchSingle(id: idType, params?: Params, urlKeyPairs?: [UrlKeyPair]): void {
+    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
     this.httpService
       .get(
         url ? url : (this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id,
@@ -164,11 +160,13 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
   //endregion
 
-  public _create(entity: AnyOr<EntityType>, params?: Params, url?: string): Observable<unknown> {
+  public _create(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: [UrlKeyPair]): Observable<unknown> {
+    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
     return this.httpService.post(url ? url : this.globalCreateUrl ? this.globalCreateUrl : this.url, entity, params, 'create');
   }
 
-  public _update(entity: AnyOr<EntityType>, params?: Params, url?: UndefinedOr<string>): Observable<unknown> {
+  public _update(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: [UrlKeyPair]): Observable<unknown> {
+    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
     return this.httpService.put(
       url ? url : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + entity.id : ''),
       entity,
@@ -177,12 +175,13 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     );
   }
 
-  public _delete(id: idType, params?: Params, url?: UndefinedOr<string>): Observable<unknown> {
+  public _delete(id: idType, params?: Params, urlKeyPairs?: [UrlKeyPair]): Observable<unknown> {
+    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
     return this.httpService.delete(url ? url : (this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id, params, 'delete');
   }
 
-  public delete(id: idType, successFn?: ICompute<any>, params?: Params, url?: string): void {
-    this._delete(id, params, url).subscribe({
+  public delete(id: idType, successFn?: ICompute<any>, params?: Params, urlKeyPairs?: [UrlKeyPair]): void {
+    this._delete(id, params, urlKeyPairs).subscribe({
       next: (responseData: any) => {
         this.fetchAll();
         if (successFn) {
@@ -193,8 +192,8 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     });
   }
 
-  public create(entity: AnyOr<EntityType>, successFn?: ICompute<any>, params?: Params, url?: string): void {
-    this._create(entity, params, url).subscribe({
+  public create(entity: AnyOr<EntityType>, successFn?: ICompute<any>, params?: Params, urlKeyPairs?: [UrlKeyPair]): void {
+    this._create(entity, params, urlKeyPairs).subscribe({
       next: (responseData: any) => {
         this.fetchAll();
         if (successFn) {
@@ -205,8 +204,8 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     });
   }
 
-  public update(entity: AnyOr<EntityType>, successFn?: ICompute<any>, params?: Params, url?: string): void {
-    this._update(entity, params, url).subscribe({
+  public update(entity: AnyOr<EntityType>, successFn?: ICompute<any>, params?: Params, urlKeyPairs?: [UrlKeyPair]): void {
+    this._update(entity, params, urlKeyPairs).subscribe({
       next: (responseData: any) => {
         this.fetchAll();
         if (successFn) {
@@ -223,4 +222,15 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
    * @return {IEntity} Returns model
    */
   protected abstract convert(jsonData: any): EntityType;
+
+  protected parseUrl(url?: string, urlKeyPairs?: [UrlKeyPair]): string | undefined {
+    let toReturn: string | undefined = undefined;
+    if (urlKeyPairs) {
+      urlKeyPairs.forEach((urlKeyPair) => {
+        const key = '{' + urlKeyPair.key + '}';
+        toReturn = url?.replace(key, Converter.toString(urlKeyPair.value));
+      });
+    }
+    return toReturn;
+  }
 }
