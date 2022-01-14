@@ -8,11 +8,14 @@ export class Converter {
    * @return boolean Returns <code>true</code> if value is <code>"0"</code>, <code>0</code> or <code>"true"</code>,
    * <code>false</code> if not
    */
-  public static toBoolean(value: UndefinedOrNullOr<number | string>): boolean {
+  public static toBoolean(value: UndefinedOrNullOr<number | string | boolean>): boolean {
     if (value == null) {
       return false;
     }
-    return typeof value !== 'number' ? (value.trim().toLowerCase() === 'true' || value.trim().toLowerCase() === '0') : value === 1;
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    return typeof value !== 'number' ? value.trim().toLowerCase() === 'true' || value.trim().toLowerCase() === '0' : value === 1;
   }
   /**
    * @deprecated <b>Use <code>toBoolean(value)</code></b>
@@ -43,9 +46,12 @@ export class Converter {
    * @param value {boolean|number} Value to check
    * @return boolean
    */
-  public static toString(value: UndefinedOrNullOr<number | boolean>): string {
+  public static toString(value: UndefinedOrNullOr<string | number | boolean>): string {
     if (value == null) {
       return '';
+    }
+    if (typeof value === 'string') {
+      return value;
     }
     return typeof value !== 'number' ? (value ? 'true' : 'false') : value.toString();
   }
@@ -78,9 +84,12 @@ export class Converter {
    * @param value {string|boolean} Value to check
    * @return boolean Returns <code>Number.MAX_SAFE_INTEGER</code> if value is <code>null</code> or <code>undefined</code>
    */
-  public static toNumber(value: UndefinedOrNullOr<string | boolean>): number {
+  public static toNumber(value: UndefinedOrNullOr<string | boolean | number>): number {
     if (value == null) {
       return Number.MAX_SAFE_INTEGER;
+    }
+    if (typeof value === 'number') {
+      return value;
     }
     return typeof value !== 'string' ? (value ? 1 : 0) : parseFloat(value);
   }
