@@ -139,7 +139,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
 
   public fetchSingle(id: idType, params?: Params, urlKeyPairs?: [UrlKeyPair]): void {
-    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
+    const url = this.parseUrl(this.globalGetSingleUrl, urlKeyPairs);
     this.httpService
       .get(
         url ? url : (this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id,
@@ -161,12 +161,12 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   //endregion
 
   public _create(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: [UrlKeyPair]): Observable<unknown> {
-    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
+    const url = this.parseUrl(this.globalCreateUrl, urlKeyPairs);
     return this.httpService.post(url ? url : this.globalCreateUrl ? this.globalCreateUrl : this.url, entity, params, 'create');
   }
 
   public _update(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: [UrlKeyPair]): Observable<unknown> {
-    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
+    const url = this.parseUrl(this.globalUpdateUrl, urlKeyPairs);
     return this.httpService.put(
       url ? url : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + entity.id : ''),
       entity,
@@ -176,7 +176,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
 
   public _delete(id: idType, params?: Params, urlKeyPairs?: [UrlKeyPair]): Observable<unknown> {
-    const url = this.parseUrl(this.globalGetAllUrl, urlKeyPairs);
+    const url = this.parseUrl(this.globalDeleteUrl, urlKeyPairs);
     return this.httpService.delete(url ? url : (this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id, params, 'delete');
   }
 
