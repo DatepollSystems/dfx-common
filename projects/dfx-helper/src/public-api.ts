@@ -8,6 +8,7 @@ export * from './lib/collection/entity-list';
 
 export * from './lib/components/abstract-component';
 
+export * from './lib/decorators/confirmable';
 export * from './lib/decorators/delay';
 export * from './lib/decorators/measure-time';
 export * from './lib/decorators/remember-result';
@@ -39,4 +40,5 @@ export * from './lib/services/abstract-http.service';
 export * from './lib/services/is-mobile.service';
 
 export * from './lib/functions.interface';
+export * from './lib/key-value-pair';
 export * from './lib/types';

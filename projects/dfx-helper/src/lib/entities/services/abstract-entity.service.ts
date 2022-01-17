@@ -7,8 +7,8 @@ import {IList} from '../../collection/list.interface';
 import {ICompute} from '../../functions.interface';
 
 import {EntityList} from '../../collection/entity-list';
-import {AnyOr, Params, StringOrNumber, UndefinedOr, KeyValuePair, parseKeyValuePairs} from '../../types';
-import {Converter} from '../../helper/Converter';
+import {AnyOr, Params, StringOrNumber, UndefinedOr} from '../../types';
+import {KeyValuePair} from '../../key-value-pair';
 
 export abstract class AEntityService<idType extends StringOrNumber, EntityType extends IEntity<idType>> {
   public allChange: Subject<IList<EntityType>> = new Subject<IList<EntityType>>();
@@ -107,7 +107,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
 
   public fetchAll(urlKeyPairs?: KeyValuePair[]): void {
-    const url = parseKeyValuePairs(this.globalGetAllUrl, urlKeyPairs);
+    const url = KeyValuePair.parse(this.globalGetAllUrl, urlKeyPairs);
     this.httpService
       .get(url ? url : this.globalGetAllUrl ? this.globalGetAllUrl : this.url, this.globalGetAllParams, 'fetchAll')
       .subscribe({
@@ -139,7 +139,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
 
   public fetchSingle(id: idType, params?: Params, urlKeyPairs?: KeyValuePair[]): void {
-    const url = parseKeyValuePairs(this.globalGetSingleUrl, urlKeyPairs);
+    const url = KeyValuePair.parse(this.globalGetSingleUrl, urlKeyPairs);
     this.httpService
       .get(
         url ? url : (this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id,
@@ -161,12 +161,12 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   //endregion
 
   public _create(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: KeyValuePair[]): Observable<unknown> {
-    const url = parseKeyValuePairs(this.globalCreateUrl, urlKeyPairs);
+    const url = KeyValuePair.parse(this.globalCreateUrl, urlKeyPairs);
     return this.httpService.post(url ? url : this.globalCreateUrl ? this.globalCreateUrl : this.url, entity, params, 'create');
   }
 
   public _update(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: KeyValuePair[]): Observable<unknown> {
-    const url = parseKeyValuePairs(this.globalUpdateUrl, urlKeyPairs);
+    const url = KeyValuePair.parse(this.globalUpdateUrl, urlKeyPairs);
     return this.httpService.put(
       url ? url : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + entity.id : ''),
       entity,
@@ -176,7 +176,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
 
   public _delete(id: idType, params?: Params, urlKeyPairs?: KeyValuePair[]): Observable<unknown> {
-    const url = parseKeyValuePairs(this.globalDeleteUrl, urlKeyPairs);
+    const url = KeyValuePair.parse(this.globalDeleteUrl, urlKeyPairs);
     return this.httpService.delete(url ? url : (this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id, params, 'delete');
   }
 

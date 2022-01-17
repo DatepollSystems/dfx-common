@@ -3,7 +3,7 @@ export enum RandomStringOptions {
   SPECIAL_CHARACTERS,
   REMOVE_LETTERS,
   REMOVE_UPPERCASE_LETTERS,
-  REMOVE_LOWERCASE_LETTERS
+  REMOVE_LOWERCASE_LETTERS,
 }
 
 export class Generator {
@@ -23,7 +23,7 @@ export class Generator {
   public static generateRandomString(length: number, containsNumbers: boolean = true, containsSpecialCharacter: boolean = false): string {
     return this.randomString(length, {
       containsNumbers: containsNumbers,
-      containsSpecialCharacters: containsSpecialCharacter
+      containsSpecialCharacters: containsSpecialCharacter,
     });
   }
 
@@ -63,7 +63,7 @@ export class Generator {
       containsSpecialCharacters: containsSpecialCharacters,
       containsLetters: containsLetters,
       containsUpperCaseLetters: containsUpperCaseLetters,
-      containsLowerCaseLatters: containsLowerCaseLetters
+      containsLowerCaseLetters: containsLowerCaseLetters,
     });
   }
 
@@ -79,16 +79,19 @@ export class Generator {
    * @description <code>containsUpperCaseLetters</code> default <code>true</code>, used to determine if the random string should contain UPPERCASE letters
    * @return string
    */
-  public static randomString(length: number, options?: {
-    containsNumbers?: boolean,
-    containsSpecialCharacters?: boolean,
-    specialCharactersSet?: string,
-    containsLetters?: boolean,
-    containsLowerCaseLatters?: boolean,
-    containsUpperCaseLetters?: boolean
-  }): string {
+  public static randomString(
+    length: number,
+    options?: {
+      containsNumbers?: boolean;
+      containsSpecialCharacters?: boolean;
+      specialCharactersSet?: string;
+      containsLetters?: boolean;
+      containsLowerCaseLetters?: boolean;
+      containsUpperCaseLetters?: boolean;
+    }
+  ): string {
     let characters = this.lowerCaseLetters + this.upperCaseLetters;
-    if (options?.containsLowerCaseLatters != null && !options.containsLowerCaseLatters) {
+    if (options?.containsLowerCaseLetters != null && !options.containsLowerCaseLetters) {
       characters.replace(this.lowerCaseLetters, '');
     }
     if (options?.containsUpperCaseLetters != null && !options.containsUpperCaseLetters) {
