@@ -8,6 +8,7 @@ export * from './lib/collection/entity-list';
 
 export * from './lib/components/abstract-component';
 
+export * from './lib/decorators/confirmable';
 export * from './lib/decorators/delay';
 export * from './lib/decorators/measure-time';
 export * from './lib/decorators/remember-result';
