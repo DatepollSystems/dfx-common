@@ -1,9 +1,9 @@
-import {parseKeyValuePairs} from '../types';
+import {KeyValuePair} from '../key-value-pair';
 
-describe('Types parseKeyValuePairsIntoUrl', () => {
+describe('Types KeyValuePair.parseIntoUrl', () => {
   it('parse multiple numbers', () => {
     expect(
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', [
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', [
         {key: 'uId', value: 1},
         {
           key: 'miaId',
@@ -14,7 +14,7 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
   });
   it('parse multiple strings', () => {
     expect(
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', [
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', [
         {key: 'uId', value: 'wow'},
         {
           key: 'miaId',
@@ -25,7 +25,7 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
   });
   it('parse multiple booleans', () => {
     expect(
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', [
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', [
         {key: 'uId', value: false},
         {
           key: 'miaId',
@@ -36,7 +36,7 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
   });
   it('parse multiple types', () => {
     expect(
-      parseKeyValuePairs('/home/config/{uId}/{miaId}/{try}', [
+      KeyValuePair.parse('/home/config/{uId}/{miaId}/{try}', [
         {key: 'uId', value: false},
         {key: 'miaId', value: 'wow'},
         {
@@ -48,7 +48,7 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
   });
   it('parse multiple directly behind', () => {
     expect(
-      parseKeyValuePairs('/home/config/{uId}{miaId}{try}', [
+      KeyValuePair.parse('/home/config/{uId}{miaId}{try}', [
         {key: 'uId', value: false},
         {key: 'miaId', value: 'wow'},
         {
@@ -59,13 +59,13 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
     ).toBe('/home/config/falsewow1');
   });
   it('parse single', () => {
-    expect(parseKeyValuePairs('/home/config/{uId}', [{key: 'uId', value: 'ashdkgfkagewrqkhwgqjvad'}])).toBe(
+    expect(KeyValuePair.parse('/home/config/{uId}', [{key: 'uId', value: 'ashdkgfkagewrqkhwgqjvad'}])).toBe(
       '/home/config/ashdkgfkagewrqkhwgqjvad'
     );
   });
   it('contains duplicates fail', () => {
     expect(function () {
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', [
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', [
         {key: 'uId', value: 'wow'},
         {
           key: 'uId',
@@ -75,33 +75,33 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
     }).toThrow('KeyValuePairs contains duplicates');
   });
   it('parse null url', () => {
-    expect(parseKeyValuePairs(null, [{key: 'uId', value: 'ashdkgfkagewrqkhwgqjvad'}])).toBeUndefined();
+    expect(KeyValuePair.parse(null, [{key: 'uId', value: 'ashdkgfkagewrqkhwgqjvad'}])).toBeUndefined();
   });
   it('parse undefined url', () => {
-    expect(parseKeyValuePairs(undefined, [{key: 'uId', value: 'ashdkgfkagewrqkhwgqjvad'}])).toBeUndefined();
+    expect(KeyValuePair.parse(undefined, [{key: 'uId', value: 'ashdkgfkagewrqkhwgqjvad'}])).toBeUndefined();
   });
   it('parse undefined keypairs', () => {
-    expect(parseKeyValuePairs('/home/config/uId', undefined)).toBe('/home/config/uId');
+    expect(KeyValuePair.parse('/home/config/uId', undefined)).toBe('/home/config/uId');
   });
   it('KeyValuePairs does not match all keys in url', () => {
     expect(function () {
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', undefined);
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', undefined);
     }).toThrow('KeyValuePairs does not match all keys in url');
     expect(function () {
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', [{key: 'uId', value: 'wow'}]);
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', [{key: 'uId', value: 'wow'}]);
     }).toThrow('KeyValuePairs does not match all keys in url');
   });
   it('disabled KeyValuePairs does not match all keys in url', () => {
     expect(function () {
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', undefined, true);
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', undefined, true);
     }).not.toThrow('KeyValuePairs does not match all keys in url');
     expect(function () {
-      parseKeyValuePairs('/home/config/{uId}/{miaId}', [{key: 'uId', value: 'wow'}], true);
+      KeyValuePair.parse('/home/config/{uId}/{miaId}', [{key: 'uId', value: 'wow'}], true);
     }).not.toThrow('KeyValuePairs does not match all keys in url');
   });
   it('Url does not match all KeyValuePairs', () => {
     expect(function () {
-      parseKeyValuePairs('/home/config/{uId}', [
+      KeyValuePair.parse('/home/config/{uId}', [
         {key: 'uId', value: 'wow'},
         {
           key: 'test',
@@ -111,7 +111,7 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
     }).toThrow('Url does not match all KeyValuePairs');
 
     expect(function () {
-      parseKeyValuePairs('/home/config/{uId}/{test}', [
+      KeyValuePair.parse('/home/config/{uId}/{test}', [
         {key: 'uId', value: 'wow'},
         {key: 'test', value: 'lol'},
         {
@@ -123,7 +123,7 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
   });
   it('disable Url does not match all KeyValuePairs', () => {
     expect(function () {
-      parseKeyValuePairs(
+      KeyValuePair.parse(
         '/home/config/{uId}',
         [
           {key: 'uId', value: 'wow'},
@@ -137,7 +137,7 @@ describe('Types parseKeyValuePairsIntoUrl', () => {
     }).not.toThrow('Url does not match all KeyValuePairs');
 
     expect(function () {
-      parseKeyValuePairs(
+      KeyValuePair.parse(
         '/home/config/{uId}/{test}',
         [
           {key: 'uId', value: 'wow'},

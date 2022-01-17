@@ -40,4 +40,5 @@ export * from './lib/services/abstract-http.service';
 export * from './lib/services/is-mobile.service';
 
 export * from './lib/functions.interface';
+export * from './lib/key-value-pair';
 export * from './lib/types';
