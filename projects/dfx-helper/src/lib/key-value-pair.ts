@@ -1,6 +1,9 @@
+import {HttpParams} from '@angular/common/http';
+
 import {Converter} from './helper/Converter';
 import {ArrayHelper} from './helper/ArrayHelper';
 import {LoggerFactory} from './helper/Logger';
+import {UndefinedOrNullOr} from './types';
 
 export class KeyValuePair {
   private static logger = LoggerFactory.getLogger('KeyValuePair');
@@ -8,8 +11,8 @@ export class KeyValuePair {
   constructor(public readonly key: string, public readonly value: string | boolean | number | undefined | null) {}
 
   public static parse(
-    url: string | undefined | null,
-    keyValuePairs: KeyValuePair[] | undefined,
+    url: UndefinedOrNullOr<string>,
+    keyValuePairs: UndefinedOrNullOr<KeyValuePair[]>,
     disableParsingMatchingCheck = false
   ): string | undefined {
     if (url === undefined || url === null) {
@@ -45,5 +48,18 @@ export class KeyValuePair {
     }
 
     return url;
+  }
+
+  public static parseIntoHttpParams(keyValuePairs: UndefinedOrNullOr<KeyValuePair[]>): HttpParams | undefined {
+    if (keyValuePairs === undefined || keyValuePairs === null) {
+      return undefined;
+    }
+    const params = new HttpParams();
+    for (const keyValuePair of keyValuePairs) {
+      if (keyValuePair.value !== undefined && keyValuePair.value !== null) {
+        params.set(keyValuePair.key, keyValuePair.value);
+      }
+    }
+    return params;
   }
 }

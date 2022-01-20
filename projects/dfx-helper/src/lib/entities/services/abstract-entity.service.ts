@@ -4,10 +4,9 @@ import {AHttpService} from '../../services/abstract-http.service';
 
 import {IEntity} from '../entity.interface';
 import {IList} from '../../collection/list.interface';
-import {ICompute} from '../../functions.interface';
 
 import {EntityList} from '../../collection/entity-list';
-import {AnyOr, Params, StringOrNumber, UndefinedOr} from '../../types';
+import {AnyOr, StringOrNumber, UndefinedOr, UndefinedOrNullOr} from '../../types';
 import {KeyValuePair} from '../../key-value-pair';
 
 export abstract class AEntityService<idType extends StringOrNumber, EntityType extends IEntity<idType>> {
@@ -26,7 +25,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
    * @description Sets <code>HttpParams</code> for get all request
    * @default undefined
    */
-  protected globalGetAllParams: UndefinedOr<Params> = undefined;
+  protected globalGetAllParams: UndefinedOrNullOr<KeyValuePair[]> = undefined;
   /**
    * @description Overwrites url for get single request but also adds <code>/{id}</code> to url
    * @default undefined
@@ -36,7 +35,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
    * @description Overwrites <code>HttpParams</code> for get single request
    * @default undefined
    */
-  protected globalGetSingleParams: UndefinedOr<Params> = undefined;
+  protected globalGetSingleParams: UndefinedOrNullOr<KeyValuePair[]> = undefined;
   /**
    * @description Overwrites url for create request
    * @default undefined
@@ -73,9 +72,9 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
 
   /**
    * Overwrites params for get all requests
-   * @param {Params} params Get all request params
+   * @param {UndefinedOrNullOr<KeyValuePair[]} params Get all request params
    */
-  public setGetAllParams(params: Params): void {
+  public setGetAllParams(params: UndefinedOrNullOr<KeyValuePair[]>): void {
     this.globalGetAllParams = params;
   }
 
@@ -89,16 +88,16 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
 
   /**
    * Overwrites params for get single requests
-   * @param {Params} params Get single request params
+   * @param {UndefinedOrNullOr<KeyValuePair[]>} params Get single request params
    */
-  public setGetSingleParams(params: Params): void {
+  public setGetSingleParams(params: UndefinedOrNullOr<KeyValuePair[]>): void {
     this.globalGetSingleParams = params;
   }
   //endregion
 
   //region getAll
-  public getAll(urlKeyPairs?: KeyValuePair[]): IList<EntityType> {
-    this.fetchAll(urlKeyPairs);
+  public getAll(urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): IList<EntityType> {
+    this.fetchAll(urlKeyPairs, params);
     return this.entities.clone();
   }
 
@@ -106,20 +105,19 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     this.setAll(new EntityList());
   }
 
-  public fetchAll(urlKeyPairs?: KeyValuePair[]): void {
+  public fetchAll(urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): void {
     const url = KeyValuePair.parse(this.globalGetAllUrl, urlKeyPairs);
-    this.httpService
-      .get(url ? url : this.globalGetAllUrl ? this.globalGetAllUrl : this.url, this.globalGetAllParams, 'fetchAll')
-      .subscribe({
-        next: (data: any) => {
-          const entities = [];
-          for (const dto of data) {
-            entities.push(this.convert(dto));
-          }
-          this.setAll(entities);
-        },
-        error: (error) => console.log(error),
-      });
+    const httpParams = KeyValuePair.parseIntoHttpParams(params ? params : this.globalGetAllParams);
+    this.httpService.get(url ? url : this.globalGetAllUrl ? this.globalGetAllUrl : this.url, httpParams, 'fetchAll').subscribe({
+      next: (data: any) => {
+        const entities = [];
+        for (const dto of data) {
+          entities.push(this.convert(dto));
+        }
+        this.setAll(entities);
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   protected setAll(entities: EntityType[]): void {
@@ -129,7 +127,7 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   //endregion
 
   //region getSingle
-  public getSingle(id: idType, params?: Params, urlKeyPairs?: KeyValuePair[]): UndefinedOr<EntityType> {
+  public getSingle(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): UndefinedOr<EntityType> {
     this.fetchSingle(id, params, urlKeyPairs);
     return this.entity;
   }
@@ -138,14 +136,11 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     this.entity = undefined;
   }
 
-  public fetchSingle(id: idType, params?: Params, urlKeyPairs?: KeyValuePair[]): void {
+  public fetchSingle(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): void {
     const url = KeyValuePair.parse(this.globalGetSingleUrl, urlKeyPairs);
+    const httpParams = KeyValuePair.parseIntoHttpParams(params ? params : this.globalGetSingleParams);
     this.httpService
-      .get(
-        url ? url : (this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id,
-        params ? params : this.globalGetSingleParams,
-        'fetchSingle'
-      )
+      .get(url ? url : (this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id, httpParams, 'fetchSingle')
       .subscribe({
         next: (data: any) => {
           this.setSingle(this.convert(data));
@@ -160,57 +155,51 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   }
   //endregion
 
-  public _create(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: KeyValuePair[]): Observable<unknown> {
+  public _create(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalCreateUrl, urlKeyPairs);
-    return this.httpService.post(url ? url : this.globalCreateUrl ? this.globalCreateUrl : this.url, entity, params, 'create');
+    const httpParams = KeyValuePair.parseIntoHttpParams(params);
+    return this.httpService.post(url ? url : this.globalCreateUrl ? this.globalCreateUrl : this.url, entity, httpParams, 'create');
   }
 
-  public _update(entity: AnyOr<EntityType>, params?: Params, urlKeyPairs?: KeyValuePair[]): Observable<unknown> {
+  public _update(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalUpdateUrl, urlKeyPairs);
+    const httpParams = KeyValuePair.parseIntoHttpParams(params);
     return this.httpService.put(
       url ? url : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + entity.id : ''),
       entity,
-      params,
+      httpParams,
       'update'
     );
   }
 
-  public _delete(id: idType, params?: Params, urlKeyPairs?: KeyValuePair[]): Observable<unknown> {
+  public _delete(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalDeleteUrl, urlKeyPairs);
-    return this.httpService.delete(url ? url : (this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id, params, 'delete');
+    const httpParams = KeyValuePair.parseIntoHttpParams(params);
+    return this.httpService.delete(url ? url : (this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id, httpParams, 'delete');
   }
 
-  public delete(id: idType, successFn?: ICompute<any>, params?: Params, urlKeyPairs?: KeyValuePair[]): void {
-    this._delete(id, params, urlKeyPairs).subscribe({
-      next: (responseData: any) => {
+  public create(entity: AnyOr<EntityType>): void {
+    this._create(entity).subscribe({
+      next: () => {
         this.fetchAll();
-        if (successFn) {
-          successFn(responseData);
-        }
       },
       error: (error) => console.log(error),
     });
   }
 
-  public create(entity: AnyOr<EntityType>, successFn?: ICompute<any>, params?: Params, urlKeyPairs?: KeyValuePair[]): void {
-    this._create(entity, params, urlKeyPairs).subscribe({
-      next: (responseData: any) => {
+  public update(entity: AnyOr<EntityType>): void {
+    this._update(entity).subscribe({
+      next: () => {
         this.fetchAll();
-        if (successFn) {
-          successFn(responseData);
-        }
       },
       error: (error) => console.log(error),
     });
   }
 
-  public update(entity: AnyOr<EntityType>, successFn?: ICompute<any>, params?: Params, urlKeyPairs?: KeyValuePair[]): void {
-    this._update(entity, params, urlKeyPairs).subscribe({
-      next: (responseData: any) => {
+  public delete(id: idType): void {
+    this._delete(id).subscribe({
+      next: () => {
         this.fetchAll();
-        if (successFn) {
-          successFn(responseData);
-        }
       },
       error: (error) => console.log(error),
     });
