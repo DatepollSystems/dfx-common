@@ -51,13 +51,25 @@ export class KeyValuePair {
   }
 
   public static parseIntoHttpParams(keyValuePairs: UndefinedOrNullOr<KeyValuePair[]>): HttpParams | undefined {
-    if (keyValuePairs === undefined || keyValuePairs === null) {
+    if (keyValuePairs === undefined || keyValuePairs === null || keyValuePairs.length === 0) {
       return undefined;
     }
-    const params = new HttpParams();
+
+    if (
+      ArrayHelper.containsDuplicates(
+        keyValuePairs.map((keyValuePair) => {
+          return keyValuePair.key;
+        })
+      )
+    ) {
+      this.logger.error('parse', 'KeyValuePairs contains duplicates', keyValuePairs);
+      throw 'KeyValuePairs contains duplicates';
+    }
+
+    let params = new HttpParams();
     for (const keyValuePair of keyValuePairs) {
       if (keyValuePair.value !== undefined && keyValuePair.value !== null) {
-        params.set(keyValuePair.key, keyValuePair.value);
+        params = params.append(keyValuePair.key, keyValuePair.value);
       }
     }
     return params;
