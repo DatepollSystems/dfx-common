@@ -38,4 +38,9 @@ describe('DateHelper', () => {
     expect(DateHelper.getDateFormatted(new Date('2020-01-01'))).toBe('2020-01-01');
     expect(DateHelper.getDateFormatted(new Date('2020-12-12'))).toBe('2020-12-12');
   });
+  it('getDateFormatted with string', () => {
+    expect(DateHelper.getDateFormatted('2020-07-20')).toBe('2020-07-20');
+    expect(DateHelper.getDateFormatted('2020-01-01')).toBe('2020-01-01');
+    expect(DateHelper.getDateFormatted('2020-12-12')).toBe('2020-12-12');
+  });
 });
