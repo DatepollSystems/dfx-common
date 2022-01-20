@@ -11,16 +11,15 @@ export abstract class AHttpService {
   protected readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
   protected lumber = LoggerFactory.getLogger('AHttpService');
 
-  protected constructor(protected http: HttpClient) {
-  }
+  protected constructor(protected http: HttpClient) {}
 
   public get(url: string, params?: Params, caller?: string): Observable<unknown> {
     return this.http.get(this.apiUrl + this.version + url, {params: params}).pipe(
-      tap(data => {
-        this.log('get', url, caller, data);
+      tap((data) => {
+        this.log('get', url, params, caller, data);
       }),
       catchError((error: any) => {
-        this.log('get', url, caller, undefined, true);
+        this.log('get', url, params, caller, undefined, true);
         return this.error(error);
       })
     );
@@ -28,11 +27,11 @@ export abstract class AHttpService {
 
   public post(url: string, body: any, params?: Params, caller?: string): Observable<unknown> {
     return this.http.post(this.apiUrl + this.version + url, body, {headers: this.headers, params: params}).pipe(
-      tap(data => {
-        this.log('post', url, caller, data);
+      tap((data) => {
+        this.log('post', url, params, caller, data);
       }),
       catchError((error: HttpErrorResponse) => {
-        this.log('post', url, caller, undefined, true);
+        this.log('post', url, params, caller, undefined, true);
         return this.error(error);
       })
     );
@@ -40,11 +39,11 @@ export abstract class AHttpService {
 
   public put(url: string, body: any, params?: Params, caller?: string): Observable<unknown> {
     return this.http.put(this.apiUrl + this.version + url, body, {headers: this.headers, params: params}).pipe(
-      tap(data => {
-        this.log('put', url, caller, data);
+      tap((data) => {
+        this.log('put', url, params, caller, data);
       }),
       catchError((error: HttpErrorResponse) => {
-        this.log('put', url, caller, undefined, true);
+        this.log('put', url, params, caller, undefined, true);
         return this.error(error);
       })
     );
@@ -52,11 +51,11 @@ export abstract class AHttpService {
 
   public delete(url: string, params?: Params, caller?: string): Observable<unknown> {
     return this.http.delete(this.apiUrl + this.version + url, {params: params}).pipe(
-      tap(data => {
-        this.log('delete', url, caller, data);
+      tap((data) => {
+        this.log('delete', url, params, caller, data);
       }),
       catchError((error: HttpErrorResponse) => {
-        this.log('delete', url, caller, undefined, true);
+        this.log('delete', url, params, caller, undefined, true);
         return this.error(error);
       })
     );
@@ -77,15 +76,25 @@ export abstract class AHttpService {
       // Client Side Error
       this._clientSideError();
       return throwError(error.error.message);
-    } else if (error.status > 499){
+    } else if (error.status > 499) {
       // Server Side Error
       this._serverSideError();
       return throwError(error.error.message);
     }
   }
 
-  protected log(type: string, url: string, caller: UndefinedOr<string>, data: AnyOrUndefined, error: boolean = false): void {
+  protected log(
+    type: string,
+    url: string,
+    params: UndefinedOr<Params>,
+    caller: UndefinedOr<string>,
+    data: AnyOrUndefined,
+    error: boolean = false
+  ): void {
     let string = 'URL: "' + url + '"';
+    if (params) {
+      string += ' | params: "' + params.toString() + '"';
+    }
     if (caller) {
       string += ' | caller: "' + caller + '"';
     }
