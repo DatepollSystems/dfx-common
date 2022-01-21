@@ -1,4 +1,5 @@
 {
+  "groupName": "all",
   "pinVersions": false,
   "semanticCommits": true,
   "semanticPrefix": "renovate",
