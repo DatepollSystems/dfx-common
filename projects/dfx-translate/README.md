@@ -18,7 +18,7 @@ A simple translation package for Angular 4 - 12.
 - [Deployment notes](#deployment-notes)
 - [Project website](https://datepoll.org)
 - created with [Angular](https://angular.io)
-  , [used libraries](https://gitlab.com/DatePoll/common/dfx-translate/-/blob/master/package.json)
+  , [used libraries](https://gitlab.com/DatePoll/common/dfx-common/-/blob/develop/package.json)
 
 ## Setup
 
@@ -299,7 +299,7 @@ to [releases.datepoll.org/common/dfx-translate](https://releases.datepoll.org/co
 
 ### Development builds
 
-Commits to the [development](https://gitlab.com/DatePoll/common/dfx-translate/-/tree/development) branch create a dev
+Commits to the [development](https://gitlab.com/DatePoll/common/dfx-common/-/tree/develop) branch create a dev
 build downloadable via [this link](https://releases.datepoll.org/common/dfx-translate/dfx-translate-dev.zip).
 
 ### Production builds

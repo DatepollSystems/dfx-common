@@ -1,11 +1,12 @@
-export class DateHelper {
+import {TypeHelper} from './TypeHelper';
 
+export class DateHelper {
   /**
    * Returns a string formatted in 'YYYY-MM-DD HH:mm:ss'
    * @param {Date} date
    * @return string
    */
-  public static getDateFormattedWithHoursMinutesAndSeconds(date: Date): string {
+  public static getDateFormattedWithHoursMinutesAndSeconds(date: string | Date): string {
     const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -39,7 +40,7 @@ export class DateHelper {
    * @param {Date} date
    * @return string
    */
-  public static getDateFormatted(date: Date): string {
+  public static getDateFormatted(date: string | Date): string {
     const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
