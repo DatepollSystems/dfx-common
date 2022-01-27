@@ -1,7 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {TRANSLATE_CONFIG, TranslateConfig} from "./translate.config";
+import {TRANSLATE_CONFIG, TranslateConfig} from './translate.config';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,8 @@ export class TranslateService {
   constructor(@Inject(TRANSLATE_CONFIG) private config: TranslateConfig, private http: HttpClient) {
     this.defaultLanguage = config?.defaultLanguage != null ? config.defaultLanguage : this.defaultLanguage;
     this.useLocalStorage = config?.useLocalStorage != null ? config.useLocalStorage : this.useLocalStorage;
-    this.languagesWithAutoTranslation = config?.languagesWithAutoTranslation != null ? config.languagesWithAutoTranslation : this.languagesWithAutoTranslation;
+    this.languagesWithAutoTranslation =
+      config?.languagesWithAutoTranslation != null ? config.languagesWithAutoTranslation : this.languagesWithAutoTranslation;
   }
 
   translate(key: string) {
@@ -48,7 +49,8 @@ export class TranslateService {
         console.log('No language cookie found! Using "' + this.defaultLanguage + '" as default');
       }
     } else {
-      console.log('Language changed to "' + lang + "'");
+      lang = pickedLanguage;
+      console.log('Language changed to "' + lang + '"');
     }
     this.selectedTranslation = lang;
     if (this.useLocalStorage) {
@@ -57,16 +59,16 @@ export class TranslateService {
 
     return new Promise<{}>((resolve) => {
       const langPath = `assets/i18n/${lang || this.defaultLanguage}.json`;
-      this.http.get<{}>(langPath).subscribe(
-        (translation) => {
+      this.http.get<{}>(langPath).subscribe({
+        next: (translation) => {
           this.translations = Object.assign({}, translation || {});
           resolve(this.translations);
         },
-        () => {
+        error: () => {
           this.translations = {};
           resolve(this.translations);
-        }
-      );
+        },
+      });
 
       // Only fetch auto generated translation if there is one
       if (this.languagesWithAutoTranslation.includes(lang)) {
