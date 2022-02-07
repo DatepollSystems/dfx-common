@@ -33,7 +33,7 @@ export class Generator {
    * @param {RandomStringOptions} options Possible options of RandomStringOptions enum
    * @return string
    */
-  public static randomStringByOptions(length: number, ...options: RandomStringOptions[]) {
+  public static randomStringByOptions(length: number, ...options: RandomStringOptions[]): string {
     let containsNumbers = false;
     let containsSpecialCharacters = false;
     let containsLetters = true;
@@ -91,19 +91,19 @@ export class Generator {
     }
   ): string {
     let characters = this.lowerCaseLetters + this.upperCaseLetters;
-    if (options?.containsLowerCaseLetters != null && !options.containsLowerCaseLetters) {
+    if (options?.containsLowerCaseLetters != undefined && !options.containsLowerCaseLetters) {
       characters.replace(this.lowerCaseLetters, '');
     }
-    if (options?.containsUpperCaseLetters != null && !options.containsUpperCaseLetters) {
+    if (options?.containsUpperCaseLetters != undefined && !options.containsUpperCaseLetters) {
       characters.replace(this.upperCaseLetters, '');
     }
-    if (options?.containsLetters != null && !options.containsLetters) {
+    if (options?.containsLetters != undefined && !options.containsLetters) {
       characters = '';
     }
-    if (options?.containsNumbers != null && options.containsNumbers) {
+    if (options?.containsNumbers != undefined && options.containsNumbers) {
       characters += this.numberLetters;
     }
-    if (options?.containsSpecialCharacters != null && options.containsSpecialCharacters) {
+    if (options?.containsSpecialCharacters != undefined && options.containsSpecialCharacters) {
       if (options.specialCharactersSet != null) {
         characters += options.specialCharactersSet;
       } else {
