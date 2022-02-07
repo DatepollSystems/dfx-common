@@ -4,30 +4,32 @@ import {UndefinedOrNullOr} from '../types';
 
 export class StorageHelper {
   //region Setter
+  public static set(key: string, value: null | undefined): void;
   public static set(key: string, value: number): void;
-  public static set(key: string, value: string): void;
   public static set(key: string, value: boolean): void;
   public static set(key: string, value: Date): void;
-  public static set(key: string, value: UndefinedOrNullOr<any>): void;
-  public static set(key: string, value: any): void {
+  public static set(key: string, value: Object): void;
+  public static set(key: string, value: string): void;
+  public static set(key: string, value: unknown): void {
     if (value == null) {
       this.remove(key);
       return;
     } else if (TypeHelper.isNumber(value) || TypeHelper.isBoolean(value)) {
-      value = Converter.toString(value);
+      value = Converter.toString(value as number | boolean);
     } else if (TypeHelper.isDate(value)) {
-      value = Converter.toString(value.getTime());
+      value = Converter.toString((value as Date).getTime());
+    } else if (TypeHelper.isObject(value)) {
+      value = JSON.stringify(value);
     }
 
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, value as string);
   }
 
-  public static setObject(key: string, value: any): void {
-    if (value == null) {
-      this.set(key, value);
-      return;
-    }
-    this.set(key, JSON.stringify(value));
+  /**
+   * @deprecated Use <code>StorageHelper.set()</code>
+   */
+  public static setObject(key: string, value: UndefinedOrNullOr<Object>): void {
+    this.set(key, value as Object);
   }
 
   //endregion
