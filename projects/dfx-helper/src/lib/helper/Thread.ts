@@ -4,8 +4,8 @@ export class Thread {
    * @description <i>Usage</i>: <code>await Thread.sleep(ms)</code>
    * @param milliseconds How long the thread "sleeps"
    */
-  public static async sleep(milliseconds: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+  public static async sleep(milliseconds: number): Promise<unknown> {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 
   /**
@@ -18,7 +18,7 @@ export class Thread {
    * @param milliseconds How long the thread sleeps
    */
   public static block(milliseconds: number): void {
-    const exit = new Date().getTime() + (milliseconds);
+    const exit = new Date().getTime() + milliseconds;
     while (new Date().getTime() <= exit) {}
   }
 }

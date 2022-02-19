@@ -1,4 +1,5 @@
 import {StorageHelper} from '../helper/StorageHelper';
+import {Thread} from '../helper/Thread';
 
 describe('StorageHelper', () => {
   it('checkExists&Remove&Size&Empty&hasEntries', () => {
@@ -142,6 +143,23 @@ describe('StorageHelper', () => {
     expect(StorageHelper.getObject('key4')).toBe(undefined);
     expect(StorageHelper.isEmpty()).toBeTrue();
 
+    StorageHelper.removeAll();
+  });
+  it('set&GetTTL', async () => {
+    StorageHelper.set('key1', 'This is a test', 1);
+    StorageHelper.set('key2', 'This is a test', 1);
+    StorageHelper.set('key3', 'This is a test', 3);
+    expect(StorageHelper.exists('key1')).toBeTrue();
+    expect(StorageHelper.exists('key2')).toBeTrue();
+
+    await Thread.sleep(1100);
+
+    expect(StorageHelper.exists('key1')).toBeFalse();
+    expect(StorageHelper.getString('key1')).toBeUndefined();
+    expect(StorageHelper.getString('key2')).toBeUndefined();
+    expect(StorageHelper.exists('key2')).toBeFalse();
+    expect(StorageHelper.getString('key3')).toBeDefined();
+    expect(StorageHelper.exists('key3')).toBeTrue();
     StorageHelper.removeAll();
   });
 });
