@@ -41,6 +41,7 @@
     "@angular/cdk": "4 - 13",
     "@angular/animations": "4 - 13",
     "bootstrap": "4 - 5",
+    "@ng-bootstrap/ng-bootstrap": "7 - 12",
     "rxjs": "2 - 7"
   }
 }

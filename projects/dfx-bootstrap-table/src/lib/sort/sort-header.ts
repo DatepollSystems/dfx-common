@@ -28,7 +28,7 @@ import {NgbSort, NgbSortable} from './sort';
 import {ngbSortAnimations} from './sort-animations';
 import {SortDirection} from './sort-direction';
 import {NgbSortHeaderIntl} from './sort-header-intl';
-import {CanDisable, mixinDisabled} from './disabled';
+import {CanDisable, mixinDisabled} from '../core/disabled';
 
 // Boilerplate for applying mixins to the sort header.
 /** @docs-private */

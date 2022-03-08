@@ -11,8 +11,8 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Directive, EventEmitter, Inject, InjectionToken, Input, OnChanges, OnDestroy, OnInit, Optional, Output} from '@angular/core';
 import {Subject} from 'rxjs';
 import {SortDirection} from './sort-direction';
-import {HasInitialized, mixinInitialized} from './initialized';
-import {CanDisable, mixinDisabled} from './disabled';
+import {HasInitialized, mixinInitialized} from '../core/initialized';
+import {CanDisable, mixinDisabled} from '../core/disabled';
 
 /** Interface for a directive that holds sorting state consumed by `MatSortHeader`. */
 export interface NgbSortable {

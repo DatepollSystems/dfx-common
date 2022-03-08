@@ -1,6 +1,6 @@
 # dfx-bootstrap-table
 
-Angular table CDK implementation for Bootstrap with filtering and sorting.
+Angular table CDK implementation for Bootstrap with filtering, sorting and pagination.
 
 Working with [@ng-bootstrap/ng-bootstrap](https://npmjs.org/package/@ng-bootstrap/ng-bootstrap) and
 [@ngx-bootstrap](https://npmjs.org/package/ngx-bootstrap).
@@ -38,7 +38,7 @@ Full credits go to the [Angular and Angular Material](https://github.com/angular
 ### Features
 
 - Extendable template
-- Builtin sorting and filtering available through `NgbTableDataSource`
+- Builtin sorting, filtering and pagination available through `NgbTableDataSource` and `DfxNgbPagination`
 
 ## Usage
 
@@ -61,7 +61,7 @@ npm install dfx-bootstrap-table@latest
   npm install @angular/forms@latest
   ```
 
-### Getting started (table with filtering and sorting)
+### Getting started (table with filtering, sorting and pagination)
 
 This is the code for a table as you see it [above](#demo). You can run the demo with `npm run demo` and visit it under
 [`http://localhost:4200`](http://localhost:4200), [read more](#running-the-demo).
@@ -109,6 +109,12 @@ Every code piece is located in `src/app/`.
   <tr *ngbHeaderRowDef='columnsToDisplay' ngb-header-row></tr>
   <tr *ngbRowDef='let event; columns: columnsToDisplay' ngb-row></tr>
 </table>
+
+<dfx-ngb-pagination
+  [page]="1"
+  [maxSize]="4"
+  [pageSize]="10"
+  [collectionSize]="dataSource.data.length"></dfx-ngb-pagination>
 ```
 
 | ngb-table properties | Description                          | default |
@@ -119,6 +125,8 @@ Every code piece is located in `src/app/`.
 [app.component.ts](./src/app/app.component.ts)
 
 ```typescript
+import {DfxNgbPagination} from './pagination';
+
 export type eventModel = {
   id: number;
   name: string;
@@ -127,12 +135,13 @@ export type eventModel = {
 @Component({
   selector: '...',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   // Filtering
   public filter = new FormControl();
 
   // Sorting
-  @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
+  @ViewChild(NgbSort) sort: NgbSort | undefined;
+  @ViewChild(DfxNgbPagination) paginator: DfxNgbPagination | undefined;
 
   public columnsToDisplay = ['id', 'name', 'actions'];
   public dataSource: NgbTableDataSource<eventModel> = new NgbTableDataSource();
@@ -158,8 +167,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource = new NgbTableDataSource<eventModel>(this.eventModels);
+  }
+
+  ngAfterViewInit(): void {
     // Sort has to be set after template initializing
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
 
     this.filter.valueChanges.subscribe((value) => {
       this.dataSource.filter = value;
@@ -174,7 +187,7 @@ export class AppComponent implements OnInit {
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 
-import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
+import {DfxTableModule, DfxSortModule, DfxNgbPaginationModule} from 'dfx-bootstrap-table';
 
 @NgModule({
   declarations: [...],
@@ -183,6 +196,7 @@ import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
     ReactiveFormsModule, // only if you use the filtering code
     DfxTableModule,
     DfxSortModule,
+    DfxNgbPaginationModule
   ],
 })
 export class EventsModule {
@@ -287,6 +301,15 @@ Note that if the data properties do not match the column names, or if a more com
 
 If you are not using the `NgbTableDataSource`, but instead implementing custom logic to sort your data, listen to the sort's `(ngbSortChange)` event and re-order your data according to the sort state. If you are providing a data array directly to the table, don't forget to call `renderRows()` on the table, since it will not automatically check the array for changes.
 
+#### 6. Pagination
+
+To paginate the table's data, add a <dfx-ngb-pagination> after the table.
+
+If you are using the NgbTableDataSource for your table's data source, simply provide the DfxNgbPagination to your data
+source. It will automatically listen for page changes made by the user and send the right paged data to the table.
+
+Otherwise if you are implementing the logic to paginate your data, you will want to listen to the paginator's (page) output and pass the right slice of data to your table.
+
 ### Advanced data sources
 
 The simplest way to provide data to your table is by passing a data array. More complex use-cases may benefit from a more flexible approach involving an Observable stream or by encapsulating your data source logic into a DataSource class.
@@ -304,44 +327,6 @@ method.
 
 Although dfx-bootstrap-table provides a ready-made table DataSource class, `NgbTableDataSource`, you may want to create your own custom `DataSource` class for more complex use cases. This can be done by extending the abstract `DataSource` class with a custom `DataSource` class that then implements the connect and disconnect methods. For use cases where the custom `DataSource` must also inherit
 functionality by extending a different base class, the DataSource base class can be implemented instead (`MyCustomDataSource extends SomeOtherBaseClass implements DataSource`) to respect Typescript's restriction to only implement one base class.
-
-## Development
-
-Everything important in this library is located in `projects/dfx-bootstrap-table`, that's the "real" library. (following commands still have to be executed at the root level)
-
-### Dependency installation
-
-```bash
-npm install
-```
-
-### Running the demo
-
-[Install all dependencies](#dependency-installation). Then run:
-
-```bash
-npm run demo
-```
-
-Visit the demo under [`http://localhost:4200`](http://localhost:4200)
-
-### Starting in development environment
-
-```bash
-npm run-script watch
-```
-
-### Building a production version
-
-```bash
-npm run-script build
-```
-
-## Deployment notes
-
-dfx-bootstrap-table deployments are managed via [.gitlab-ci](https://gitlab.com/DatePoll/common/dfx-bootstrap-table/-/blob/develop/.gitlab-ci.yml)
-
-All builds are uploaded to [releases.datepoll.org/common/dfx-bootstrap-table](https://releases.datepoll.org/common/dfx-bootstrap-table)
 
 ### Development builds
 
