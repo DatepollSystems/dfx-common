@@ -162,6 +162,7 @@ build-bootstrap-table-demo:
   script:
     - npm install --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
+    - npm run table:bs:build
     - npm run table:bs:demo:build
     - cd dist/
     - ls -al

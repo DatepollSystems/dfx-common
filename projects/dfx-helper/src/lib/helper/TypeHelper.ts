@@ -36,6 +36,15 @@ export class TypeHelper {
   }
 
   /**
+   * Checks if object is <code>object</code>
+   * @param {any} obj
+   * @return boolean Returns <code>true</code> if object is <code>object</code>, <code>false</code> if not
+   */
+  public static isObject(obj: any): boolean {
+    return typeof obj == 'object';
+  }
+
+  /**
    * Checks if object is <code>numeric</code>
    * @param {any} obj
    * @return boolean Returns <code>true</code> if object is <code>numeric</code>, else <code>false</code>

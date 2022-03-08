@@ -34,7 +34,7 @@ type HasInitializedCtor = Constructor<HasInitialized>;
 export function mixinInitialized<T extends Constructor<{}>>(base: T): HasInitializedCtor & T {
   return class extends base {
     /** Whether this directive has been marked as initialized. */
-    _isInitialized = false;
+    protected _isInitialized = false;
 
     /**
      * List of subscribers that subscribed before the directive was initialized. Should be notified

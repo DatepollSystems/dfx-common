@@ -1,31 +1,9 @@
 <div class="p-5">
-  <!-- Filtering stuff -->
-  <form>
-    <div class="input-group">
-      <input class="form-control" type="text" [formControl]="filter" placeholder="Search" />
-    </div>
-  </form>
+  <a class="btn btn-primary me-2" href="all">Everything (filtering, ordering and pagination</a>
+  <a class="btn btn-primary m-2" href="simple">Simple</a>
+  <a class="btn btn-primary m-2" href="ordering">Ordering</a>
+  <a class="btn btn-primary m-2" href="pagination">Pagination</a>
+  <a class="btn btn-primary m-2" href="filtering">Filtering</a>
 
-  <table ngb-table [dataSource]="dataSource" ngb-sort>
-    <ng-container ngbColumnDef="id">
-      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
-      <td *ngbCellDef="let event" ngb-cell>{{ event.id }}</td>
-    </ng-container>
-
-    <ng-container ngbColumnDef="name">
-      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>Name</th>
-      <td *ngbCellDef="let event" ngb-cell>{{ event.name }}</td>
-    </ng-container>
-
-    <ng-container ngbColumnDef="actions">
-      <th *ngbHeaderCellDef ngb-header-cell>Actions</th>
-      <td *ngbCellDef="let event" ngb-cell>
-        <button type="button" class="btn btn-sm m-1 btn-outline-success">Edit</button>
-        <button type="button" class="btn btn-sm m-1 btn-outline-danger">Delete</button>
-      </td>
-    </ng-container>
-
-    <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-    <tr *ngbRowDef="let event; columns: columnsToDisplay" ngb-row></tr>
-  </table>
+  <router-outlet></router-outlet>
 </div>

@@ -77,7 +77,7 @@ describe('Collection', () => {
     test.shuffle();
     let check = false;
     for (let i = 0; i < test.length; i++) {
-      if ((test[i] !== tarr[i])) {
+      if (test[i] !== tarr[i]) {
         check = true;
         break;
       }
@@ -93,7 +93,7 @@ describe('Collection', () => {
     let test = test1.clone().shuffle();
     let check = false;
     for (let i = 0; i < test.length; i++) {
-      if ((test[i] !== tarr[i])) {
+      if (test[i] !== tarr[i]) {
         check = true;
         break;
       }
@@ -102,7 +102,7 @@ describe('Collection', () => {
 
     check = false;
     for (let i = 0; i < test.length; i++) {
-      if ((test1[i] !== tarr[i])) {
+      if (test1[i] !== tarr[i]) {
         check = true;
         break;
       }
@@ -196,35 +196,35 @@ describe('Collection', () => {
   it('addIf', () => {
     const test = new List<string>(['test', 'test2', 'test3', 'test4', 'test5']);
     expect(test.size()).toBe(5);
-    test.addIf('test6', item => {
+    test.addIf('test6', (item) => {
       expect(item).toBeDefined();
       return true;
     });
     expect(test.size()).toBe(6);
-    test.addIf('test', item => {
+    test.addIf('test', (item) => {
       expect(item).toBeDefined();
       return false;
     });
-    test.addIf(null, item => {
+    test.addIf(null, (item) => {
       expect(item).toBeDefined();
       return false;
     });
-    test.addIf(undefined, item => {
+    test.addIf(undefined, (item) => {
       expect(item).toBeDefined();
       return false;
     });
-    test.addIf(undefined, item => {
+    test.addIf(undefined, (item) => {
       expect(item).toBeDefined();
       return true;
     });
     expect(test.size()).toBe(6);
-    test.addIf(['testttttt', 'testtttttttt'], item => {
+    test.addIf(['testttttt', 'testtttttttt'], (item) => {
       expect(item).toBeDefined();
       return true;
     });
     expect(test.size()).toBe(8);
     const test2 = new List<any>(['test', 'test2', 'test3', 'test4', 'test5']);
-    test2.addIf([undefined, null, 'test6'], item => {
+    test2.addIf([undefined, null, 'test6'], (item) => {
       expect(item).toBeDefined();
       return true;
     });
@@ -243,41 +243,41 @@ describe('Collection', () => {
   it('removeIf', () => {
     const test = new List<string>(['test', 'test2', 'test3', 'test4', 'test5']);
     expect(test.size()).toBe(5);
-    test.removeIf('test6', item => {
+    test.removeIf('test6', (item) => {
       expect(item).toBeDefined();
       return true;
     });
     expect(test.size()).toBe(5);
-    test.removeIf('test', item => {
+    test.removeIf('test', (item) => {
       expect(item).toBeDefined();
       return true;
     });
     expect(test.size()).toBe(4);
-    test.removeIf('test2', item => {
+    test.removeIf('test2', (item) => {
       expect(item).toBeDefined();
       return false;
     });
     expect(test.size()).toBe(4);
-    test.removeIf(null, item => {
+    test.removeIf(null, (item) => {
       expect(item).toBeDefined();
       return false;
     });
-    test.removeIf(undefined, item => {
+    test.removeIf(undefined, (item) => {
       expect(item).toBeDefined();
       return false;
     });
-    test.removeIf(undefined, item => {
+    test.removeIf(undefined, (item) => {
       expect(item).toBeDefined();
       return true;
     });
     expect(test.size()).toBe(4);
-    test.removeIf(['test2', 'test3'], item => {
+    test.removeIf(['test2', 'test3'], (item) => {
       expect(item).toBeDefined();
       return true;
     });
     expect(test.size()).toBe(2);
     const test2 = new List<any>(['test', 'test2', 'test3', 'test4', 'test5']);
-    test2.removeIf([undefined, null, 'test5', 'test6'], item => {
+    test2.removeIf([undefined, null, 'test5', 'test6'], (item) => {
       expect(item).toBeDefined();
       return true;
     });
@@ -293,52 +293,58 @@ describe('Collection', () => {
   it('foreachIf', () => {
     let i = 0;
     const test = new List<string>(['test', 'test2', 'test3', 'test4', 'test5']);
-    test.forEachIf(item => {
-      expect(item).toBeDefined();
-      i++;
-    }, item => {
-      expect(item).toBeDefined();
-      return true;
-    })
+    test.forEachIf(
+      (item) => {
+        expect(item).toBeDefined();
+        i++;
+      },
+      (item) => {
+        expect(item).toBeDefined();
+        return true;
+      }
+    );
     expect(i).toBe(5);
     i = 0;
-    test.forEachIf(item => {
-      expect(item).toBeDefined();
-      i++;
-    }, item => {
-      expect(item).toBeDefined();
-      return false;
-    })
+    test.forEachIf(
+      (item) => {
+        expect(item).toBeDefined();
+        i++;
+      },
+      (item) => {
+        expect(item).toBeDefined();
+        return false;
+      }
+    );
     expect(i).toBe(0);
   });
   it('computeIfPresent', () => {
     let i = 0;
     const test = new List<string>(['test', 'test2', 'test3', 'test4', 'test5']);
-    test.computeIfPresent(['test', 'test2'], item => {
+    test.computeIfPresent(['test', 'test2'], (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(2);
     i = 0;
-    test.computeIfPresent(['test', 'test2', 'test1000'], item => {
+    test.computeIfPresent(['test', 'test2', 'test1000'], (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(2);
     i = 0;
-    test.computeIfPresent(['test100000', 'test222222', 'test1000'], item => {
+    test.computeIfPresent(['test100000', 'test222222', 'test1000'], (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(0);
     i = 0;
-    test.computeIfPresent('test1000', item => {
+    test.computeIfPresent('test1000', (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(0);
     i = 0;
-    test.computeIfPresent('test', item => {
+    test.computeIfPresent('test', (item) => {
       expect(item).toBeDefined();
       i++;
     });
@@ -347,37 +353,37 @@ describe('Collection', () => {
   it('computeIfAbsent', () => {
     let i = 0;
     const test = new List<string>(['test', 'test2', 'test3', 'test4', 'test5']);
-    test.computeIfAbsent(['test', 'test2'], item => {
+    test.computeIfAbsent(['test', 'test2'], (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(0);
     i = 0;
-    test.computeIfAbsent('test1000', item => {
+    test.computeIfAbsent('test1000', (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(1);
     i = 0;
-    test.computeIfAbsent('test', item => {
+    test.computeIfAbsent('test', (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(0);
     i = 0;
-    test.computeIfAbsent(['test', 'test2', 'test1000'], item => {
+    test.computeIfAbsent(['test', 'test2', 'test1000'], (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(1);
     i = 0;
-    test.computeIfAbsent(['test100000', 'test222222', 'test1000'], item => {
+    test.computeIfAbsent(['test100000', 'test222222', 'test1000'], (item) => {
       expect(item).toBeDefined();
       i++;
     });
     expect(i).toBe(3);
     i = 0;
-    test.computeIfAbsent(['test100000', 'test222222', 'test1000'], item => {
+    test.computeIfAbsent(['test100000', 'test222222', 'test1000'], (item) => {
       expect(item).toBeDefined();
       i++;
     });
@@ -420,7 +426,19 @@ describe('Collection', () => {
     const entity6 = new TestEntity2(4);
     const test = new EntityList<TestEntity>([entity1, entity2, entity3, entity5]);
     const test2 = new EntityList<TestEntity>([entity1, entity3, entity4, entity6]);
-    expect(test.remove(test2).length).toBe(1)
+    expect(test.remove(test2).length).toBe(1);
+  });
+  it('EntityList clone', () => {
+    const entity1 = new TestEntity(0);
+    const entity2 = new TestEntity(1);
+    const entity3 = new TestEntity(2);
+    const entity4 = new TestEntity(3);
+    const entity5 = new TestEntity(4);
+    const entity6 = new TestEntity2(4);
+    const test = new EntityList<TestEntity>([entity1, entity2, entity3, entity4]);
+    const testClone = test.clone();
+    expect(testClone.length).toBe(4);
+    expect(testClone.length).toBe(test.length);
   });
 });
 
