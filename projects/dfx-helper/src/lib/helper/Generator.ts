@@ -50,11 +50,11 @@ export class Generator {
         case RandomStringOptions.REMOVE_LETTERS:
           containsLetters = false;
           break;
-        case RandomStringOptions.REMOVE_UPPERCASE_LETTERS:
-          containsUpperCaseLetters = false;
-          break;
         case RandomStringOptions.REMOVE_LOWERCASE_LETTERS:
           containsLowerCaseLetters = false;
+          break;
+        case RandomStringOptions.REMOVE_UPPERCASE_LETTERS:
+          containsUpperCaseLetters = false;
           break;
       }
     }
