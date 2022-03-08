@@ -8,7 +8,16 @@
  */
 
 import {Directive, HostBinding, Input} from '@angular/core';
-import {CdkCell, CdkCellDef, CdkColumnDef, CdkFooterCell, CdkFooterCellDef, CdkHeaderCell, CdkHeaderCellDef} from '@angular/cdk/table';
+import {
+  CdkCell,
+  CdkCellDef,
+  CdkColumnDef,
+  CdkFooterCell,
+  CdkFooterCellDef,
+  CdkHeaderCell,
+  CdkHeaderCellDef,
+  CdkTable,
+} from '@angular/cdk/table';
 
 /**
  * Cell definition for the mat-table.
@@ -18,7 +27,15 @@ import {CdkCell, CdkCellDef, CdkColumnDef, CdkFooterCell, CdkFooterCellDef, CdkH
   selector: '[ngbCellDef]',
   providers: [{provide: CdkCellDef, useExisting: NgbCellDef}],
 })
-export class NgbCellDef extends CdkCellDef {}
+export class NgbCellDef<T> extends CdkCellDef {
+  // leveraging syntactic-sugar syntax when we use *matCellDef
+  @Input() ngbCellDefTable?: CdkTable<T>;
+
+  // ngTemplateContextGuard flag to help with the Language Service
+  static ngTemplateContextGuard<T>(dir: NgbCellDef<T>, ctx: unknown): ctx is {$implicit: T; index: number} {
+    return true;
+  }
+}
 
 /**
  * Header cell definition for the mat-table.

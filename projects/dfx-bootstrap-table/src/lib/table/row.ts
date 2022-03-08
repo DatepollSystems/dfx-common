@@ -7,6 +7,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {ChangeDetectionStrategy, Component, Directive, Input, ViewEncapsulation} from '@angular/core';
 import {
   CDK_ROW_TEMPLATE,
   CdkFooterRow,
@@ -16,8 +17,8 @@ import {
   CdkNoDataRow,
   CdkRow,
   CdkRowDef,
+  CdkTable,
 } from '@angular/cdk/table';
-import {ChangeDetectionStrategy, Component, Directive, ViewEncapsulation} from '@angular/core';
 
 /**
  * Header row definition for the mat-table.
@@ -51,7 +52,13 @@ export class NgbFooterRowDef extends CdkFooterRowDef {}
   providers: [{provide: CdkRowDef, useExisting: NgbRowDef}],
   inputs: ['columns: ngbRowDefColumns', 'when: ngbRowDefWhen'],
 })
-export class NgbRowDef<T> extends CdkRowDef<T> {}
+export class NgbRowDef<T> extends CdkRowDef<T> {
+  @Input() ngbRowDefTable?: CdkTable<T>;
+
+  static ngTemplateContextGuard<T>(dir: NgbRowDef<T>, ctx: unknown): ctx is {$implicit: T; index: number} {
+    return true;
+  }
+}
 
 /** Header template container that contains the cell outlet. Adds the right class and role. */
 @Component({
@@ -97,4 +104,6 @@ export class NgbRow extends CdkRow {}
   selector: 'ng-template[ngbNoDataRow]',
   providers: [{provide: CdkNoDataRow, useExisting: NgbNoDataRow}],
 })
-export class NgbNoDataRow extends CdkNoDataRow {}
+export class NgbNoDataRow extends CdkNoDataRow {
+  override _contentClassName = 'ngb-no-data-row';
+}
