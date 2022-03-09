@@ -12,7 +12,7 @@ import {DataSource} from '@angular/cdk/table';
 import {BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {NgbSort, Sort} from '../sort/sort';
-import {DfxNgbPagination} from '../pagination/pagination';
+import {NgbPaginator} from '../pagination/pagination';
 
 /**
  * Corresponds to `Number.MAX_SAFE_INTEGER`. Moved out into a variable here due to
@@ -384,4 +384,4 @@ export class _NgbTableDataSource<T, P extends NgbTableDataSourcePaginator = NgbT
  * interactions. If your app needs to support more advanced use cases, consider implementing your
  * own `DataSource`.
  */
-export class NgbTableDataSource<T> extends _NgbTableDataSource<T, DfxNgbPagination> {}
+export class NgbTableDataSource<T> extends _NgbTableDataSource<T, NgbPaginator> {}

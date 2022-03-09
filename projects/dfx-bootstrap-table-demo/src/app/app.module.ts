@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-import {DfxNgbPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -19,11 +19,11 @@ import {PaginationComponent} from './pagination/pagination.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
+    RouterModule,
     DfxTableModule,
     DfxSortModule,
-    ReactiveFormsModule,
-    DfxNgbPaginationModule,
-    RouterModule,
+    DfxPaginationModule,
     AppRoutingModule,
   ],
   providers: [],
