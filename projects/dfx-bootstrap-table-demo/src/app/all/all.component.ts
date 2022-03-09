@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
-import {DfxNgbPagination, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {EventType, Helper} from '../Helper';
 
 @Component({
@@ -17,7 +17,7 @@ export class AllComponent implements OnInit, AfterViewInit {
   @ViewChild(NgbSort) sort: NgbSort | undefined;
 
   // Pagination
-  @ViewChild(DfxNgbPagination) pagination: DfxNgbPagination | undefined;
+  @ViewChild(NgbPaginator) pagination: NgbPaginator | undefined;
 
   public columnsToDisplay = ['id', 'name', 'actions'];
   public dataSource: NgbTableDataSource<EventType> = new NgbTableDataSource();
