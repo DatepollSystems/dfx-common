@@ -34,4 +34,4 @@
   <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
   <tr *ngbRowDef="let event; columns: columnsToDisplay" ngb-row></tr>
 </table>
-<ngb-paginator [page]="1" [maxSize]="4" [pageSize]="10" [collectionSize]="dataSource.data.length"></ngb-paginator>
+<ngb-paginator [collectionSize]="dataSource.data.length"></ngb-paginator>
