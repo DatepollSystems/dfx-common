@@ -1,9 +1,23 @@
 import {IList} from './list.interface';
-import {List} from './list';
-import {StringOrNumber, UndefinedOrNullOr} from '../types';
+import {ACommonList} from './list.abstract';
 import {IEntity} from '../entities/entity.interface';
+import {ManyOrUndefinedOrNullOr, StringOrNumber, UndefinedOrNullOr} from '../types';
 
-export class EntityList<T extends IEntity<StringOrNumber>> extends List<T> implements IList<T> {
+export interface IEntityList<T> extends IList<T> {}
+
+export class EntityList<T extends IEntity<StringOrNumber>> extends ACommonList<EntityList<T>, T> implements IEntityList<T> {
+  constructor(items?: ManyOrUndefinedOrNullOr<T>) {
+    super(items);
+  }
+
+  public override clone(): EntityList<T> {
+    return new EntityList<T>(this);
+  }
+
+  public override selfAsTypeT(): EntityList<T> {
+    return this;
+  }
+
   public override containsAny(item: UndefinedOrNullOr<T>): boolean {
     if (!item) {
       return false;
@@ -26,10 +40,6 @@ export class EntityList<T extends IEntity<StringOrNumber>> extends List<T> imple
       }
     }
     return true;
-  }
-
-  public override clone(): IList<T> {
-    return new EntityList<T>(this);
   }
 
   public override indexOf(searchElement: T, fromIndex: number = 0): number {

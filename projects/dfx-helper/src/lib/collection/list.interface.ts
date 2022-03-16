@@ -12,7 +12,7 @@ export interface IList<T extends any> extends Array<T> {
   /**
    * Removes all items in list
    */
-  removeAll(): void
+  removeAll(): void;
 
   size(): number;
 

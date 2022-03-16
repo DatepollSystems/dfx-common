@@ -2,9 +2,10 @@
  * Public API Surface of dfx-helper
  */
 
+export * from './lib/collection/entity-list';
+export * from './lib/collection/list.abstract';
 export * from './lib/collection/list.interface';
 export * from './lib/collection/list';
-export * from './lib/collection/entity-list';
 
 export * from './lib/components/abstract-component';
 
