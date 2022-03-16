@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 
-import {DfxNgbPagination, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {NgbPaginator, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {EventType, Helper} from '../Helper';
 
 @Component({
@@ -10,7 +10,7 @@ import {EventType, Helper} from '../Helper';
 })
 export class PaginationComponent implements OnInit, AfterViewInit {
   // Pagination
-  @ViewChild(DfxNgbPagination) pagination: DfxNgbPagination | undefined;
+  @ViewChild(NgbPaginator) pagination: NgbPaginator | undefined;
 
   public columnsToDisplay = ['id', 'name', 'actions'];
   public dataSource: NgbTableDataSource<EventType> = new NgbTableDataSource();

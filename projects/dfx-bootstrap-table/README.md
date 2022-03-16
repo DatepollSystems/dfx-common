@@ -25,15 +25,17 @@ For more information on the interface and a detailed look at how the table is im
 ### Information
 
 - [Usage](#usage)
-- [Development notes](#development)
 - [Deployment notes](#deployment-notes)
 - [Project website](https://datepoll.org)
 - created with [Angular](https://angular.io),
-  [used libraries](https://gitlab.com/DatePoll/common/dfx-bootstrap-table/-/blob/master/package.json)
+  [used libraries](https://gitlab.com/DatePoll/common/dfx-common/-/blob/develop/package.json)
 
 ### Credits
 
-Full credits go to the [Angular and Angular Material](https://github.com/angular/components) Team. I literally copied most of their mat-table implementation and narrowed it down for Bootstrap.
+Full credits go to the [Angular and Angular Material Team](https://github.com/angular/components) and the
+[ng-bootstrap Team](https://ng-bootstrap.github.io). I
+literally
+copied most of their mat-table implementation and narrowed it down for Bootstrap.
 
 ### Features
 
@@ -63,12 +65,9 @@ npm install dfx-bootstrap-table@latest
 
 ### Getting started (table with filtering, sorting and pagination)
 
-This is the code for a table as you see it [above](#demo). You can run the demo with `npm run demo` and visit it under
-[`http://localhost:4200`](http://localhost:4200), [read more](#running-the-demo).
+This is the code for a table as you see it [above](#demo). Every code piece is located in [here](https://gitlab.com/DatePoll/common/dfx-common/-/tree/develop/projects/dfx-bootstrap-table-demo).
 
-Every code piece is located in `src/app/`.
-
-[app.component.html](./src/app/app.component.html)
+[all.component.html](https://gitlab.com/DatePoll/common/dfx-common/-/blob/develop/projects/dfx-bootstrap-table-demo/src/app/all/all.component.html)
 
 ```angular2html
 <!-- Filtering stuff -->
@@ -110,11 +109,11 @@ Every code piece is located in `src/app/`.
   <tr *ngbRowDef='let event; columns: columnsToDisplay' ngb-row></tr>
 </table>
 
-<dfx-ngb-pagination
+<ngb-paginator
   [page]="1"
   [maxSize]="4"
   [pageSize]="10"
-  [collectionSize]="dataSource.data.length"></dfx-ngb-pagination>
+  [collectionSize]="dataSource.data.length"></ngb-paginator>
 ```
 
 | ngb-table properties | Description                          | default |
@@ -122,7 +121,7 @@ Every code piece is located in `src/app/`.
 | hover                | Determines if the table is hoverable | `false` |
 | striped              | Determines if the table is striped   | `false` |
 
-[app.component.ts](./src/app/app.component.ts)
+[all.component.ts](https://gitlab.com/DatePoll/common/dfx-common/-/blob/develop/projects/dfx-bootstrap-table-demo/src/app/all/all.component.ts)
 
 ```typescript
 import {DfxNgbPagination} from './pagination';
@@ -181,13 +180,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 }
 ```
 
-[app.module.ts](./src/app/app.module.ts)
+[app.module.ts](https://gitlab.com/DatePoll/common/dfx-common/-/blob/develop/projects/dfx-bootstrap-table-demo/src/app/app.module.ts)
 
 ```typescript
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 
-import {DfxTableModule, DfxSortModule, DfxNgbPaginationModule} from 'dfx-bootstrap-table';
+import {DfxTableModule, DfxSortModule, DfxPaginationModule} from 'dfx-bootstrap-table';
 
 @NgModule({
   declarations: [...],
@@ -196,7 +195,7 @@ import {DfxTableModule, DfxSortModule, DfxNgbPaginationModule} from 'dfx-bootstr
     ReactiveFormsModule, // only if you use the filtering code
     DfxTableModule,
     DfxSortModule,
-    DfxNgbPaginationModule
+    DfxPaginationModule
   ],
 })
 export class EventsModule {
@@ -303,7 +302,7 @@ If you are not using the `NgbTableDataSource`, but instead implementing custom l
 
 #### 6. Pagination
 
-To paginate the table's data, add a <dfx-ngb-pagination> after the table.
+To paginate the table's data, add a <ngb-paginator> after the table.
 
 If you are using the NgbTableDataSource for your table's data source, simply provide the DfxNgbPagination to your data
 source. It will automatically listen for page changes made by the user and send the right paged data to the table.

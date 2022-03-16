@@ -2,37 +2,38 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {
-  DfxNgbPagination,
-  DfxNgbPaginationEllipsis,
-  DfxNgbPaginationFirst,
-  DfxNgbPaginationLast,
-  DfxNgbPaginationNext,
-  DfxNgbPaginationNumber,
-  DfxNgbPaginationPrevious,
-  DfxNgbPaginationPages,
+  NgbPaginator,
+  NgbPaginatorEllipsis,
+  NgbPaginatorFirst,
+  NgbPaginatorLast,
+  NgbPaginatorNext,
+  NgbPaginatorNumber,
+  NgbPaginatorPrevious,
+  NgbPaginatorPages,
 } from './pagination';
+import {FormsModule} from '@angular/forms';
 
 export {
-  DfxNgbPagination,
-  DfxNgbPaginationEllipsis,
-  DfxNgbPaginationFirst,
-  DfxNgbPaginationLast,
-  DfxNgbPaginationNext,
-  DfxNgbPaginationNumber,
-  DfxNgbPaginationPrevious,
-  DfxNgbPaginationPages,
+  NgbPaginator,
+  NgbPaginatorEllipsis,
+  NgbPaginatorFirst,
+  NgbPaginatorLast,
+  NgbPaginatorNext,
+  NgbPaginatorNumber,
+  NgbPaginatorPrevious,
+  NgbPaginatorPages,
 } from './pagination';
 
 const DIRECTIVES = [
-  DfxNgbPagination,
-  DfxNgbPaginationEllipsis,
-  DfxNgbPaginationFirst,
-  DfxNgbPaginationLast,
-  DfxNgbPaginationNext,
-  DfxNgbPaginationNumber,
-  DfxNgbPaginationPrevious,
-  DfxNgbPaginationPages,
+  NgbPaginator,
+  NgbPaginatorEllipsis,
+  NgbPaginatorFirst,
+  NgbPaginatorLast,
+  NgbPaginatorNext,
+  NgbPaginatorNumber,
+  NgbPaginatorPrevious,
+  NgbPaginatorPages,
 ];
 
-@NgModule({declarations: DIRECTIVES, exports: DIRECTIVES, imports: [CommonModule]})
-export class DfxNgbPaginationModule {}
+@NgModule({declarations: DIRECTIVES, exports: DIRECTIVES, imports: [CommonModule, FormsModule]})
+export class DfxPaginationModule {}

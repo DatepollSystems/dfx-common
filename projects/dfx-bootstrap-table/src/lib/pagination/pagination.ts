@@ -17,18 +17,18 @@ import {mixinDisabled} from '../core/disabled';
 
 /**
  * A context for the
- * * `NgbPaginationFirst`
- * * `NgbPaginationPrevious`
- * * `NgbPaginationNext`
- * * `NgbPaginationLast`
- * * `NgbPaginationEllipsis`
- * * `NgbPaginationPages`
+ * * `NgbPaginatorFirst`
+ * * `NgbPaginatorPrevious`
+ * * `NgbPaginatorNext`
+ * * `NgbPaginatorLast`
+ * * `NgbPaginatorEllipsis`
+ * * `NgbPaginatorPages`
  *
  * link templates in case you want to override one.
  *
  * @since 4.1.0
  */
-export interface DfxNgbPaginationLinkContext {
+export interface NgbPaginatorLinkContext {
   /**
    * Page number displayed by the current link.
    */
@@ -41,13 +41,13 @@ export interface DfxNgbPaginationLinkContext {
 }
 
 /**
- * A context for the `NgbPaginationNumber` link template in case you want to override one.
+ * A context for the `NgbPaginatorNumber` link template in case you want to override one.
  *
- * Extends `NgbPaginationLinkContext`.
+ * Extends `NgbPaginatorLinkContext`.
  *
  * @since 4.1.0
  */
-export interface DfxNgbPaginationNumberContext extends DfxNgbPaginationLinkContext {
+export interface NgbPaginatorNumberContext extends NgbPaginatorLinkContext {
   /**
    * The page number, displayed by the current page link.
    */
@@ -55,12 +55,12 @@ export interface DfxNgbPaginationNumberContext extends DfxNgbPaginationLinkConte
 }
 
 /**
- * A context for the `NgbPaginationPages` pages template in case you want to override
+ * A context for the `NgbPaginatorPages` pages template in case you want to override
  * the way all pages are displayed.
  *
  * @since 9.1.0
  */
-export interface DfxNgbPaginationPagesContext {
+export interface NgbPaginatorPagesContext {
   /**
    * The currently selected page number.
    */
@@ -82,9 +82,9 @@ export interface DfxNgbPaginationPagesContext {
  *
  * @since 4.1.0
  */
-@Directive({selector: 'ng-template[ngbPaginationEllipsis]'})
-export class DfxNgbPaginationEllipsis {
-  constructor(public templateRef: TemplateRef<DfxNgbPaginationLinkContext>) {}
+@Directive({selector: 'ng-template[ngbPaginatorEllipsis]'})
+export class NgbPaginatorEllipsis {
+  constructor(public templateRef: TemplateRef<NgbPaginatorLinkContext>) {}
 }
 
 /**
@@ -92,9 +92,9 @@ export class DfxNgbPaginationEllipsis {
  *
  * @since 4.1.0
  */
-@Directive({selector: 'ng-template[ngbPaginationFirst]'})
-export class DfxNgbPaginationFirst {
-  constructor(public templateRef: TemplateRef<DfxNgbPaginationLinkContext>) {}
+@Directive({selector: 'ng-template[ngbPaginatorFirst]'})
+export class NgbPaginatorFirst {
+  constructor(public templateRef: TemplateRef<NgbPaginatorLinkContext>) {}
 }
 
 /**
@@ -102,9 +102,9 @@ export class DfxNgbPaginationFirst {
  *
  * @since 4.1.0
  */
-@Directive({selector: 'ng-template[ngbPaginationLast]'})
-export class DfxNgbPaginationLast {
-  constructor(public templateRef: TemplateRef<DfxNgbPaginationLinkContext>) {}
+@Directive({selector: 'ng-template[ngbPaginatorLast]'})
+export class NgbPaginatorLast {
+  constructor(public templateRef: TemplateRef<NgbPaginatorLinkContext>) {}
 }
 
 /**
@@ -112,9 +112,9 @@ export class DfxNgbPaginationLast {
  *
  * @since 4.1.0
  */
-@Directive({selector: 'ng-template[ngbPaginationNext]'})
-export class DfxNgbPaginationNext {
-  constructor(public templateRef: TemplateRef<DfxNgbPaginationLinkContext>) {}
+@Directive({selector: 'ng-template[ngbPaginatorNext]'})
+export class NgbPaginatorNext {
+  constructor(public templateRef: TemplateRef<NgbPaginatorLinkContext>) {}
 }
 
 /**
@@ -122,9 +122,9 @@ export class DfxNgbPaginationNext {
  *
  * @since 4.1.0
  */
-@Directive({selector: 'ng-template[ngbPaginationNumber]'})
-export class DfxNgbPaginationNumber {
-  constructor(public templateRef: TemplateRef<DfxNgbPaginationNumberContext>) {}
+@Directive({selector: 'ng-template[ngbPaginatorNumber]'})
+export class NgbPaginatorNumber {
+  constructor(public templateRef: TemplateRef<NgbPaginatorNumberContext>) {}
 }
 
 /**
@@ -132,9 +132,9 @@ export class DfxNgbPaginationNumber {
  *
  * @since 4.1.0
  */
-@Directive({selector: 'ng-template[ngbPaginationPrevious]'})
-export class DfxNgbPaginationPrevious {
-  constructor(public templateRef: TemplateRef<DfxNgbPaginationLinkContext>) {}
+@Directive({selector: 'ng-template[ngbPaginatorPrevious]'})
+export class NgbPaginatorPrevious {
+  constructor(public templateRef: TemplateRef<NgbPaginatorLinkContext>) {}
 }
 
 /**
@@ -142,20 +142,20 @@ export class DfxNgbPaginationPrevious {
  *
  * @since 9.1.0
  */
-@Directive({selector: 'ng-template[ngbPaginationPages]'})
-export class DfxNgbPaginationPages {
-  constructor(public templateRef: TemplateRef<DfxNgbPaginationPagesContext>) {}
+@Directive({selector: 'ng-template[ngbPaginatorPages]'})
+export class NgbPaginatorPages {
+  constructor(public templateRef: TemplateRef<NgbPaginatorPagesContext>) {}
 }
 
 // Boilerplate for applying mixins to MatSort.
 /** @docs-private */
-const _DfxNgbPaginationBase = mixinDisabled(mixinInitialized(class {}));
+const _NgbPaginatorBase = mixinDisabled(mixinInitialized(class {}));
 
 /**
  * A component that displays page numbers and allows to customize them in several ways.
  */
 @Component({
-  selector: 'dfx-ngb-pagination',
+  selector: 'ngb-paginator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {role: 'navigation'},
   template: `
@@ -197,94 +197,111 @@ const _DfxNgbPaginationBase = mixinDisabled(mixinInitialized(class {}));
         </a>
       </li>
     </ng-template>
-    <ul [class]="'pagination' + (size ? ' pagination-' + size : '')">
-      <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="previousDisabled()">
-        <a
-          aria-label="First"
-          i18n-aria-label="@@ngb.pagination.first-aria"
-          class="page-link"
-          href
-          (click)="selectPage(1); $event.preventDefault()"
-          [attr.tabindex]="previousDisabled() ? '-1' : null"
-          [attr.aria-disabled]="previousDisabled() ? 'true' : null"
-        >
-          <ng-template
-            [ngTemplateOutlet]="tplFirst?.templateRef || first"
-            [ngTemplateOutletContext]="{disabled: previousDisabled(), currentPage: page}"
-          ></ng-template>
-        </a>
-      </li>
 
-      <li *ngIf="directionLinks" class="page-item" [class.disabled]="previousDisabled()">
-        <a
-          aria-label="Previous"
-          i18n-aria-label="@@ngb.pagination.previous-aria"
-          class="page-link"
-          href
-          (click)="selectPage(page - 1); $event.preventDefault()"
-          [attr.tabindex]="previousDisabled() ? '-1' : null"
-          [attr.aria-disabled]="previousDisabled() ? 'true' : null"
-        >
-          <ng-template
-            [ngTemplateOutlet]="tplPrevious?.templateRef || previous"
-            [ngTemplateOutletContext]="{disabled: previousDisabled()}"
-          ></ng-template>
-        </a>
-      </li>
-      <ng-template
-        [ngTemplateOutlet]="tplPages?.templateRef || defaultPages"
-        [ngTemplateOutletContext]="{$implicit: page, pages: pages, disabled: disabled}"
-      >
-      </ng-template>
-      <li *ngIf="directionLinks" class="page-item" [class.disabled]="nextDisabled()">
-        <a
-          aria-label="Next"
-          i18n-aria-label="@@ngb.pagination.next-aria"
-          class="page-link"
-          href
-          (click)="selectPage(page + 1); $event.preventDefault()"
-          [attr.tabindex]="nextDisabled() ? '-1' : null"
-          [attr.aria-disabled]="nextDisabled() ? 'true' : null"
-        >
-          <ng-template
-            [ngTemplateOutlet]="tplNext?.templateRef || next"
-            [ngTemplateOutletContext]="{disabled: nextDisabled(), currentPage: page}"
-          ></ng-template>
-        </a>
-      </li>
+    <div class="row justify-content-end d-block d-md-none">
+      <div class="mt-2 col-sm-12">
+        <select class="form-select" id="selectPageSize" name="pageSize" [(ngModel)]="pageSize" (ngModelChange)="selectPageSize()">
+          <option [ngValue]="_pageSize" *ngFor="let _pageSize of this.pageSizes">{{ _pageSize }}</option>
+        </select>
+      </div>
+    </div>
 
-      <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="nextDisabled()">
-        <a
-          aria-label="Last"
-          i18n-aria-label="@@ngb.pagination.last-aria"
-          class="page-link"
-          href
-          (click)="selectPage(pageCount); $event.preventDefault()"
-          [attr.tabindex]="nextDisabled() ? '-1' : null"
-          [attr.aria-disabled]="nextDisabled() ? 'true' : null"
+    <div class="d-flex justify-content-end">
+      <div class="mt-2 col-md-4 col-lg-3 col-xl-1 d-none d-md-block">
+        <select class="form-select" id="selectPageSize" name="pageSize" [(ngModel)]="pageSize" (ngModelChange)="selectPageSize()">
+          <option [ngValue]="_pageSize" *ngFor="let _pageSize of this.pageSizes">{{ _pageSize }}</option>
+        </select>
+      </div>
+
+      <ul class="mt-2 ms-2" [class]="'pagination' + (size ? ' pagination-' + size : '')">
+        <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="previousDisabled()">
+          <a
+            aria-label="First"
+            i18n-aria-label="@@ngb.pagination.first-aria"
+            class="page-link"
+            href
+            (click)="selectPage(1); $event.preventDefault()"
+            [attr.tabindex]="previousDisabled() ? '-1' : null"
+            [attr.aria-disabled]="previousDisabled() ? 'true' : null"
+          >
+            <ng-template
+              [ngTemplateOutlet]="tplFirst?.templateRef || first"
+              [ngTemplateOutletContext]="{disabled: previousDisabled(), currentPage: page}"
+            ></ng-template>
+          </a>
+        </li>
+
+        <li *ngIf="directionLinks" class="page-item" [class.disabled]="previousDisabled()">
+          <a
+            aria-label="Previous"
+            i18n-aria-label="@@ngb.pagination.previous-aria"
+            class="page-link"
+            href
+            (click)="selectPage(page - 1); $event.preventDefault()"
+            [attr.tabindex]="previousDisabled() ? '-1' : null"
+            [attr.aria-disabled]="previousDisabled() ? 'true' : null"
+          >
+            <ng-template
+              [ngTemplateOutlet]="tplPrevious?.templateRef || previous"
+              [ngTemplateOutletContext]="{disabled: previousDisabled()}"
+            ></ng-template>
+          </a>
+        </li>
+        <ng-template
+          [ngTemplateOutlet]="tplPages?.templateRef || defaultPages"
+          [ngTemplateOutletContext]="{$implicit: page, pages: pages, disabled: disabled}"
         >
-          <ng-template
-            [ngTemplateOutlet]="tplLast?.templateRef || last"
-            [ngTemplateOutletContext]="{disabled: nextDisabled(), currentPage: page}"
-          ></ng-template>
-        </a>
-      </li>
-    </ul>
+        </ng-template>
+        <li *ngIf="directionLinks" class="page-item" [class.disabled]="nextDisabled()">
+          <a
+            aria-label="Next"
+            i18n-aria-label="@@ngb.pagination.next-aria"
+            class="page-link"
+            href
+            (click)="selectPage(page + 1); $event.preventDefault()"
+            [attr.tabindex]="nextDisabled() ? '-1' : null"
+            [attr.aria-disabled]="nextDisabled() ? 'true' : null"
+          >
+            <ng-template
+              [ngTemplateOutlet]="tplNext?.templateRef || next"
+              [ngTemplateOutletContext]="{disabled: nextDisabled(), currentPage: page}"
+            ></ng-template>
+          </a>
+        </li>
+
+        <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="nextDisabled()">
+          <a
+            aria-label="Last"
+            i18n-aria-label="@@ngb.pagination.last-aria"
+            class="page-link"
+            href
+            (click)="selectPage(pageCount); $event.preventDefault()"
+            [attr.tabindex]="nextDisabled() ? '-1' : null"
+            [attr.aria-disabled]="nextDisabled() ? 'true' : null"
+          >
+            <ng-template
+              [ngTemplateOutlet]="tplLast?.templateRef || last"
+              [ngTemplateOutletContext]="{disabled: nextDisabled(), currentPage: page}"
+            ></ng-template>
+          </a>
+        </li>
+      </ul>
+    </div>
   `,
 })
-export class DfxNgbPagination extends _DfxNgbPaginationBase implements OnInit, OnChanges {
+export class NgbPaginator extends _NgbPaginatorBase implements OnInit, OnChanges {
   pageCount = 0;
   pages: number[] = [];
 
   private _initialized: boolean = false;
 
-  @ContentChild(DfxNgbPaginationEllipsis, {static: false}) tplEllipsis: DfxNgbPaginationEllipsis | undefined;
-  @ContentChild(DfxNgbPaginationFirst, {static: false}) tplFirst: DfxNgbPaginationFirst | undefined;
-  @ContentChild(DfxNgbPaginationLast, {static: false}) tplLast: DfxNgbPaginationLast | undefined;
-  @ContentChild(DfxNgbPaginationNext, {static: false}) tplNext: DfxNgbPaginationNext | undefined;
-  @ContentChild(DfxNgbPaginationNumber, {static: false}) tplNumber: DfxNgbPaginationNumber | undefined;
-  @ContentChild(DfxNgbPaginationPrevious, {static: false}) tplPrevious: DfxNgbPaginationPrevious | undefined;
-  @ContentChild(DfxNgbPaginationPages, {static: false}) tplPages: DfxNgbPaginationPages | undefined;
+  @ContentChild(NgbPaginatorEllipsis, {static: false}) tplEllipsis: NgbPaginatorEllipsis | undefined;
+  @ContentChild(NgbPaginatorFirst, {static: false}) tplFirst: NgbPaginatorFirst | undefined;
+  @ContentChild(NgbPaginatorLast, {static: false}) tplLast: NgbPaginatorLast | undefined;
+  @ContentChild(NgbPaginatorNext, {static: false}) tplNext: NgbPaginatorNext | undefined;
+  @ContentChild(NgbPaginatorNumber, {static: false}) tplNumber: NgbPaginatorNumber | undefined;
+  @ContentChild(NgbPaginatorPrevious, {static: false}) tplPrevious: NgbPaginatorPrevious | undefined;
+  @ContentChild(NgbPaginatorPages, {static: false}) tplPages: NgbPaginatorPages | undefined;
 
   /**
    * If `true`, pagination links will be disabled.
@@ -325,7 +342,7 @@ export class DfxNgbPagination extends _DfxNgbPaginationBase implements OnInit, O
   /**
    *  The maximum number of pages to display.
    */
-  @Input() maxSize: number = 4;
+  @Input() maxSize: number = 5;
 
   /**
    *  The current page.
@@ -337,7 +354,9 @@ export class DfxNgbPagination extends _DfxNgbPaginationBase implements OnInit, O
   /**
    *  The number of items per page.
    */
-  @Input() pageSize: number = 20;
+  @Input() pageSize = 10;
+
+  @Input() pageSizes: number[] = [10, 25, 50, 100];
 
   /**
    *  An event fired when the page is changed. Will fire only if collection size is set and all values are valid.
@@ -390,6 +409,11 @@ export class DfxNgbPagination extends _DfxNgbPaginationBase implements OnInit, O
 
   isEllipsis(pageNumber: number): boolean {
     return pageNumber === -1;
+  }
+
+  public selectPageSize() {
+    this.pageChange.emit(this.page);
+    this._updatePages(this.page);
   }
 
   /**
