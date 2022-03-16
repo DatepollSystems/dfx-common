@@ -18,31 +18,31 @@ export class StorageHelper {
    * @param {unknown} value
    * @param {number | undefined} ttl Time to live in seconds (no guarantee it is going to be deleted on time)
    */
-  public static set(key: string, value: number, ttl?: number): void;
+  public static set(key: string, value: UndefinedOrNullOr<number>, ttl?: number): void;
   /**
    * @param {string} key key for storage item
    * @param {unknown} value
    * @param {number | undefined} ttl Time to live in seconds (no guarantee it is going to be deleted on time)
    */
-  public static set(key: string, value: boolean, ttl?: number): void;
+  public static set(key: string, value: UndefinedOrNullOr<boolean>, ttl?: number): void;
   /**
    * @param {string} key key for storage item
    * @param {unknown} value
    * @param {number | undefined} ttl Time to live in seconds (no guarantee it is going to be deleted on time)
    */
-  public static set(key: string, value: Date, ttl?: number): void;
+  public static set(key: string, value: UndefinedOrNullOr<Date>, ttl?: number): void;
   /**
    * @param {string} key key for storage item
    * @param {unknown} value
    * @param {number | undefined} ttl Time to live in seconds (no guarantee it is going to be deleted on time)
    */
-  public static set(key: string, value: Object, ttl?: number): void;
+  public static set(key: string, value: UndefinedOrNullOr<Object>, ttl?: number): void;
   /**
    * @param {string} key key for storage item
    * @param {unknown} value
    * @param {number | undefined} ttl Time to live in seconds (no guarantee it is going to be deleted on time)
    */
-  public static set(key: string, value: string, ttl?: number): void;
+  public static set(key: string, value: UndefinedOrNullOr<string>, ttl?: number): void;
   /**
    * @param {string} key key for storage item
    * @param {unknown} value

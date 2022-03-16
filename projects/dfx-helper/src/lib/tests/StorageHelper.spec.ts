@@ -74,10 +74,10 @@ describe('StorageHelper', () => {
   it('set&GetObjectViaSetObject', () => {
     const o1 = {test: 'wowowoww', bub: 'bib'};
     const o2 = {'12341234': '333333', '--.:dasdf': 'wowowowo'};
-    StorageHelper.setObject('key1', o1);
-    StorageHelper.setObject('key2', o2);
-    StorageHelper.setObject('key3', null);
-    StorageHelper.setObject('key4', undefined);
+    StorageHelper.set('key1', o1);
+    StorageHelper.set('key2', o2);
+    StorageHelper.set('key3', null);
+    StorageHelper.set('key4', undefined);
 
     expect(StorageHelper.getObject('key1')).toEqual(o1);
     expect(StorageHelper.getObject('key2')).toEqual(o2);
@@ -106,7 +106,7 @@ describe('StorageHelper', () => {
     StorageHelper.set('key2', 1);
     StorageHelper.set('key3', false);
     const o = {bla: 'bli', test: 'tust'};
-    StorageHelper.setObject('key4', o);
+    StorageHelper.set('key4', o);
     expect(StorageHelper.getString('key1')).toBe('test');
     expect(StorageHelper.getNumber('key2')).toBe(1);
     expect(StorageHelper.getBoolean('key3')).toBeFalse();
@@ -144,6 +144,25 @@ describe('StorageHelper', () => {
     expect(StorageHelper.isEmpty()).toBeTrue();
 
     StorageHelper.removeAll();
+  });
+  it('set&GetUndefined&Anything', async () => {
+    const test = (testVar: string | undefined) => {
+      StorageHelper.set('key11', testVar);
+    };
+    test('testtt');
+    expect(StorageHelper.getString('key11')).toBe('testtt');
+
+    const test1 = (testVar: number | undefined) => {
+      StorageHelper.set('key11', testVar);
+    };
+    test1(10);
+    expect(StorageHelper.getNumber('key11')).toBe(10);
+
+    const test2 = (testVar: boolean | undefined) => {
+      StorageHelper.set('key11', testVar);
+    };
+    test2(false);
+    expect(StorageHelper.getBoolean('key11')).toBe(false);
   });
   it('set&GetTTL', async () => {
     StorageHelper.set('key1', 'This is a test', 1);
