@@ -1,18 +1,18 @@
 import {ICompute, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
 
-export interface IList<T extends any> extends Array<T> {
+export interface ICommonList<listType extends ICommonList<listType, T>, T extends any> extends Array<T> {
   getItems(): T[];
 
   /**
    * Returns new (cloned) list
    */
-  clone(): IList<T>;
+  clone(): listType;
 
   /**
    * Removes all items in list
    */
-  removeAll(): void
+  removeAll(): void;
 
   size(): number;
 
@@ -30,45 +30,45 @@ export interface IList<T extends any> extends Array<T> {
 
   /**
    * Sets all item(s) in list
-   * @return IList<T> This list
+   * @return listType This list
    */
-  set(items: ManyOrUndefinedOrNullOr<T>): IList<T>;
+  set(items: ManyOrUndefinedOrNullOr<T>): listType;
 
   /**
    * Adds item(s) to list
-   * @return IList<T> This list
+   * @return listType This list
    */
-  add(items: ManyOrUndefinedOrNullOr<T>): IList<T>;
+  add(items: ManyOrUndefinedOrNullOr<T>): listType;
 
   /**
    * Adds item(s) to list if filter fulfills
    * @return IList<t> This list
    */
-  addIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): IList<T>;
+  addIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): listType;
 
   /**
    * Adds item(s) to list if item(s) is absent
    * @return IList<t> This list
    */
-  addIfAbsent(items: ManyOrUndefinedOrNullOr<T>): IList<T>;
+  addIfAbsent(items: ManyOrUndefinedOrNullOr<T>): listType;
 
   /**
    * Removes item(s) from list
-   * @return IList<T> This list
+   * @return listType This list
    */
-  remove(items: ManyOrUndefinedOrNullOr<T>): IList<T>;
+  remove(items: ManyOrUndefinedOrNullOr<T>): listType;
 
   /**
    * Removes item(s) from list if filter fulfills
-   * @return IList<T> This list
+   * @return listType This list
    */
-  removeIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): IList<T>;
+  removeIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): listType;
 
   /**
    * Removes item(s) from list if the item(s) are present
-   * @return IList<T> This list
+   * @return listType This list
    */
-  removeIfPresent(items: ManyOrUndefinedOrNullOr<T>): IList<T>;
+  removeIfPresent(items: ManyOrUndefinedOrNullOr<T>): listType;
 
   /**
    * Checks list for duplicates
@@ -90,25 +90,25 @@ export interface IList<T extends any> extends Array<T> {
 
   /**
    * Calls callbackFn on each item if filter fulfills
-   * @return IList<T> This list
+   * @return listType This list
    */
-  forEachIf(callbackFn: ICompute<T>, filterFn: IPredicate<T>): IList<T>;
+  forEachIf(callbackFn: ICompute<T>, filterFn: IPredicate<T>): listType;
 
   /**
    * Calls callbackFn on each item if item(s) are present
-   * @return IList<T> This list
+   * @return listType This list
    */
-  computeIfPresent(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>): IList<T>;
+  computeIfPresent(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>): listType;
 
   /**
    * Calls callbackFn on each item if item(s) are absent
-   * @return IList<T> This list
+   * @return listType This list
    */
-  computeIfAbsent(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>): IList<T>;
+  computeIfAbsent(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>): listType;
 
   /**
    * Shuffles list
-   * @return IList<T> This list
+   * @return listType This list
    */
-  shuffle(): IList<T>;
+  shuffle(): listType;
 }

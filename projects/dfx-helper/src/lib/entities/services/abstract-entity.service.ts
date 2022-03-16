@@ -3,16 +3,16 @@ import {Observable, Subject} from 'rxjs';
 import {AHttpService} from '../../services/abstract-http.service';
 
 import {IEntity} from '../entity.interface';
-import {IList} from '../../collection/list.interface';
+import {IList} from '../../collection/list';
+import {EntityList, IEntityList} from '../../collection/entity-list';
 
-import {EntityList} from '../../collection/entity-list';
 import {AnyOr, StringOrNumber, UndefinedOr, UndefinedOrNullOr} from '../../types';
 import {KeyValuePair} from '../../key-value-pair';
 
 export abstract class AEntityService<idType extends StringOrNumber, EntityType extends IEntity<idType>> {
-  public allChange: Subject<IList<EntityType>> = new Subject<IList<EntityType>>();
+  public allChange: Subject<IEntityList<EntityType>> = new Subject<IEntityList<EntityType>>();
   public singleChange: Subject<EntityType> = new Subject<EntityType>();
-  protected entities: IList<EntityType> = new EntityList();
+  protected entities: IEntityList<EntityType> = new EntityList();
   protected entity: UndefinedOr<EntityType> = undefined;
 
   // region Config properties
