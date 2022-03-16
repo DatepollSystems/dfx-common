@@ -1,10 +1,10 @@
-import {ICommonList} from './list.interface';
+import {IList} from './list.interface';
 import {ACommonList} from './list.abstract';
 import {ManyOrUndefinedOrNullOr} from '../types';
 
-export interface IList<T> extends ICommonList<IList<T>, T> {}
+export interface IArrayList<T> extends IList<T> {}
 
-export class List<T> extends ACommonList<List<T>, T> implements IList<T> {
+export class List<T> extends ACommonList<List<T>, T> implements IArrayList<T> {
   constructor(items?: ManyOrUndefinedOrNullOr<T>) {
     super(items);
   }

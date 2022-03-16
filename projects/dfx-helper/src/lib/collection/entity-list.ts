@@ -1,9 +1,9 @@
-import {ICommonList} from './list.interface';
+import {IList} from './list.interface';
 import {ACommonList} from './list.abstract';
 import {IEntity} from '../entities/entity.interface';
 import {ManyOrUndefinedOrNullOr, StringOrNumber, UndefinedOrNullOr} from '../types';
 
-export interface IEntityList<T> extends ICommonList<IEntityList<T>, T> {}
+export interface IEntityList<T> extends IList<T> {}
 
 export class EntityList<T extends IEntity<StringOrNumber>> extends ACommonList<EntityList<T>, T> implements IEntityList<T> {
   constructor(items?: ManyOrUndefinedOrNullOr<T>) {

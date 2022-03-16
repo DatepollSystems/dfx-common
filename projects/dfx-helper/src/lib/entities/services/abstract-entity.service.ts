@@ -3,7 +3,6 @@ import {Observable, Subject} from 'rxjs';
 import {AHttpService} from '../../services/abstract-http.service';
 
 import {IEntity} from '../entity.interface';
-import {IList} from '../../collection/list';
 import {EntityList, IEntityList} from '../../collection/entity-list';
 
 import {AnyOr, StringOrNumber, UndefinedOr, UndefinedOrNullOr} from '../../types';
@@ -93,10 +92,11 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
   public setGetSingleParams(params: UndefinedOrNullOr<KeyValuePair[]>): void {
     this.globalGetSingleParams = params;
   }
+
   //endregion
 
   //region getAll
-  public getAll(urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): IList<EntityType> {
+  public getAll(urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): IEntityList<EntityType> {
     this.fetchAll(urlKeyPairs, params);
     return this.entities.clone();
   }
@@ -120,17 +120,13 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     });
   }
 
-  protected setAll(entities: EntityList<EntityType>): void {
-    this.entities = entities;
-    this.allChange.next(this.entities.clone());
-  }
-  //endregion
-
   //region getSingle
   public getSingle(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): UndefinedOr<EntityType> {
     this.fetchSingle(id, params, urlKeyPairs);
     return this.entity;
   }
+
+  //endregion
 
   public removeSingle(): void {
     this.entity = undefined;
@@ -149,12 +145,6 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
       });
   }
 
-  protected setSingle(entity: EntityType): void {
-    this.entity = entity;
-    this.singleChange.next(this.entity);
-  }
-  //endregion
-
   public _create(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalCreateUrl, urlKeyPairs);
     const httpParams = KeyValuePair.parseIntoHttpParams(params);
@@ -171,6 +161,8 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
       'update'
     );
   }
+
+  //endregion
 
   public _delete(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalDeleteUrl, urlKeyPairs);
@@ -203,6 +195,16 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
       },
       error: (error) => console.log(error),
     });
+  }
+
+  protected setAll(entities: EntityList<EntityType>): void {
+    this.entities = entities;
+    this.allChange.next(this.entities.clone());
+  }
+
+  protected setSingle(entity: EntityType): void {
+    this.entity = entity;
+    this.singleChange.next(this.entity);
   }
 
   /**

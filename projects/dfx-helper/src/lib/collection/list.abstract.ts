@@ -1,8 +1,8 @@
-import {ICommonList} from './list.interface';
+import {IList} from './list.interface';
 import {ICompute, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
 
-export abstract class ACommonList<listType extends ICommonList<listType, T>, T> extends Array<T> implements ICommonList<listType, T> {
+export abstract class ACommonList<listType extends IList<T>, T> extends Array<T> implements IList<T> {
   protected constructor(items?: ManyOrUndefinedOrNullOr<T>) {
     super();
     if (items) {
