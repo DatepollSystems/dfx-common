@@ -13,8 +13,8 @@ export abstract class AHttpService {
 
   protected constructor(protected http: HttpClient) {}
 
-  public get(url: string, params?: Params, caller?: string): Observable<unknown> {
-    return this.http.get(this.apiUrl + this.version + url, {params: params}).pipe(
+  public get<T>(url: string, params?: Params, caller?: string): Observable<unknown | T> {
+    return this.http.get<T>(this.apiUrl + this.version + url, {params: params}).pipe(
       tap((data) => {
         this.log('get', url, params, caller, data);
       }),
@@ -25,8 +25,8 @@ export abstract class AHttpService {
     );
   }
 
-  public post(url: string, body: any, params?: Params, caller?: string): Observable<unknown> {
-    return this.http.post(this.apiUrl + this.version + url, body, {headers: this.headers, params: params}).pipe(
+  public post<T>(url: string, body: any, params?: Params, caller?: string): Observable<unknown | T> {
+    return this.http.post<T>(this.apiUrl + this.version + url, body, {headers: this.headers, params: params}).pipe(
       tap((data) => {
         this.log('post', url, params, caller, data);
       }),
@@ -37,8 +37,8 @@ export abstract class AHttpService {
     );
   }
 
-  public put(url: string, body: any, params?: Params, caller?: string): Observable<unknown> {
-    return this.http.put(this.apiUrl + this.version + url, body, {headers: this.headers, params: params}).pipe(
+  public put<T>(url: string, body: any, params?: Params, caller?: string): Observable<unknown | T> {
+    return this.http.put<T>(this.apiUrl + this.version + url, body, {headers: this.headers, params: params}).pipe(
       tap((data) => {
         this.log('put', url, params, caller, data);
       }),
