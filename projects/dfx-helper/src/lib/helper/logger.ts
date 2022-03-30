@@ -115,7 +115,7 @@ export class LoggerFactory {
    * @param {string} className The name of the class
    * @return {Logger} Returns a pre-configured logger
    */
-  public static getLogger(className: UndefinedOr<string> = undefined) {
+  public static getLogger(className: UndefinedOr<string> = undefined): Logger {
     if (className == undefined) {
       if (this.genericLogger == undefined) {
         this.genericLogger = new Logger(undefined);

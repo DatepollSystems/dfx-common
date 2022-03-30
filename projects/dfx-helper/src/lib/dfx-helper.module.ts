@@ -1,6 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 
 import {HELPER_CONFIG, HelperConfig} from './helper.config';
+import {LoggerFactory} from './helper/logger';
 
 @NgModule()
 export class DfxHelperModule {
@@ -9,7 +10,10 @@ export class DfxHelperModule {
   }
 
   static setup(configuration?: HelperConfig): ModuleWithProviders<DfxHelperModule> {
-    console.log(configuration);
+    if (configuration == null) {
+      configuration = {} as HelperConfig;
+    }
+    LoggerFactory.getLogger().log('setup', 'Configuration file', configuration);
     return {
       ngModule: DfxHelperModule,
       providers: [

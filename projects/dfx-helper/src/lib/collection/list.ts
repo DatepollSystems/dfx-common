@@ -9,12 +9,8 @@ export class List<T> extends ACommonList<List<T>, T> implements IArrayList<T> {
     super(items);
   }
 
-  public clone(): List<T> {
-    return new List<T>(this);
-  }
-
-  public selfAsTypeT(): List<T> {
-    return this;
+  public create(list?: List<T>): List<T> {
+    return new List<T>(list);
   }
 }
 

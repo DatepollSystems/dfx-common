@@ -24,12 +24,13 @@ export * from './lib/entities/entity-with-name.interface';
 export * from './lib/entities/has-id.interface';
 export * from './lib/entities/has-name.interface';
 
-export * from './lib/helper/ArrayHelper';
+export * from './lib/helper/array-helper';
 export * from './lib/helper/browser-helper';
 export * from './lib/helper/clipboard-helper';
 export * from './lib/helper/converter';
 export * from './lib/helper/date-helper';
 export * from './lib/helper/generator';
+export * from './lib/helper/generic-helper';
 export * from './lib/helper/logger';
 export * from './lib/helper/stopwatch';
 export * from './lib/helper/storage-helper';
@@ -39,6 +40,8 @@ export * from './lib/helper/ui-helper';
 
 export * from './lib/services/abstract-http.service';
 export * from './lib/services/is-mobile.service';
+
+export * from './lib/traits/generic-impl-trait';
 
 export * from './lib/dfx-helper.module';
 export * from './lib/functions.interface';

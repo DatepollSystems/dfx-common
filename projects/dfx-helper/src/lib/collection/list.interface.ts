@@ -1,8 +1,14 @@
 import {ICompute, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
+import {IGenericImplTrait} from '../traits/generic-impl-trait';
 
-export interface IList<T extends any> extends Array<T> {
+export interface IList<T extends any> extends Array<T>, IGenericImplTrait<IList<T>> {
   getItems(): T[];
+
+  /**
+   * Returns new list of the same type
+   */
+  create(list?: IList<T>): IList<T>;
 
   /**
    * Returns new (cloned) list

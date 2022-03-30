@@ -1,6 +1,7 @@
 import {IList} from './list.interface';
 import {ICompute, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
+import {GenericHelper} from '../helper/generic-helper';
 
 export abstract class ACommonList<listType extends IList<T>, T> extends Array<T> implements IList<T> {
   protected constructor(items?: ManyOrUndefinedOrNullOr<T>) {
@@ -10,9 +11,15 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
     }
   }
 
-  public abstract clone(): listType;
+  public thisAsT(): listType {
+    return GenericHelper.uncheckedCast(this);
+  }
 
-  public abstract selfAsTypeT(): listType;
+  public abstract create(list?: listType): listType;
+
+  public clone(): listType {
+    return this.create(this.thisAsT());
+  }
 
   public getItems(): T[] {
     return this;
@@ -45,7 +52,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
     } else if (items) {
       this.push(items);
     }
-    return this.selfAsTypeT();
+    return this.thisAsT();
   }
 
   public addIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): listType {
@@ -60,7 +67,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
         this.add(items);
       }
     }
-    return this.selfAsTypeT();
+    return this.thisAsT();
   }
 
   public addIfAbsent(items: ManyOrUndefinedOrNullOr<T>): listType {
@@ -83,7 +90,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
         this.splice(itemIndex, 1);
       }
     }
-    return this.selfAsTypeT();
+    return this.thisAsT();
   }
 
   public removeIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): listType {
@@ -102,7 +109,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
         this.splice(itemIndex, 1);
       }
     }
-    return this.selfAsTypeT();
+    return this.thisAsT();
   }
 
   public removeIfPresent(items: ManyOrUndefinedOrNullOr<T>): listType {
@@ -135,7 +142,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
         callbackFn(item);
       }
     }
-    return this.selfAsTypeT();
+    return this.thisAsT();
   }
 
   public computeIfPresent(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>): listType {
@@ -156,7 +163,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
     } else if (items && filterFn(items)) {
       callbackFn(items);
     }
-    return this.selfAsTypeT();
+    return this.thisAsT();
   }
 
   public shuffle(): listType {
@@ -164,6 +171,6 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
       const j = Math.floor(Math.random() * (i + 1));
       [this[i], this[j]] = [this[j], this[i]];
     }
-    return this.selfAsTypeT();
+    return this.thisAsT();
   }
 }
