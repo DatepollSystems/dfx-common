@@ -2,7 +2,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
-import {LoggerFactory} from '../helper/Logger';
+import {LoggerFactory} from '../helper/logger';
 import {AnyOrUndefined, Params, UndefinedOr} from '../types';
 
 export abstract class AHttpService {

@@ -1,15 +1,15 @@
-import {Stopwatch} from '../helper/Stopwatch';
-import {Converter} from '../helper/Converter';
+import {Stopwatch} from '../helper/stopwatch';
+import {Converter} from '../helper/converter';
 
 /**
  * Measures execution time for method call
  * @param unit The unit in which the execution time should be measured
  * @since 4.0.0
  */
-export function MeasureTime (unit: 'ms' | 's' | 'm' | 'h' = 'ms') {
+export function MeasureTime(unit: 'ms' | 's' | 'm' | 'h' = 'ms') {
   return function (target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
     const ogMethod = descriptor.value;
-    descriptor.value = function(...args: any[]) {
+    descriptor.value = function (...args: any[]) {
       const watch = new Stopwatch();
       watch.start();
       const result = ogMethod.apply(this, args);
@@ -33,5 +33,5 @@ export function MeasureTime (unit: 'ms' | 's' | 'm' | 'h' = 'ms') {
       return result;
     };
     return descriptor;
-  }
+  };
 }

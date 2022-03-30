@@ -1,11 +1,16 @@
-import {UIHelper} from '../helper/UIHelper';
+import {UIHelper} from '../helper/ui-helper';
 
 describe('UIHelper', () => {
   it('getReadTime', () => {
     expect(UIHelper.getReadTime('asdfasdfasdfasdfasdfasdf', 0)).toBe('> 1m');
     expect(UIHelper.getReadTime('asdfasdfasdfasdfasdfasdf', 5)).toBe('1m');
     expect(UIHelper.getReadTime('asdfasdfasdfasdfasdfdasdfasdfasdf', 11)).toBe('1m');
-    expect(UIHelper.getReadTime('asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf ', 10)).toBe('2m');
+    expect(
+      UIHelper.getReadTime(
+        'asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf ',
+        10
+      )
+    ).toBe('2m');
   });
   it('getApproxDate', () => {
     expect(UIHelper.getApproxCurrentDate()).toBeDefined();

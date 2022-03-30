@@ -1,6 +1,6 @@
-import {Generator, RandomStringOptions} from '../helper/Generator';
-import {ArrayHelper} from '../helper/ArrayHelper';
-import {StringHelper} from '../helper/StringHelper';
+import {Generator, RandomStringOptions} from '../helper/generator';
+import {StringHelper} from '../helper/string-helper';
+import {ArrayHelper} from '../helper/array-helper';
 
 describe('Generator', () => {
   it('randomness string', () => {
@@ -70,16 +70,27 @@ describe('Generator', () => {
       let val = Generator.randomString(80, {
         containsNumbers: true,
         containsSpecialCharacters: true,
-        containsLetters: false
+        containsLetters: false,
       });
       expect(StringHelper.hasNumbersInString(val)).toBeTrue();
       expect(StringHelper.hasNotOnlyLettersInString(val)).toBeTrue();
 
-      val = Generator.randomStringByOptions(70, RandomStringOptions.NUMBERS, RandomStringOptions.SPECIAL_CHARACTERS, RandomStringOptions.REMOVE_LETTERS);
+      val = Generator.randomStringByOptions(
+        70,
+        RandomStringOptions.NUMBERS,
+        RandomStringOptions.SPECIAL_CHARACTERS,
+        RandomStringOptions.REMOVE_LETTERS
+      );
       expect(StringHelper.hasNumbersInString(val)).toBeTrue();
       expect(StringHelper.hasNotOnlyLettersInString(val)).toBeTrue();
 
-      val = Generator.randomStringByOptions(70, RandomStringOptions.NUMBERS, RandomStringOptions.SPECIAL_CHARACTERS, RandomStringOptions.REMOVE_LOWERCASE_LETTERS, RandomStringOptions.REMOVE_UPPERCASE_LETTERS);
+      val = Generator.randomStringByOptions(
+        70,
+        RandomStringOptions.NUMBERS,
+        RandomStringOptions.SPECIAL_CHARACTERS,
+        RandomStringOptions.REMOVE_LOWERCASE_LETTERS,
+        RandomStringOptions.REMOVE_UPPERCASE_LETTERS
+      );
       expect(StringHelper.hasNumbersInString(val)).toBeTrue();
       expect(StringHelper.hasNotOnlyLettersInString(val)).toBeTrue();
     }
@@ -89,7 +100,7 @@ describe('Generator', () => {
       const val = Generator.randomString(70, {
         containsNumbers: false,
         containsSpecialCharacters: false,
-        containsLetters: true
+        containsLetters: true,
       });
       expect(StringHelper.hasNoNumbersInString(val)).toBeTrue();
       expect(StringHelper.hasOnlyLettersInString(val)).toBeTrue();
@@ -112,7 +123,7 @@ describe('Generator', () => {
         containsNumbers: false,
         containsLetters: false,
         specialCharactersSet: ':',
-        containsSpecialCharacters: true
+        containsSpecialCharacters: true,
       });
       expect(StringHelper.hasNoNumbersInString(val)).toBeTrue();
       expect(StringHelper.hasNotOnlyLettersInString(val)).toBeTrue();

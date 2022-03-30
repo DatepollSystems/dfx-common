@@ -1,4 +1,4 @@
-import {TypeHelper} from './TypeHelper';
+import {TypeHelper} from './type-helper';
 
 export class DateHelper {
   /**

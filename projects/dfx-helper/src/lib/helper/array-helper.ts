@@ -2,7 +2,6 @@ import {AEntity} from '../entities/abstract-entity';
 import {UndefinedOrNullOr} from '../types';
 
 export class ArrayHelper {
-
   public static isIterable(obj: any): boolean {
     if (obj == null) {
       return false;
@@ -47,7 +46,6 @@ export class ArrayHelper {
     }
     return array;
   }
-
 
   /**
    * Adds entity to array if the entity is absent

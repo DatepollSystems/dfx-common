@@ -1,5 +1,5 @@
-import {TypeHelper} from './TypeHelper';
-import {Converter} from './Converter';
+import {TypeHelper} from './type-helper';
+import {Converter} from './converter';
 import {UndefinedOrNullOr} from '../types';
 
 export class StorageHelper {

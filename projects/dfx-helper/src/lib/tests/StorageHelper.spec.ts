@@ -1,5 +1,5 @@
-import {StorageHelper} from '../helper/StorageHelper';
-import {Thread} from '../helper/Thread';
+import {StorageHelper} from '../helper/storage-helper';
+import {Thread} from '../helper/thread';
 
 describe('StorageHelper', () => {
   it('checkExists&Remove&Size&Empty&hasEntries', () => {

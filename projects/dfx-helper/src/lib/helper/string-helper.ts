@@ -1,13 +1,18 @@
 import {NullOr, UndefinedOr} from '../types';
 
 export class StringHelper {
-  private static urlRegex = new RegExp('^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-    '(\\#[-a-z\\d_]*)?$', 'i');
-  private static emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  private static urlRegex = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i'
+  );
+  private static emailRegex = new RegExp(
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
   private static hasNumbersInStringRegex = new RegExp(/\d/);
   private static hasOnlyLettersInStringRegex = new RegExp(/^[a-zA-Z]+$/);
 
@@ -112,7 +117,12 @@ export class StringHelper {
    * @param {string|null} suffix A suffix which is added if the imploded string exceeds the maximal length, default <code>'...'</code>; Set to <code>null</code> to disable suffix.
    * @return string
    */
-  public static getImploded(strings: string[], maxLength: UndefinedOr<number> = undefined, separator: UndefinedOr<string> = ',', suffix: NullOr<string> = '...'): string {
+  public static getImploded(
+    strings: string[],
+    maxLength: UndefinedOr<number> = undefined,
+    separator: UndefinedOr<string> = ',',
+    suffix: NullOr<string> = '...'
+  ): string {
     let toReturn = '';
     for (const string of strings) {
       toReturn += string + separator + ' ';

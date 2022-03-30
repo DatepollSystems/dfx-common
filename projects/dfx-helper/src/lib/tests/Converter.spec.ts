@@ -1,4 +1,4 @@
-import {Converter} from '../helper/Converter';
+import {Converter} from '../helper/converter';
 
 describe('Converter', () => {
   it('toNumber', () => {

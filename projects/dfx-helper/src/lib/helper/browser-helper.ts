@@ -2,7 +2,15 @@ export class BrowserHelper {
   /**
    * @return {screenSize: string, name: string, version: string, majorVersion: number, mobile: boolean, os: string, cookies: boolean}
    */
-  public static infos(): {screenSize: string, name: string, version: string, majorVersion: number, mobile: boolean, os: string, cookies: boolean} {
+  public static infos(): {
+    screenSize: string;
+    name: string;
+    version: string;
+    majorVersion: number;
+    mobile: boolean;
+    os: string;
+    cookies: boolean;
+  } {
     const unknown = '-';
 
     // screen
@@ -127,7 +135,7 @@ export class BrowserHelper {
       {s: 'UNIX', r: /UNIX/},
       {s: 'BeOS', r: /BeOS/},
       {s: 'OS/2', r: /OS\/2/},
-      {s: 'Search Bot', r: /(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/}
+      {s: 'Search Bot', r: /(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/},
     ];
     for (const clientString of clientStrings) {
       const cs = clientString;
@@ -144,7 +152,7 @@ export class BrowserHelper {
       majorVersion: majorVersion,
       mobile: mobile,
       os: os,
-      cookies: cookieEnabled
+      cookies: cookieEnabled,
     };
   }
 }

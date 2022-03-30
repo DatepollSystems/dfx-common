@@ -25,17 +25,17 @@ export * from './lib/entities/has-id.interface';
 export * from './lib/entities/has-name.interface';
 
 export * from './lib/helper/ArrayHelper';
-export * from './lib/helper/BrowserHelper';
-export * from './lib/helper/ClipboardHelper';
-export * from './lib/helper/Converter';
-export * from './lib/helper/DateHelper';
-export * from './lib/helper/Generator';
-export * from './lib/helper/Logger';
-export * from './lib/helper/Stopwatch';
-export * from './lib/helper/StorageHelper';
-export * from './lib/helper/StringHelper';
-export * from './lib/helper/TypeHelper';
-export * from './lib/helper/UIHelper';
+export * from './lib/helper/browser-helper';
+export * from './lib/helper/clipboard-helper';
+export * from './lib/helper/converter';
+export * from './lib/helper/date-helper';
+export * from './lib/helper/generator';
+export * from './lib/helper/logger';
+export * from './lib/helper/stopwatch';
+export * from './lib/helper/storage-helper';
+export * from './lib/helper/string-helper';
+export * from './lib/helper/type-helper';
+export * from './lib/helper/ui-helper';
 
 export * from './lib/services/abstract-http.service';
 export * from './lib/services/is-mobile.service';

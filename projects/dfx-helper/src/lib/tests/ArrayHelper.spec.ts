@@ -1,4 +1,4 @@
-import {ArrayHelper} from '../helper/ArrayHelper';
+import {ArrayHelper} from '../helper/array-helper';
 import {AEntity} from '../entities/abstract-entity';
 
 describe('ArrayHelper', () => {
@@ -67,26 +67,29 @@ describe('ArrayHelper', () => {
   it('removeEntitiesIfPresent', () => {
     const entity = new TestEntity(0);
     const entity2 = new TestEntity(100);
-    expect(ArrayHelper.removeEntitiesIfPresent([entity, entity2, new TestEntity(1), new TestEntity(2), new TestEntity(3)], [entity, entity2]).length).toBe(3);
+    expect(
+      ArrayHelper.removeEntitiesIfPresent([entity, entity2, new TestEntity(1), new TestEntity(2), new TestEntity(3)], [entity, entity2])
+        .length
+    ).toBe(3);
     expect(ArrayHelper.removeEntitiesIfPresent([entity, entity2, new TestEntity(1), new TestEntity(2)], [entity]).length).toBe(3);
     expect(ArrayHelper.removeEntitiesIfPresent([entity, new TestEntity(1), new TestEntity(2)], [entity, entity2]).length).toBe(2);
     expect(ArrayHelper.removeEntitiesIfPresent([new TestEntity(1), new TestEntity(2)], [entity, entity2]).length).toBe(2);
   });
   it('computeIfAbsent', () => {
-    ArrayHelper.computeIfAbsent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'hjk', value => {
+    ArrayHelper.computeIfAbsent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'hjk', (value) => {
       expect(value).toEqual('hjk');
     });
-    ArrayHelper.computeIfAbsent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'xyz', value => {
+    ArrayHelper.computeIfAbsent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'xyz', (value) => {
       // Should never be executed
       expect(value).toEqual('abc');
     });
   });
   it('computeIfPresent', () => {
-    ArrayHelper.computeIfPresent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'hjk', value => {
+    ArrayHelper.computeIfPresent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'hjk', (value) => {
       // Should never be executed
       expect(value).toEqual('asdfasdfasdfasdf');
     });
-    ArrayHelper.computeIfPresent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'xyz', value => {
+    ArrayHelper.computeIfPresent<string>(['abc', 'bcc', 'cdf', 'xyz'], 'xyz', (value) => {
       expect(value).toEqual('xyz');
     });
   });

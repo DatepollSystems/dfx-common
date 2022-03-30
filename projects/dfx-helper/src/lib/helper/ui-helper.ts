@@ -1,4 +1,4 @@
-import {StringHelper} from './StringHelper';
+import {StringHelper} from './string-helper';
 import {NullOr} from '../types';
 
 export class UIHelper {
