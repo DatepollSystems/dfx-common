@@ -13,18 +13,14 @@ export class Generator {
   public static readonly specialCharacterLetters = '_-#+*~&?!=';
 
   /**
-   * @deprecated Use <code>Generator.randomString()</code>
-   * Returns a random string containing 0-9,a-z,A-Z
+   * @deprecated Use <code>Generator.stringByOptions()</code>
+   * Returns a random string containing a-z,A-Z
    * @param {number} length Length of the random string
-   * @param {boolean} containsNumbers Include numbers in string, default <code>true</code>
-   * @param {boolean} containsSpecialCharacter Include special character in string, default <code>false</code>
+   * @param {RandomStringOptions} options Possible options of RandomStringOptions enum
    * @return string
    */
-  public static generateRandomString(length: number, containsNumbers: boolean = true, containsSpecialCharacter: boolean = false): string {
-    return this.randomString(length, {
-      containsNumbers: containsNumbers,
-      containsSpecialCharacters: containsSpecialCharacter,
-    });
+  public static randomStringByOptions(length: number, ...options: RandomStringOptions[]): string {
+    return this.stringByOptions(length, ...options);
   }
 
   /**
@@ -33,7 +29,7 @@ export class Generator {
    * @param {RandomStringOptions} options Possible options of RandomStringOptions enum
    * @return string
    */
-  public static randomStringByOptions(length: number, ...options: RandomStringOptions[]): string {
+  public static stringByOptions(length: number, ...options: RandomStringOptions[]): string {
     let containsNumbers = false;
     let containsSpecialCharacters = false;
     let containsLetters = true;
@@ -58,7 +54,7 @@ export class Generator {
           break;
       }
     }
-    return this.randomString(length, {
+    return this.string(length, {
       containsNumbers: containsNumbers,
       containsSpecialCharacters: containsSpecialCharacters,
       containsLetters: containsLetters,
@@ -68,6 +64,7 @@ export class Generator {
   }
 
   /**
+   * @deprecated Use <code>Generator.string()</code>
    * Returns a random string containing a-z,A-Z
    * @param {number} length Length of the random string
    * @param {{containsNumbers?: boolean, containsSpecialCharacters?: boolean, specialCharactersSet?: string, containsLetters?: boolean, containsLowerCaseLatters?: boolean, containsUpperCaseLetters?: boolean}} options options object
@@ -90,16 +87,44 @@ export class Generator {
       containsUpperCaseLetters?: boolean;
     }
   ): string {
+    return this.string(length, options);
+  }
+
+  /**
+   * Returns a random string containing a-z,A-Z
+   * @param {number} length Length of the random string
+   * @param {{containsNumbers?: boolean, containsSpecialCharacters?: boolean, specialCharactersSet?: string, containsLetters?: boolean, containsLowerCaseLatters?: boolean, containsUpperCaseLetters?: boolean}} options options object
+   * @description <code>containsNumbers</code> - default <code>false</code>, used to determine if the random string should contain numbers
+   * @description <code>containsSpecialCharacters</code> - default <code>false</code>, used to determine if the random string should contain special characters
+   * @description <code>specialCharactersSet</code> - default "<code>_-#+*~&?!=</code>", used to replace the default set
+   * @description <code>containsLetters</code> default <code>true</code>, used to determine if the random string should contain letters
+   * @description <code>containsLowerCaseLetters</code> default <code>true</code>, used to determine if the random string should contain lowercase letters
+   * @description <code>containsUpperCaseLetters</code> default <code>true</code>, used to determine if the random string should contain UPPERCASE letters
+   * @return string
+   */
+  public static string(
+    length: number,
+    options?: {
+      containsNumbers?: boolean;
+      containsSpecialCharacters?: boolean;
+      specialCharactersSet?: string;
+      containsLetters?: boolean;
+      containsLowerCaseLetters?: boolean;
+      containsUpperCaseLetters?: boolean;
+    }
+  ): string {
     let characters = this.lowerCaseLetters + this.upperCaseLetters;
-    if (options?.containsLowerCaseLetters != undefined && !options.containsLowerCaseLetters) {
-      characters.replace(this.lowerCaseLetters, '');
-    }
-    if (options?.containsUpperCaseLetters != undefined && !options.containsUpperCaseLetters) {
-      characters.replace(this.upperCaseLetters, '');
-    }
     if (options?.containsLetters != undefined && !options.containsLetters) {
       characters = '';
+    } else {
+      if (options?.containsLowerCaseLetters != undefined && !options.containsLowerCaseLetters) {
+        characters.replace(this.lowerCaseLetters, '');
+      }
+      if (options?.containsUpperCaseLetters != undefined && !options.containsUpperCaseLetters) {
+        characters.replace(this.upperCaseLetters, '');
+      }
     }
+
     if (options?.containsNumbers != undefined && options.containsNumbers) {
       characters += this.numberLetters;
     }
@@ -119,23 +144,35 @@ export class Generator {
   }
 
   /**
-   * Returns a random number
+   * Returns a random integer number
    * @param {number} min Minimum number of random number
    * @param {number} max Maximum number of random number
    * @return number
    */
   public static randomNumber(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min)) + min;
+    return this.integer(min, max);
   }
 
   /**
-   * @deprecated Use <code>Generator.randomNumber()</code>
-   * Returns a random number
+   * Returns a random integer number
    * @param {number} min Minimum number of random number
    * @param {number} max Maximum number of random number
    * @return number
    */
-  public static generateRandomNumber(min: number, max: number): number {
-    return this.randomNumber(min, max);
+  public static integer(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  /**
+   * Returns a random float number
+   * @param {number} min Minimum number of random number
+   * @param {number} max Maximum number of random number
+   * @param {number} decimals Decimals of new random float
+   * @return number
+   */
+  public static float(min: number, max: number, decimals: number): number {
+    const str = (Math.random() * (max - min) + min).toFixed(decimals);
+
+    return parseFloat(str);
   }
 }
