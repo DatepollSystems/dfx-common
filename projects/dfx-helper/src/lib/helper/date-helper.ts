@@ -1,12 +1,30 @@
-import {TypeHelper} from './type-helper';
+import {UndefinedOr, UndefinedOrNullOr} from '../types';
 
 export class DateHelper {
   /**
-   * Returns a string formatted in 'YYYY-MM-DD HH:mm:ss'
-   * @param {Date} date
-   * @return string
+   * @deprecated Use <code>DateHelper.getFormattedWithHoursMinutesAndSeconds</code>
    */
-  public static getDateFormattedWithHoursMinutesAndSeconds(date: string | Date): string {
+  public static getDateFormattedWithHoursMinutesAndSeconds(date: UndefinedOrNullOr<string | Date>): UndefinedOr<string> {
+    return this.getFormattedWithHoursMinutesAndSeconds(date);
+  }
+
+  /**
+   * @deprecated Use <code>DateHelper.getFormatted</code>
+   */
+  public static getDateFormatted(date: UndefinedOrNullOr<string | Date>): UndefinedOr<string> {
+    return this.getFormatted(date);
+  }
+
+  /**
+   * Returns a string formatted in 'YYYY-MM-DD HH:mm:ss'
+   * If string or date is null, returns <code>null</code>
+   * @param {string|Date|undefined|null} date
+   * @return string|undefined
+   */
+  public static getFormattedWithHoursMinutesAndSeconds(date: UndefinedOrNullOr<string | Date>): UndefinedOr<string> {
+    if (!date) {
+      return undefined;
+    }
     const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -37,10 +55,14 @@ export class DateHelper {
 
   /**
    * Returns a string formatted in 'YYYY-MM-DD'
-   * @param {Date} date
-   * @return string
+   * If string or date is null, returns <code>null</code>
+   * @param {string|Date|undefined|null} date
+   * @return string|undefined
    */
-  public static getDateFormatted(date: string | Date): string {
+  public static getFormatted(date: UndefinedOrNullOr<string | Date>): UndefinedOr<string> {
+    if (!date) {
+      return undefined;
+    }
     const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
