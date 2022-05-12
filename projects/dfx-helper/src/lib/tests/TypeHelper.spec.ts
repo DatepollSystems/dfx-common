@@ -1,4 +1,4 @@
-import {TypeHelper} from '../helper/TypeHelper';
+import {TypeHelper} from '../helper/type-helper';
 
 describe('TypeHelper', () => {
   it('isBoolean', () => {
@@ -61,7 +61,7 @@ describe('TypeHelper', () => {
     expect(TypeHelper.isNumber('121212.00000002323')).toBeFalse();
     expect(TypeHelper.isNumber('00000.0000')).toBeFalse();
     expect(TypeHelper.isNumber(0)).toBeTrue();
-    expect(TypeHelper.isNumber(1000.100000)).toBeTrue();
+    expect(TypeHelper.isNumber(1000.1)).toBeTrue();
     expect(TypeHelper.isNumber(-1)).toBeTrue();
     expect(TypeHelper.isNumber(Number.MAX_SAFE_INTEGER)).toBeTrue();
     expect(TypeHelper.isNumber(Number.MAX_SAFE_INTEGER + 1)).toBeTrue();

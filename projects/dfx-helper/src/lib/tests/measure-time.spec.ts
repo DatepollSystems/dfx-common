@@ -1,5 +1,5 @@
 import {MeasureTime} from '../decorators/measure-time';
-import {Thread} from '../helper/Thread';
+import {Thread} from '../helper/thread';
 
 describe('MeasureTime', () => {
   it('5ms', () => {

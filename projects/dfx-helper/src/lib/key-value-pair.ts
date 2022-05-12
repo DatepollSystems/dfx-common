@@ -1,8 +1,8 @@
 import {HttpParams} from '@angular/common/http';
 
-import {Converter} from './helper/Converter';
-import {ArrayHelper} from './helper/ArrayHelper';
-import {LoggerFactory} from './helper/Logger';
+import {ArrayHelper} from './helper/array-helper';
+import {Converter} from './helper/converter';
+import {LoggerFactory} from './helper/logger';
 import {UndefinedOrNullOr} from './types';
 
 export class KeyValuePair {

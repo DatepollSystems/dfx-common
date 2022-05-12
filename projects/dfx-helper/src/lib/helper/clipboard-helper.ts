@@ -1,8 +1,6 @@
 export class ClipboardHelper {
-  public static copy(value: string): void {
-    try {
-      void navigator.clipboard.writeText(value);
-    } catch {
+  public static copy(value: string, legacyCopy: boolean = false): void {
+    if (legacyCopy) {
       const copyBox = document.createElement('textarea');
       copyBox.style.position = 'fixed';
       copyBox.style.left = '0';
@@ -15,7 +13,10 @@ export class ClipboardHelper {
       copyBox.setSelectionRange(0, 99999);
       document.execCommand('copy');
       document.body.removeChild(copyBox);
+      return;
     }
+
+    void navigator.clipboard.writeText(value);
   }
 
   public static read(): Promise<string> {

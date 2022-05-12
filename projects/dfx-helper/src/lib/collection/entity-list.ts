@@ -10,12 +10,8 @@ export class EntityList<T extends IEntity<StringOrNumber>> extends ACommonList<E
     super(items);
   }
 
-  public override clone(): EntityList<T> {
-    return new EntityList<T>(this);
-  }
-
-  public override selfAsTypeT(): EntityList<T> {
-    return this;
+  public create(list?: EntityList<T>): EntityList<T> {
+    return new EntityList<T>(list);
   }
 
   public override containsAny(item: UndefinedOrNullOr<T>): boolean {
@@ -50,4 +46,8 @@ export class EntityList<T extends IEntity<StringOrNumber>> extends ACommonList<E
     }
     return -1;
   }
+}
+
+export function eListOf<T extends IEntity<StringOrNumber>>(...items: T[]): EntityList<T> {
+  return new EntityList<T>(items);
 }

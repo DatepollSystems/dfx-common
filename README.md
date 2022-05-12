@@ -1,27 +1,46 @@
-# DfxCommon
+# dfx-common
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.3.
+The collection of collections.
 
-## Development server
+## Subprojects
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+| Description        | Command             |
+| ------------------ | ------------------- |
+| Build all projects | `npm run all:build` |
+| Test all projects  | `npm run all:test`  |
 
-## Code scaffolding
+### dfx-helper
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Web-development / Typescript / Angular Library with tons of utility tools helping in all projects.
 
-## Build
+[![NPM](https://nodei.co/npm/dfx-helper.png)](https://npmjs.org/package/dfx-helper)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+| Description | Command                  |
+| ----------- | ------------------------ |
+| Test        | `npm run helper:test`    |
+| Build       | `npm run helper:build`   |
+| Publish     | `npm run helper:publish` |
 
-## Running unit tests
+### dfx-translate
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+A simple translation package for Angular 4 - 12.
 
-## Running end-to-end tests
+[![NPM](https://nodei.co/npm/dfx-translate.png)](https://npmjs.org/package/dfx-translate)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+| Description | Command                  |
+| ----------- | ------------------------ |
+| Test        | `npm run helper:test`    |
+| Build       | `npm run helper:build`   |
+| Publish     | `npm run helper:publish` |
 
-## Further help
+### dfx-bootstrap-table
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Angular table CDK implementation for Bootstrap with filtering, sorting and pagination.
+
+[![NPM](https://nodei.co/npm/dfx-bootstrap-table.png)](https://npmjs.org/package/dfx-bootstrap-table)
+
+| Description | Command                  |
+| ----------- | ------------------------ |
+| Test        | `npm run helper:test`    |
+| Build       | `npm run helper:build`   |
+| Publish     | `npm run helper:publish` |

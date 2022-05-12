@@ -1,28 +1,112 @@
 # Changelog
 
-##v4.0.6
+## v4.3.0 (WIP)
+
+### New
+
+- Add `Entity` implementations
+- Add `Generics` to `AbstractHttpService`
+- Add `GenericHelper`
+- Refactor `Lists` to support `Generics` better
+- Add `float` random generator
+
+### Changes
+
+- Unify helper class naming
+- Add options do enable legacy copying
+
+## v4.2.2
 
 ### Fixes
 
-Fixes error handling in `HttpService`
+- Add `DfxHelperModule` to public api
 
-##v4.0.5
-
-### Fixes
-
-Fixes indexOf not checking entity ids for `EntityList`
-
-##v4.0.4
+## v4.2.1
 
 ### Fixes
 
-Return `EntityList` on clone function from `EntityList`
+- `StorageHelper` api incompatibilities
 
-##v4.0.3
+## v4.2.0
+
+### New
+
+- `DateHelper` is now able to parse `strings`
+- Make `IsMobileService` breakpoint customizable
+- Split `dfx-helper.scss` into `helper.scss` and `colors.scss`
+- Type enhancements
+- Make default `StorageHelper.set()` method object compatible
+- Add TTL to `StorageHelper`
+
+### Changes
+
+- Return a promise with a `string` from `ClipboardHelper.read()`
+- Use new method for copying stuff to your clipboard
+- Refactored `Lists`
+
+## v4.1.0 - v4.1.2
+
+### Changes
+
+- `KeyValuePair` updates
+
+## v4.0.12
+
+### Changes
+
+- Move `KeyValuePair` into own class
 
 ### Fixes
 
-Log bug where empty http responses where marked as error
+- Add `Confirmable` decorator to public api
+- Generator typos
+
+## v4.0.9 - v4.0.11
+
+### Fixes
+
+- `EntityService` bug
+
+## v4.0.8
+
+### New
+
+- Add `KeyPairs` to all http service methods
+
+## v4.0.7
+
+### New
+
+- Add `getAll()` to `KeyPairs`
+- Add `listOf()` functions for easy list creation
+
+### Changes
+
+- Allow `Converter` methods to convert themselves
+
+## v4.0.6
+
+### Fixes
+
+- Fixes error handling in `HttpService`
+
+## v4.0.5
+
+### Fixes
+
+- Fixes indexOf not checking entity ids for `EntityList`
+
+## v4.0.4
+
+### Fixes
+
+- Return `EntityList` on clone function from `EntityList`
+
+## v4.0.3
+
+### Fixes
+
+- Log bug where empty http responses where marked as error
 
 ## v4.0.2
 

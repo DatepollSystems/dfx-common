@@ -1,4 +1,4 @@
-import {DateHelper} from './DateHelper';
+import {DateHelper} from './date-helper';
 import {Subject} from 'rxjs';
 import {UndefinedOr} from '../types';
 
@@ -21,7 +21,7 @@ export class Logger {
     }
 
     className = className.slice(0, Logger.maxClassNameLength);
-    for (; className.length < Logger.maxClassNameLength;) {
+    for (; className.length < Logger.maxClassNameLength; ) {
       className += ' ';
     }
     this.className = className;
@@ -50,7 +50,7 @@ export class Logger {
     }
     header += ' ' + this.className + ' | ';
     methodeName = methodeName.slice(0, Logger.maxMethodeNameLength);
-    for (; methodeName.length < Logger.maxMethodeNameLength;) {
+    for (; methodeName.length < Logger.maxMethodeNameLength; ) {
       methodeName += ' ';
     }
     header += methodeName + ' | ' + description;
@@ -115,7 +115,7 @@ export class LoggerFactory {
    * @param {string} className The name of the class
    * @return {Logger} Returns a pre-configured logger
    */
-  public static getLogger(className: UndefinedOr<string> = undefined) {
+  public static getLogger(className: UndefinedOr<string> = undefined): Logger {
     if (className == undefined) {
       if (this.genericLogger == undefined) {
         this.genericLogger = new Logger(undefined);
