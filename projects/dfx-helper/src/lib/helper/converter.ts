@@ -5,7 +5,7 @@ export class Converter {
   /**
    * Converts string or number to boolean
    * @param {string|number|boolean} value Value to check
-   * @return {boolean} Returns <code>true</code> if value is <code>"0"</code>, <code>0</code> or <code>"true"</code>,
+   * @return {boolean} Returns <code>true</code> if value is <code>"1"</code>, <code>1</code> or <code>"true"</code>,
    * <code>false</code> if not
    */
   public static toBoolean(value: UndefinedOrNullOr<number | string | boolean>): boolean {
@@ -15,7 +15,7 @@ export class Converter {
     if (typeof value === 'boolean') {
       return value;
     }
-    return typeof value !== 'number' ? value.trim().toLowerCase() === 'true' || value.trim().toLowerCase() === '0' : value === 1;
+    return typeof value !== 'number' ? value.trim().toLowerCase() === 'true' || value.trim().toLowerCase() === '1' : value === 1;
   }
   /**
    * @deprecated <b>Use <code>toBoolean(value)</code></b>
