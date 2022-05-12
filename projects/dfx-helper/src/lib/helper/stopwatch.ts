@@ -18,14 +18,10 @@ export class Stopwatch {
   public lapsChange: Subject<Map<number, UndefinedOr<string>>> = new Subject<Map<number, UndefinedOr<string>>>();
   private laps: Map<number, UndefinedOr<string>> = new Map<number, UndefinedOr<string>>();
 
-  public static createStarted(): Stopwatch {
-    const stopwatch = new Stopwatch();
-    stopwatch.start();
-    return stopwatch;
-  }
-
-  public static createStopped(): Stopwatch {
-    return new Stopwatch();
+  constructor(start: boolean = false) {
+    if (start) {
+      this.start();
+    }
   }
 
   public hasStarted(): boolean {
@@ -167,5 +163,13 @@ export class Stopwatch {
    */
   public getLaps(): Map<number, UndefinedOr<string>> {
     return this.laps;
+  }
+
+  public static createStarted(): Stopwatch {
+    return new Stopwatch(true);
+  }
+
+  public static createStopped(): Stopwatch {
+    return new Stopwatch(false);
   }
 }
