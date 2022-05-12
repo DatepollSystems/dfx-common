@@ -10,8 +10,7 @@ export function MeasureTime(unit: 'ms' | 's' | 'm' | 'h' = 'ms') {
   return function (target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
     const ogMethod = descriptor.value;
     descriptor.value = function (...args: any[]) {
-      const watch = new Stopwatch();
-      watch.start();
+      const watch = Stopwatch.createStarted();
       const result = ogMethod.apply(this, args);
       watch.stop();
       let time;
