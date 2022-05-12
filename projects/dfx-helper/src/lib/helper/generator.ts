@@ -144,6 +144,7 @@ export class Generator {
   }
 
   /**
+   * @deprecated Use <code>Generator.integer()</code>
    * Returns a random integer number
    * @param {number} min Minimum number of random number
    * @param {number} max Maximum number of random number

@@ -3,7 +3,7 @@ import {Converter} from '../helper/converter';
 
 /**
  * Measures execution time for method call
- * @param unit The unit in which the execution time should be measured
+ * @param unit The unit in which the execution time should be measured, defaults to <code>ms</code>
  * @since 4.0.0
  */
 export function MeasureTime(unit: 'ms' | 's' | 'm' | 'h' = 'ms') {
