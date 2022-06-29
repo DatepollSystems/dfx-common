@@ -14,11 +14,19 @@ export abstract class ASelectableEntityService<idType extends StringOrNumber, En
 > {
   protected abstract selectedStorageKey: string;
 
-  protected selected!: UndefinedOr<EntityType>;
+  protected selected: UndefinedOr<EntityType>;
   public selectedChange: Subject<UndefinedOr<EntityType>> = new Subject<UndefinedOr<EntityType>>();
 
   protected constructor(httpService: AHttpService, url: string) {
     super(httpService, url);
+
+    this.allChange.subscribe((entities) => {
+      entities.forEach((entity) => {
+        if (this.selected?.id === entity.id) {
+          this.setSelected(entity);
+        }
+      });
+    });
   }
 
   public getSelected(): UndefinedOr<EntityType> {
@@ -34,7 +42,7 @@ export abstract class ASelectableEntityService<idType extends StringOrNumber, En
 
   public setSelected(selected: UndefinedOr<EntityType>): void {
     this.selected = selected;
-    StorageHelper.setObject(this.selectedStorageKey, this.selected);
+    StorageHelper.set(this.selectedStorageKey, this.selected);
     this.selectedChange.next(this.selected);
   }
 }

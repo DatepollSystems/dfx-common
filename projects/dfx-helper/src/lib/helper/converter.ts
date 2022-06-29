@@ -1,6 +1,20 @@
 import {UndefinedOrNullOr} from '../types';
 
 export class Converter {
+  public static nullToUndefined<T>(value: T | null): T | undefined {
+    if (value === null) {
+      return undefined;
+    }
+    return value;
+  }
+
+  public static undefinedToNull<T>(value: T | undefined): T | null {
+    if (value === undefined) {
+      return null;
+    }
+    return value;
+  }
+
   //region to boolean
   /**
    * Converts string or number to boolean
