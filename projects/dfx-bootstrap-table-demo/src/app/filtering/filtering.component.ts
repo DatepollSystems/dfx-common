@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 import {EventType, Helper} from '../Helper';
@@ -11,7 +11,7 @@ import {EventType, Helper} from '../Helper';
 })
 export class FilteringComponent implements OnInit, AfterViewInit {
   // Filtering
-  public filter = new FormControl();
+  public filter = new UntypedFormControl();
 
   public columnsToDisplay = ['id', 'name', 'actions'];
   public dataSource: NgbTableDataSource<EventType> = new NgbTableDataSource();

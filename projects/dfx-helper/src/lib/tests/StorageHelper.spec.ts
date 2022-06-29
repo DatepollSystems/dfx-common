@@ -163,6 +163,8 @@ describe('StorageHelper', () => {
     };
     test2(false);
     expect(StorageHelper.getBoolean('key11')).toBe(false);
+
+    StorageHelper.removeAll();
   });
   it('set&GetTTL', async () => {
     StorageHelper.set('key1', 'This is a test', 1);

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {EventType, Helper} from '../Helper';
@@ -11,7 +11,7 @@ import {EventType, Helper} from '../Helper';
 })
 export class AllComponent implements OnInit, AfterViewInit {
   // Filtering
-  public filter = new FormControl();
+  public filter = new UntypedFormControl();
 
   // Sorting
   @ViewChild(NgbSort) sort: NgbSort | undefined;
