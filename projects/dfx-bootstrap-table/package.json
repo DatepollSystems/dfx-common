@@ -42,10 +42,10 @@
     "url": "git+https://gitlab.com/DatePoll/common/dfx-common.git"
   },
   "peerDependencies": {
-    "@angular/common": "4 - 13",
-    "@angular/core": "4 - 13",
-    "@angular/cdk": "4 - 13",
-    "@angular/animations": "4 - 13",
+    "@angular/common": "4 - 14",
+    "@angular/core": "4 - 14",
+    "@angular/cdk": "4 - 14",
+    "@angular/animations": "4 - 14",
     "bootstrap": "4 - 5",
     "rxjs": "2 - 7"
   }
