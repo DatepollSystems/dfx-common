@@ -5,10 +5,8 @@ import {StorageHelper} from '../../helper/storage-helper';
 import {AEntityService} from './abstract-entity.service';
 import {AHttpService} from '../../services/abstract-http.service';
 
-import {AnyOr, StringOrNumber, UndefinedOr} from '../../types';
+import {StringOrNumber, UndefinedOr} from '../../types';
 import {IEntity} from '../entity.interface';
-import {KeyValuePair} from '../../key-value-pair';
-import {EntityList} from '../../collection/entity-list';
 
 export abstract class ASelectableEntityService<idType extends StringOrNumber, EntityType extends IEntity<idType>> extends AEntityService<
   idType,
