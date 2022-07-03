@@ -21,10 +21,12 @@ describe('StorageHelper', () => {
     expect(StorageHelper.isEmpty()).toBeFalse();
     StorageHelper.removeAll();
     expect(StorageHelper.isEmpty()).toBeTrue();
-    expect(StorageHelper.hasEntries()).toBe(false);
+    expect(StorageHelper.hasEntries()).toBeFalse()
   });
   it('checkIsEmptyAndIsFull', () => {
     expect(StorageHelper.isEmpty()).toBeTrue();
+    expect(StorageHelper.isFull()).toBeFalse();
+    expect(StorageHelper.isNotFull()).toBeTrue();
     let i = 1;
     try {
       for (i = 1; i <= 10000; i++) {
@@ -51,6 +53,7 @@ describe('StorageHelper', () => {
       }
     }
     expect(StorageHelper.isFull()).toBeTrue();
+    expect(StorageHelper.isNotFull()).toBeFalse();
   });
   it('set&GetNumber', () => {
     StorageHelper.set('key1', 1);

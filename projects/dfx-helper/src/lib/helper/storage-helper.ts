@@ -180,4 +180,12 @@ export class StorageHelper {
     this.remove(key);
     return false;
   }
+
+  /**
+   * Checks if local storage is not full
+   * @return {boolean} Returns <code>true</code> if local storage is not full, <code>false</code> if not
+   */
+  public static isNotFull(): boolean {
+    return !this.isFull();
+  }
 }
