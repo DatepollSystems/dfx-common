@@ -29,8 +29,56 @@ test:
     - npm install --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
     - npm run helper:test:coverage
+
+build-dev:
+  tags:
+    - "dafnik"
+  stage: build
+  only:
+    - develop
+  dependencies: []
+  artifacts:
+    paths:
+      - dist/
+  cache:
+    paths:
+      - node_modules/
+  script:
+    #    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    #    - sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+    #    - apt-get update -qq && apt-get install -y -qq google-chrome-stable >> /dev/null
+    #    - export CHROME_BIN=/usr/bin/google-chrome
+    - npm install --loglevel=error --no-progress
+    - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
+    - npm run helper:build
     - npm run translate:build
     - npm run table:bs:build
+
+deploy-dev:
+  tags:
+    - "dafnik"
+  stage: deploy
+  dependencies:
+    - build-dev
+  only:
+    - develop
+  cache: {}
+  allow_failure: true
+  script:
+    - apt-get update -qq && apt-get install -y -qq zip git openssh-client >> /dev/null
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - cd dist/
+    - echo "Helper dev deployment"
+    - zip -r "dfx-helper-dev.zip" ./dfx-helper >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-helper-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-helper/ > /dev/null
+    - echo "Tranlate dev deployment"
+    - zip -r "dfx-translate-dev.zip" ./dfx-translate >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-translate-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-translate/ > /dev/null
+    - echo "Bootstrap table dev deployment"
+    - zip -r "dfx-bootstrap-table-dev.zip" ./dfx-bootstrap-table >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-bootstrap-table-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-bootstrap-table/ > /dev/null
 
 build-helper:
   tags:
