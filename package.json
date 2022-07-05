@@ -6,7 +6,7 @@
     "ng": "ng",
     "ngcc": "ngcc --properties es2020 browser module main --async false --first-only --create-ivy-entry-points",
     "prepare": "husky install",
-    "hook:pre-commit": "pretty-quick --staged & npx lint-staged & echo 1",
+    "hook:pre-commit": "pretty-quick --staged",
     "hook:commit-msg": "npx --no-install commitlint --edit \"$1\"",
     "all:lint": "npm run helper:lint; npm run translate:lint; npm run table:bs:demo:lint",
     "all:build": "npm run helper:build; npm run translate:build; npm run table:bs:build; npm run table:bs:demo:build",
@@ -72,7 +72,6 @@
     "karma-coverage-istanbul-reporter": "~3.0.3",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "lint-staged": "^13.0.3",
     "ng-packagr": "^14.0.2",
     "prettier": "^2.7.1",
     "pretty-quick": "^3.1.3",
@@ -80,8 +79,5 @@
     "tslib": "^2.3.0",
     "typescript": "~4.7.4",
     "zone.js": "~0.11.6"
-  },
-  "lint-staged": {
-    "*.{ts,html}": "eslint --fix"
   }
 }
