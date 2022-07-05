@@ -15,6 +15,9 @@ export * from './lib/decorators/measure-time';
 export * from './lib/decorators/remember-result';
 export * from './lib/decorators/run-outside-change-detection';
 
+export * from './lib/directives/ngx-print.directive';
+export * from './lib/directives/track-by.directive';
+
 export * from './lib/entities/services/abstract-entity.service';
 export * from './lib/entities/services/abstract-selectable-entity.service';
 export * from './lib/entities/abstract-entity';

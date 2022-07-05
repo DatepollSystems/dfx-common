@@ -3,7 +3,7 @@ Copyright belongs to https://github.com/selemxmn/ngx-print
 Licensed under MIT license
  */
 
-import {Directive, HostListener, Input} from '@angular/core';
+import {Directive, HostListener, Input, NgModule} from '@angular/core';
 
 @Directive({
   selector: 'button[ngxPrint]',
@@ -159,3 +159,10 @@ export class NgxPrintDirective {
     popupWin?.document.close();
   }
 }
+
+@NgModule({
+  declarations: [NgxPrintDirective],
+  imports: [],
+  exports: [NgxPrintDirective],
+})
+export class NgxPrintModule {}
