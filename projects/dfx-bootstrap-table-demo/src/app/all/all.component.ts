@@ -26,12 +26,12 @@ export class AllComponent implements OnInit, AfterViewInit {
     this.dataSource = new NgbTableDataSource<EventType>(Helper.getTestData(250));
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     // Sort has to be set after template initializing
     this.dataSource.paginator = this.pagination;
     this.dataSource.sort = this.sort;
 
-    this.filter.valueChanges.subscribe((value) => {
+    this.filter.valueChanges.subscribe((value: string) => {
       this.dataSource.filter = value;
     });
   }

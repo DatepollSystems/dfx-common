@@ -49,21 +49,21 @@ export class UIHelper {
     return seconds / 60;
   }
 
-  private static wordsCount(string: string) {
+  private static wordsCount(text: string) {
     const pattern = '\\w+';
     const reg = new RegExp(pattern, 'g');
-    return (string.match(reg) || []).length;
+    return (text.match(reg) || []).length;
   }
 
   // Chinese / Japanese / Korean
-  private static otherLanguageReadTime(string: string) {
+  private static otherLanguageReadTime(text: string) {
     const pattern = '[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]';
     const reg = new RegExp(pattern, 'g');
-    return string.replace(reg, '');
+    return text.replace(reg, '');
   }
 
-  private static wordsReadTime(string: string, wordsPerMin = UIHelper.WORDS_PER_MIN) {
-    const formattedString = UIHelper.otherLanguageReadTime(string);
+  private static wordsReadTime(text: string, wordsPerMin = UIHelper.WORDS_PER_MIN) {
+    const formattedString = UIHelper.otherLanguageReadTime(text);
     const wordCount = UIHelper.wordsCount(formattedString);
     return wordCount / wordsPerMin;
   }
@@ -79,9 +79,9 @@ export class UIHelper {
   }
 
   /* istanbul ignore next */
-  public static getReadTime(string: string, imageCounter: number = 0): string {
+  public static getReadTime(text: string, imageCounter: number = 0): string {
     const imageTime = this.imageReadTime(imageCounter);
-    const strippedString = StringHelper.stripWhitespace(string);
+    const strippedString = StringHelper.stripWhitespace(text);
     const wordTime = this.wordsReadTime(strippedString);
     return this.humanizeTime(imageTime + wordTime);
   }

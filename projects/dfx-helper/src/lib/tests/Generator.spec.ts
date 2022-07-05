@@ -36,7 +36,7 @@ describe('Generator', () => {
   });
   it('expect random string to have letters and no numbers', () => {
     for (let i = 0; i < 100; i++) {
-      let val = Generator.string(70, {containsNumbers: false});
+      const val = Generator.string(70, {containsNumbers: false});
       expect(StringHelper.hasNoNumbersInString(val)).toBeTrue();
       expect(StringHelper.hasOnlyLettersInString(val)).toBeTrue();
       expect(StringHelper.hasNotOnlyLettersInString(val)).toBeFalse();

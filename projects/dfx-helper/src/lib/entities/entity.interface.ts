@@ -11,8 +11,6 @@ export interface IEntity<idType extends StringOrNumber> extends IHasID<idType> {
   equals(object: any): boolean;
 }
 
-export interface IEntityWithNumberID extends IEntity<number> {
-}
+export type IEntityWithNumberID = IEntity<number>;
 
-export interface IEntityWithStringID extends IEntity<string> {
-}
+export type IEntityWithStringID = IEntity<string>;

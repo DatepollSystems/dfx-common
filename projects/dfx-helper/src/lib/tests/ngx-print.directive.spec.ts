@@ -47,11 +47,10 @@ class TestNgxPrintComponent {}
 
 describe('NgxPrintDirective', () => {
   let buttonEl: DebugElement;
-  let component: TestNgxPrintComponent;
   let fixture: ComponentFixture<TestNgxPrintComponent>;
 
   // To change this later, so it'll depend on TestNgxPrintComponent
-  let styleSheet: {[key: string]: {[key: string]: string}} = {
+  const styleSheet: {[key: string]: {[key: string]: string}} = {
     h2: {border: 'solid 1px'},
     h1: {color: 'red', border: '1px solid'},
   };
@@ -64,9 +63,6 @@ describe('NgxPrintDirective', () => {
 
     // Create a fixture object (that is going to allows us to create an instance of that component)
     fixture = TestBed.createComponent(TestNgxPrintComponent);
-
-    // Create a component instance ( ~ new Component)
-    component = fixture.componentInstance;
 
     // Get the button element (on which we tag the directive) to simulate clicks on it
     buttonEl = fixture.debugElement.query(By.directive(NgxPrintDirective));
@@ -82,7 +78,7 @@ describe('NgxPrintDirective', () => {
   it('should test the @Input printStyle', () => {
     const directive = new NgxPrintDirective();
     directive.printStyle = styleSheet;
-    for (let key in directive.printStyle) {
+    for (const key in directive.printStyle) {
       if (directive.printStyle.hasOwnProperty(key)) {
         directive._printStyle.push((key + JSON.stringify(directive.printStyle[key])).replace(/['"]+/g, ''));
       }
@@ -108,7 +104,7 @@ describe('NgxPrintDirective', () => {
     ).toEqual('<style> h2{border:solid 1px} h1{color:red;border:1px solid} </style>');
   });
 
-  it(`should popup a new window`, () => {
+  it('should popup a new window', () => {
     spyOn(window, 'open');
     // simulate click
     buttonEl.triggerEventHandler('click', {});

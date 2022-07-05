@@ -1,12 +1,12 @@
-import {AEntity, AEntityWithNumberID} from '../entities/abstract-entity';
+import {AEntityWithNumberID} from '../entities/abstract-entity';
 import {AEntityWithNumberIDAndName} from '../entities/abstract-entity-with-name';
 
 describe('AbstractEntity', () => {
   it('hashCode', () => {
     let test = new TestEntity(2);
     expect(test.hashCode()).toBe(2);
-    test = new TestEntity(222222222222222222222222222);
-    expect(test.hashCode()).toBe(222222222222222222222222222);
+    test = new TestEntity(333333);
+    expect(test.hashCode()).toBe(333333);
   });
   it('toString', () => {
     let test = new TestEntity(2);

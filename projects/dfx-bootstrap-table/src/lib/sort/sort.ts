@@ -63,7 +63,7 @@ export class NgbSort extends _NgbSortBase implements CanDisable, HasInitialized,
   readonly _stateChanges = new Subject<void>();
 
   /** The id of the most recently sorted MatSortable. */
-  @Input('matSortActive') active: string = '';
+  @Input('matSortActive') active = '';
 
   /**
    * The direction to set when an MatSortable is initially sorted.
@@ -92,7 +92,7 @@ export class NgbSort extends _NgbSortBase implements CanDisable, HasInitialized,
   set disableClear(v: boolean) {
     this._disableClear = coerceBooleanProperty(v);
   }
-  private _disableClear: boolean = false;
+  private _disableClear = false;
 
   /** Event emitted when the user changes either the active sort or sort direction. */
   @Output('matSortChange') readonly sortChange: EventEmitter<Sort> = new EventEmitter<Sort>();
@@ -141,7 +141,7 @@ export class NgbSort extends _NgbSortBase implements CanDisable, HasInitialized,
 
     // Get the sort direction cycle with the potential sortable overrides.
     const disableClear = sortable?.disableClear ?? this.disableClear ?? !!this._defaultOptions?.disableClear;
-    let sortDirectionCycle = getSortDirectionCycle(sortable.start || this.start, disableClear);
+    const sortDirectionCycle = getSortDirectionCycle(sortable.start || this.start, disableClear);
 
     // Get and return the next direction in the cycle
     let nextDirectionIndex = sortDirectionCycle.indexOf(this.direction) + 1;
@@ -169,7 +169,7 @@ export class NgbSort extends _NgbSortBase implements CanDisable, HasInitialized,
 
 /** Returns the sort direction cycle to use given the provided parameters of order and clear. */
 function getSortDirectionCycle(start: 'asc' | 'desc', disableClear: boolean): SortDirection[] {
-  let sortOrder: SortDirection[] = ['asc', 'desc'];
+  const sortOrder: SortDirection[] = ['asc', 'desc'];
   if (start == 'desc') {
     sortOrder.reverse();
   }

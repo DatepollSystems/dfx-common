@@ -62,7 +62,7 @@ export class StorageHelper {
     }
 
     if (ttl) {
-      let deathTime = new Date();
+      const deathTime = new Date();
       deathTime.setSeconds(deathTime.getSeconds() + ttl);
       this.set(key + this.ttlSuffix, deathTime);
     }

@@ -146,16 +146,14 @@ export class _NgbTableDataSource<T, P extends NgbTableDataSourcePaginator = NgbT
     // The `sortChange` and `pageChange` acts as a signal to the combineLatests below so that the
     // pipeline can progress to the next step. Note that the value from these streams are not used,
     // they purely act as a signal to progress in the pipeline.
-    const sortChange: Observable<Sort | null | void> = this._sort
-      ? (merge(this._sort.sortChange, this._sort.initialized) as Observable<Sort | void>)
-      : of(null);
+    const sortChange: Observable<Sort | null | void> = this._sort ? merge(this._sort.sortChange, this._sort.initialized) : of(null);
     const pageChange: Observable<number | null | void> = this._paginator
-      ? (merge(this._paginator.pageChange, this._internalPageChanges, this._paginator.initialized) as Observable<number | void>)
+      ? merge(this._paginator.pageChange, this._internalPageChanges, this._paginator.initialized)
       : of(null);
     // Watch for base data or filter changes to provide a filtered set of data.
-    const filteredData = combineLatest([this._data, this._filter]).pipe(map(([data]) => this._filterData(data as T[])));
+    const filteredData = combineLatest([this._data, this._filter]).pipe(map(([data]) => this._filterData(data)));
     // Watch for filtered data or sort changes to provide an ordered set of data.
-    const orderedData = combineLatest([filteredData, sortChange]).pipe(map(([data]) => this._orderData(data as T[])));
+    const orderedData = combineLatest([filteredData, sortChange]).pipe(map(([data]) => this._orderData(data)));
     // Watch for ordered data or page changes to provide a paged set of data.
     const paginatedData = combineLatest([orderedData, pageChange]).pipe(map(([data]) => this._pageData(data)));
     // Watched for paged data changes and send the result to the table to render.

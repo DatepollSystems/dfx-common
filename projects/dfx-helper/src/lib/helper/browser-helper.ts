@@ -10,7 +10,7 @@ export class BrowserHelper {
     mobile: boolean;
     os: string;
     cookies: boolean;
-  } {
+    } {
     const unknown = '-';
 
     // screen

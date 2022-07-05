@@ -21,7 +21,7 @@ describe('StorageHelper', () => {
     expect(StorageHelper.isEmpty()).toBeFalse();
     StorageHelper.removeAll();
     expect(StorageHelper.isEmpty()).toBeTrue();
-    expect(StorageHelper.hasEntries()).toBeFalse()
+    expect(StorageHelper.hasEntries()).toBeFalse();
   });
   it('checkIsEmptyAndIsFull', () => {
     expect(StorageHelper.isEmpty()).toBeTrue();
@@ -39,14 +39,14 @@ describe('StorageHelper', () => {
         for (j = 1; j <= 100; j++) {
           localStorage.setItem('test2', new Array(j * 1000).join('a'));
         }
-      } catch (error) {
+      } catch (error1) {
         console.log('test2 stopped at j: ' + j);
         let k = 1;
         try {
           for (k = 1; k <= 1000; k++) {
             localStorage.setItem('test3', new Array(k).join('a'));
           }
-        } catch (error) {
+        } catch (error2) {
           console.log('test3 stopped at k: ' + k);
           console.log('total storage: ' + (i * 100000 + j * 1000 + k));
         }
@@ -57,11 +57,11 @@ describe('StorageHelper', () => {
   });
   it('set&GetNumber', () => {
     StorageHelper.set('key1', 1);
-    StorageHelper.set('key2', 222222222222222222222222222222222222222222);
+    StorageHelper.set('key2', 2222222222222222222);
     StorageHelper.set('key3', 2020201.12);
 
     expect(StorageHelper.getNumber('key1')).toBe(1);
-    expect(StorageHelper.getNumber('key2')).toBe(222222222222222222222222222222222222222222);
+    expect(StorageHelper.getNumber('key2')).toBe(2222222222222222222);
     expect(StorageHelper.getNumber('key3')).toBe(2020201.12);
     expect(StorageHelper.getNumber('key1000')).toBe(undefined);
   });
@@ -172,7 +172,7 @@ describe('StorageHelper', () => {
     expect(StorageHelper.getObject('key4')).toBe(undefined);
     expect(StorageHelper.isEmpty()).toBeTrue();
   });
-  it('set&GetUndefined&Anything', async () => {
+  it('set&GetUndefined&Anything', () => {
     const test = (testVar: string | undefined) => {
       StorageHelper.set('key11', testVar);
     };

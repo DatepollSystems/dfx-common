@@ -3,7 +3,7 @@
  * <br>Should <b>only</b> be used on <b>pure</b> functions!
  * @since 4.0.0
  */
-export function RememberResult(target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
+export function RememberResult(target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   const ogMethod = descriptor.value;
   descriptor.value = function (...args: any[]) {
     let uniqueArgsIdentifier = '';

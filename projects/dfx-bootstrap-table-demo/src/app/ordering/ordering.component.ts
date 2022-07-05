@@ -19,7 +19,7 @@ export class OrderingComponent implements OnInit, AfterViewInit {
     this.dataSource = new NgbTableDataSource<EventType>(Helper.getTestData(250));
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     // Sort has to be set after template initializing
     this.dataSource.sort = this.sort;
   }

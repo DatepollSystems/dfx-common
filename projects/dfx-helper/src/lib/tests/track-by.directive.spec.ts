@@ -76,12 +76,10 @@ describe('TrackByPropertyDirective', () => {
   });
 
   it('list should contain elements', () => {
-    const component = new TestTrackByPropertyComponent();
     expect(component.team.length).toBe(players.length);
   });
 
   it('list should render 3 elements', () => {
-    const component = new TestTrackByPropertyComponent();
     expect(listEl.children.length).toBe(players.length);
   });
 });
@@ -115,12 +113,10 @@ describe('TrackByIdDirective', () => {
   });
 
   it('list should contain elements', () => {
-    const component = new TestTrackByIdComponent();
     expect(component.team.length).toBe(players.length);
   });
 
   it('list should render 3 elements', () => {
-    const component = new TestTrackByIdComponent();
     expect(listEl.children.length).toBe(players.length);
   });
 });

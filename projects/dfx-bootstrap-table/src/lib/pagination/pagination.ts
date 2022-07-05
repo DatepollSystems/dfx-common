@@ -293,7 +293,7 @@ export class NgbPaginator extends _NgbPaginatorBase implements OnInit, OnChanges
   pageCount = 0;
   pages: number[] = [];
 
-  private _initialized: boolean = false;
+  private _initialized = false;
 
   @ContentChild(NgbPaginatorEllipsis, {static: false}) tplEllipsis: NgbPaginatorEllipsis | undefined;
   @ContentChild(NgbPaginatorFirst, {static: false}) tplFirst: NgbPaginatorFirst | undefined;
@@ -306,29 +306,29 @@ export class NgbPaginator extends _NgbPaginatorBase implements OnInit, OnChanges
   /**
    * If `true`, pagination links will be disabled.
    */
-  @Input() override disabled: boolean = false;
+  @Input() override disabled = false;
 
   /**
    * If `true`, the "First" and "Last" page links are shown.
    */
-  @Input() boundaryLinks: boolean = true;
+  @Input() boundaryLinks = true;
 
   /**
    * If `true`, the "Next" and "Previous" page links are shown.
    */
-  @Input() directionLinks: boolean = true;
+  @Input() directionLinks = true;
 
   /**
    * If `true`, the ellipsis symbols and first/last page numbers will be shown when `maxSize` > number of pages.
    */
-  @Input() ellipses: boolean = false;
+  @Input() ellipses = false;
 
   /**
    * Whether to rotate pages when `maxSize` > number of pages.
    *
    * The current page always stays in the middle if `true`.
    */
-  @Input() rotate: boolean = true;
+  @Input() rotate = true;
 
   /**
    *  The number of items in your paginated collection.
@@ -337,12 +337,12 @@ export class NgbPaginator extends _NgbPaginatorBase implements OnInit, OnChanges
    *  `collectionSize` and `pageSize`. Ex. if you have 100 items in your collection and displaying 20 items per page,
    *  you'll end up with 5 pages.
    */
-  @Input() collectionSize: number = 0;
+  @Input() collectionSize = 0;
 
   /**
    *  The maximum number of pages to display.
    */
-  @Input() maxSize: number = 5;
+  @Input() maxSize = 5;
 
   /**
    *  The current page.
@@ -459,8 +459,8 @@ export class NgbPaginator extends _NgbPaginatorBase implements OnInit, OnChanges
   private _applyRotation(): [number, number] {
     let start = 0;
     let end = this.pageCount;
-    let leftOffset = Math.floor(this.maxSize / 2);
-    let rightOffset = this.maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
+    const leftOffset = Math.floor(this.maxSize / 2);
+    const rightOffset = this.maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
 
     if (this.page <= leftOffset) {
       // very beginning, no rotation -> [0..maxSize]
@@ -481,9 +481,9 @@ export class NgbPaginator extends _NgbPaginatorBase implements OnInit, OnChanges
    * Paginates page numbers based on maxSize items per page.
    */
   private _applyPagination(): [number, number] {
-    let page = Math.ceil(this.page / this.maxSize) - 1;
-    let start = page * this.maxSize;
-    let end = start + this.maxSize;
+    const page = Math.ceil(this.page / this.maxSize) - 1;
+    const start = page * this.maxSize;
+    const end = start + this.maxSize;
 
     return [start, end];
   }

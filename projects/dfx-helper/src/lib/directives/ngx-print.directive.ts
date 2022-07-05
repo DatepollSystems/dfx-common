@@ -16,12 +16,12 @@ export class NgxPrintDirective {
   /**
    * A delay in milliseconds to force the print dialog to wait before opened. Default: 0
    */
-  @Input() printDelay: number = 0;
+  @Input() printDelay = 0;
 
   public _printStyle: string[] = [];
   @Input()
   set printStyle(values: {[key: string]: {[key: string]: string}}) {
-    for (let key in values) {
+    for (const key in values) {
       if (values.hasOwnProperty(key)) {
         this._printStyle.push((key + JSON.stringify(values[key])).replace(/['"]+/g, ''));
       }
@@ -35,7 +35,7 @@ export class NgxPrintDirective {
    *
    * -join/replace to transform an array objects to css-styled string
    */
-  public returnStyleValues() {
+  public returnStyleValues(): string {
     return `<style> ${this._printStyle.join(' ').replace(/,/g, ';')} </style>`;
   }
 
@@ -49,12 +49,12 @@ export class NgxPrintDirective {
    */
   @Input()
   set styleSheetFile(cssList: string) {
-    let linkTagFn = function (cssFileName: string) {
+    const linkTagFn = function (cssFileName: string) {
       return `<link rel="stylesheet" type="text/css" href="${cssFileName}">`;
     };
     if (cssList.indexOf(',') !== -1) {
       const valueArr = cssList.split(',');
-      for (let val of valueArr) {
+      for (const val of valueArr) {
         this._styleSheetFile = this._styleSheetFile + linkTagFn(val);
       }
     } else {
@@ -100,14 +100,14 @@ export class NgxPrintDirective {
     if (!this.printSectionId) {
       throw Error('Print section id undefined');
     }
-    let printContents = document.getElementById(this.printSectionId);
+    const printContents = document.getElementById(this.printSectionId);
     if (!printContents) {
       throw Error('Print section not found');
     }
-    let innards = printContents.getElementsByTagName('input');
+    const innards = printContents.getElementsByTagName('input');
     NgxPrintDirective.getFormData(innards);
 
-    let txt = printContents.getElementsByTagName('textarea');
+    const txt = printContents.getElementsByTagName('textarea');
     NgxPrintDirective.getFormData(txt);
 
     return printContents.innerHTML;
@@ -115,9 +115,7 @@ export class NgxPrintDirective {
 
   @HostListener('click')
   public print(): void {
-    let printContents,
-      popupWin,
-      styles = '',
+    let styles = '',
       links = '';
     const baseTag = NgxPrintDirective.getElementTag('base');
 
@@ -126,8 +124,8 @@ export class NgxPrintDirective {
       links = NgxPrintDirective.getElementTag('link');
     }
 
-    printContents = this.getHtmlContents();
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
+    const printContents = this.getHtmlContents();
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
     popupWin?.document.open();
     popupWin?.document.write(`
       <html lang="en">

@@ -20,8 +20,8 @@ export class FilteringComponent implements OnInit, AfterViewInit {
     this.dataSource = new NgbTableDataSource<EventType>(Helper.getTestData(250));
   }
 
-  ngAfterViewInit() {
-    this.filter.valueChanges.subscribe((value) => {
+  ngAfterViewInit(): void {
+    this.filter.valueChanges.subscribe((value: string) => {
       this.dataSource.filter = value;
     });
   }

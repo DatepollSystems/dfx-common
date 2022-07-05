@@ -3,16 +3,17 @@ import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 @Component({
-  template: ''
+  template: '',
 })
 export abstract class AComponent implements OnDestroy {
   protected subscriptions: Subscription[] = [];
 
-  public autoUnsubscribe(subscription: Subscription) {
-    this.subscriptions.push(subscription);
+  public autoUnsubscribe(...subscription: Subscription[]): this {
+    this.subscriptions.push(...subscription);
+    return this;
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }

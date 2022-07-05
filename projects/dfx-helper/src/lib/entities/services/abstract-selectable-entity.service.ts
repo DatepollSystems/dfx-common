@@ -31,7 +31,7 @@ export abstract class ASelectableEntityService<idType extends StringOrNumber, En
 
   public getSelected(): UndefinedOr<EntityType> {
     if (this.selected == undefined) {
-      const data = StorageHelper.getObject(this.selectedStorageKey);
+      const data = StorageHelper.getObject(this.selectedStorageKey) as EntityType;
       if (data != undefined) {
         this.selected = this.convert(data);
         this.selectedChange.next(this.selected);

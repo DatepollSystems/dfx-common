@@ -4,11 +4,10 @@ import {IEntity, IEntityWithNumberID, IEntityWithStringID} from './entity.interf
 export abstract class AEntity<idType extends StringOrNumber> implements IEntity<idType> {
   // protected hidden: string[] = [];
 
-  protected constructor(public id: idType, public originalJsonDto?: any) {
-  }
+  protected constructor(public id: idType, public originalJsonDto?: any) {}
 
   public toString(): string {
-    let string = '';
+    let text = '';
     for (const entry of Object.entries(this)) {
       // let print = entry[0] !== 'hidden' && entry[0] !== 'originalJsonDto';
       //
@@ -22,13 +21,13 @@ export abstract class AEntity<idType extends StringOrNumber> implements IEntity<
       // }
 
       if (entry[0] !== 'originalJsonDto') {
-        if (string.length != 0) {
-          string += ' ';
+        if (text.length != 0) {
+          text += ' ';
         }
-        string += entry[0] + ': "' + entry[1] + '";';
+        text += entry[0] + ': "' + entry[1] + '";';
       }
     }
-    return string;
+    return text;
   }
 
   public hashCode(): idType {
@@ -36,10 +35,7 @@ export abstract class AEntity<idType extends StringOrNumber> implements IEntity<
   }
 
   public equals(object: any): boolean {
-    if (object == null
-      || typeof (object) !== 'object'
-      || !(object instanceof AEntity)
-      || this.constructor.name !== object.constructor.name)
+    if (object == null || typeof object !== 'object' || !(object instanceof AEntity) || this.constructor.name !== object.constructor.name)
       return false;
 
     return this.hashCode() === object.hashCode();
