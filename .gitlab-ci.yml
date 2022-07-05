@@ -25,6 +25,7 @@ test:
     #    - apt-get update -qq && apt-get install -y -qq google-chrome-stable >> /dev/null
     #    - export CHROME_BIN=/usr/bin/google-chrome
     - npm install --loglevel=error --no-progress
+    - npm run all:lint
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
     - npm run helper:test:coverage
 
