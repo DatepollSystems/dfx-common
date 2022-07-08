@@ -24,7 +24,7 @@
     "translate:test": "ng test dfx-translate",
     "translate:test:coverage": "ng test dfx-translate --browsers=Headless --no-watch --code-coverage",
     "table:bs:demo:lint": "npx eslint -c ./.eslintrc.json --fix ./projects/dfx-bootstrap-table-demo/src/app/**",
-    "table:bs:demo:serve": "npm run table:bs:build && ng serve dfx-bootstrap-table-demo",
+    "table:bs:demo:serve": "npm run table:bs:build && ng serve dfx-bootstrap-table-demo --hmr",
     "table:bs:demo:build": "npm run table:bs:build && ng build dfx-bootstrap-table-demo --configuration production",
     "table:bs:lint": "npx eslint -c ./.eslintrc.json --fix ./projects/dfx-bootstrap-table/src/**",
     "table:bs:watch": "ng build dfx-bootstrap-table --watch --configuration development",
