@@ -54,9 +54,11 @@ export class Logger {
       methodeName += ' ';
     }
     header += methodeName + ' | ' + description;
-    console.log(header);
-    if (object != undefined) {
-      console.log(object);
+
+    if (object) {
+      console.log(header, object);
+    } else {
+      console.log(header);
     }
     LogHelper.add(header);
     return header;
