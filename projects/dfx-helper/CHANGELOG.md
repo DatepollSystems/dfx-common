@@ -1,6 +1,36 @@
 # Changelog
 
-## v4.3.0 (WIP)
+## v4.5.0
+
+### New
+
+- Add `StorageHelper.isFull()` and `StorageHelper.isNotFull()`
+- Add `ngxPrint` directive
+- Add `trackById` and `trackByProperty` directive
+
+### Changes
+
+- Lint complete project
+- Log header and object in same line
+
+## v4.4.0
+
+### New
+
+- **Angular v14** support
+
+## v4.3.1
+
+### New
+
+- Add `null` to `undefined` converter
+- Add `undefined` to `null` converter
+
+### Fixes
+
+- Refresh selected entity if `fetchAll` is called
+
+## v4.3.0
 
 ### New
 
@@ -9,11 +39,19 @@
 - Add `GenericHelper`
 - Refactor `Lists` to support `Generics` better
 - Add `float` random generator
+- Enhance `StopWatch` with `stopAndGetTimeInX`, `createStarted()`, `createStopped`, `hasStarted`, `isRunning`,
+  `isStopped`
 
 ### Changes
 
 - Unify helper class naming
 - Add options do enable legacy copying
+- Doc updates
+
+### Fixes
+
+- Return `undefined` if `undefined` is passed to `DateHelper`
+- Fix number to boolean `Converter` issue
 
 ## v4.2.2
 
