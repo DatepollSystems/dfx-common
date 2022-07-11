@@ -163,4 +163,4 @@ export class NgxPrintDirective {
   imports: [],
   exports: [NgxPrintDirective],
 })
-export class NgxPrintModule {}
+export class DfxPrintModule {}

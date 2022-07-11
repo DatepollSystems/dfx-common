@@ -1,8 +1,8 @@
 import {Directive, Host, Input, NgIterable, NgModule} from '@angular/core';
 import {NgForOf} from '@angular/common';
 
-import {AEntity} from '../entities/abstract-entity';
 import {StringOrNumber} from '../types';
+import {IEntity} from '../entities/entity.interface';
 
 @Directive({
   selector: '[ngForTrackByProperty]',
@@ -21,15 +21,15 @@ export class TrackByPropertyDirective<T, U extends NgIterable<T> = NgIterable<T>
 @Directive({
   selector: '[ngForTrackById]',
 })
-export class TrackByIdDirective<T extends AEntity<StringOrNumber>> {
+export class TrackByIdDirective<T extends IEntity<StringOrNumber>> {
   constructor(@Host() private readonly ngFor: NgForOf<T>) {
     this.ngFor.ngForTrackBy = (index: number, item: T) => item.id;
   }
 }
 
 @NgModule({
-  declarations: [TrackByIdDirective, TrackByPropertyDirective],
   imports: [],
+  declarations: [TrackByIdDirective, TrackByPropertyDirective],
   exports: [TrackByIdDirective, TrackByPropertyDirective],
 })
-export class TrackByModule {}
+export class DfxTrackByModule {}
