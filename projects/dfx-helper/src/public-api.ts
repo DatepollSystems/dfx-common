@@ -41,6 +41,10 @@ export * from './lib/helper/string-helper';
 export * from './lib/helper/type-helper';
 export * from './lib/helper/ui-helper';
 
+export * from './lib/interceptor/base-url-interceptor';
+export * from './lib/interceptor/logging-interceptor';
+export * from './lib/interceptor/post-put-json-content-type-interceptor';
+
 export * from './lib/services/is-mobile.service';
 
 export * from './lib/traits/generic-impl-trait';
