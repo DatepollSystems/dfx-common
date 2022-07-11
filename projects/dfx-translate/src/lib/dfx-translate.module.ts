@@ -14,11 +14,6 @@ export class DfxTranslateModule {
     return DfxTranslateModule.setup(configuration);
   }
 
-  static config(configuration: TranslateConfig): ModuleWithProviders<DfxTranslateModule> {
-    console.log('dfx-translate | DEPRECATED API USAGE; Please use DfxTranslateModule.setup(...)');
-    return DfxTranslateModule.setup(configuration);
-  }
-
   static setup(configuration: TranslateConfig): ModuleWithProviders<DfxTranslateModule> {
     console.log(configuration);
     return {
