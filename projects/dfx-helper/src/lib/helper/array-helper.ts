@@ -18,8 +18,8 @@ export class ArrayHelper {
    * @param {any[]} array
    * @return boolean
    */
-  public static containsDuplicates(array: any[]): boolean {
-    return array.length !== new Set(array).size;
+  public static containsDuplicates(array?: any[]): boolean {
+    return array?.length !== new Set(array).size;
   }
 
   public static containsEntity<T extends AEntity<number | string>>(array: T[], value: UndefinedOrNullOr<T>): boolean {
