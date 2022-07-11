@@ -18,27 +18,29 @@ export class KeyValuePair {
     if (url === undefined || url === null) {
       return undefined;
     }
-    if (keyValuePairs) {
-      if (
-        ArrayHelper.containsDuplicates(
-          keyValuePairs.map((keyValuePair) => {
-            return keyValuePair.key;
-          })
-        )
-      ) {
-        this.logger.error('parse', 'KeyValuePairs contains duplicates', keyValuePairs);
-        throw 'KeyValuePairs contains duplicates';
-      }
+    if (!keyValuePairs) {
+      return undefined;
+    }
 
-      for (const keyValuePair of keyValuePairs) {
-        const key = '{' + keyValuePair.key + '}';
-        if (!disableParsingMatchingCheck && !url.includes(key)) {
-          this.logger.error('parse', 'Url does not match all KeyValuePairs; URL: "' + url + '"', keyValuePairs);
-          throw 'Url does not match all KeyValuePairs';
-        }
-        if (keyValuePair.value !== undefined && keyValuePair.value !== null) {
-          url = url.replace(key, Converter.toString(keyValuePair.value));
-        }
+    if (
+      ArrayHelper.containsDuplicates(
+        keyValuePairs.map((keyValuePair) => {
+          return keyValuePair.key;
+        })
+      )
+    ) {
+      this.logger.error('parse', 'KeyValuePairs contains duplicates', keyValuePairs);
+      throw 'KeyValuePairs contains duplicates';
+    }
+
+    for (const keyValuePair of keyValuePairs) {
+      const key = '{' + keyValuePair.key + '}';
+      if (!disableParsingMatchingCheck && !url.includes(key)) {
+        this.logger.error('parse', 'Url does not match all KeyValuePairs; URL: "' + url + '"', keyValuePairs);
+        throw 'Url does not match all KeyValuePairs';
+      }
+      if (keyValuePair.value !== undefined && keyValuePair.value !== null) {
+        url = url.replace(key, Converter.toString(keyValuePair.value));
       }
     }
 

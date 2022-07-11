@@ -110,16 +110,16 @@ export class Logger {
 }
 
 export class LoggerFactory {
-  private static genericLogger: UndefinedOr<Logger> = undefined;
+  private static genericLogger?: Logger;
 
   /**
    * Gets a pre-configured logger
    * @param {string} className The name of the class
    * @return {Logger} Returns a pre-configured logger
    */
-  public static getLogger(className: UndefinedOr<string> = undefined): Logger {
-    if (className == undefined) {
-      if (this.genericLogger == undefined) {
+  public static getLogger(className?: string): Logger {
+    if (!className) {
+      if (!this.genericLogger) {
         this.genericLogger = new Logger(undefined);
       }
       return this.genericLogger;

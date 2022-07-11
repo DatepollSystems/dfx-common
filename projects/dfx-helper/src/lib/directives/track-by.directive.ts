@@ -9,7 +9,8 @@ import {StringOrNumber} from '../types';
 })
 export class TrackByPropertyDirective<T, U extends NgIterable<T> = NgIterable<T>> {
   @Input('ngForTrackByProperty') propertyName: keyof T | undefined;
-  //We don't use this, we just need it so Ivy will give us a type for T
+
+  // We don't use this, we just need it so Ivy will give us a type for T
   @Input() ngForOf: (U & NgIterable<T>) | undefined | null;
 
   public constructor(@Host() private readonly ngFor: NgForOf<T, U>) {

@@ -13,7 +13,7 @@ export class IsMobileService {
   private defaultIsMobileBreakpoint = 992;
 
   constructor(@Inject(HELPER_CONFIG) private config: HelperConfig, private ngZone: NgZone) {
-    this.defaultIsMobileBreakpoint = config?.isMobileBreakpoint != null ? config.isMobileBreakpoint : this.defaultIsMobileBreakpoint;
+    this.defaultIsMobileBreakpoint = config.isMobileBreakpoint ?? this.defaultIsMobileBreakpoint;
 
     if (window.screen.width > this.defaultIsMobileBreakpoint) {
       this.setIsMobile(false);
