@@ -1,6 +1,6 @@
 import {IHasID} from './entities/has-id.interface';
 import {IHasName} from './entities/has-name.interface';
-import {HttpParams} from '@angular/common/http';
+import {HttpContext, HttpHeaders, HttpParams} from '@angular/common/http';
 
 export type AnyOr<T> = T | any;
 export type UndefinedOr<T> = T | undefined;
@@ -19,9 +19,3 @@ export type NumberOrString = StringOrNumber;
 export type HasIDAndName<T> = IHasID<T> & IHasName;
 export type HasNumberIDAndName = HasIDAndName<number>;
 export type HasStringIDAndName = HasIDAndName<string>;
-
-export type Params =
-  | HttpParams
-  | {
-      [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-    };

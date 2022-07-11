@@ -41,7 +41,6 @@ export * from './lib/helper/string-helper';
 export * from './lib/helper/type-helper';
 export * from './lib/helper/ui-helper';
 
-export * from './lib/services/abstract-http.service';
 export * from './lib/services/is-mobile.service';
 
 export * from './lib/traits/generic-impl-trait';

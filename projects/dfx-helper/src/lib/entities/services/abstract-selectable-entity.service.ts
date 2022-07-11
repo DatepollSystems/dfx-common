@@ -3,10 +3,10 @@ import {Subject} from 'rxjs';
 import {StorageHelper} from '../../helper/storage-helper';
 
 import {AEntityService} from './abstract-entity.service';
-import {AHttpService} from '../../services/abstract-http.service';
 
 import {StringOrNumber, UndefinedOr} from '../../types';
 import {IEntity} from '../entity.interface';
+import {HttpClient} from '@angular/common/http';
 
 export abstract class ASelectableEntityService<idType extends StringOrNumber, EntityType extends IEntity<idType>> extends AEntityService<
   idType,
@@ -17,23 +17,23 @@ export abstract class ASelectableEntityService<idType extends StringOrNumber, En
   protected selected: UndefinedOr<EntityType>;
   public selectedChange: Subject<UndefinedOr<EntityType>> = new Subject<UndefinedOr<EntityType>>();
 
-  protected constructor(httpService: AHttpService, url: string) {
-    super(httpService, url);
+  protected constructor(httpClient: HttpClient, url?: string) {
+    super(httpClient, url);
 
     this.allChange.subscribe((entities) => {
-      entities.forEach((entity) => {
+      for (const entity of entities) {
         if (this.selected?.id === entity.id) {
           this.setSelected(entity);
         }
-      });
+      }
     });
   }
 
   public getSelected(): UndefinedOr<EntityType> {
     if (this.selected == undefined) {
-      const data = StorageHelper.getObject(this.selectedStorageKey) as EntityType;
-      if (data != undefined) {
-        this.selected = this.convert(data);
+      const selected = StorageHelper.getObject(this.selectedStorageKey) as EntityType;
+      if (selected) {
+        this.selected = selected;
         this.selectedChange.next(this.selected);
       }
     }
