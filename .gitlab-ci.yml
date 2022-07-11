@@ -5,8 +5,6 @@ stages:
   - deploy
 
 test:
-  tags:
-    - "dafnik"
   image: timbru31/node-chrome:latest
   stage: build
   except:
@@ -27,14 +25,57 @@ test:
     #    - apt-get update -qq && apt-get install -y -qq google-chrome-stable >> /dev/null
     #    - export CHROME_BIN=/usr/bin/google-chrome
     - npm install --loglevel=error --no-progress
+    - npm run all:lint
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
     - npm run helper:test:coverage
+
+build-dev:
+  stage: build
+  only:
+    - develop
+  dependencies: []
+  artifacts:
+    paths:
+      - dist/
+  cache:
+    paths:
+      - node_modules/
+  script:
+    #    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    #    - sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+    #    - apt-get update -qq && apt-get install -y -qq google-chrome-stable >> /dev/null
+    #    - export CHROME_BIN=/usr/bin/google-chrome
+    - npm install --loglevel=error --no-progress
+    - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
+    - npm run helper:build
     - npm run translate:build
     - npm run table:bs:build
 
+deploy-dev:
+  stage: deploy
+  dependencies:
+    - build-dev
+  only:
+    - develop
+  cache: {}
+  allow_failure: true
+  script:
+    - apt-get update -qq && apt-get install -y -qq zip git openssh-client >> /dev/null
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - cd dist/
+    - echo "Helper dev deployment"
+    - zip -r "dfx-helper-dev.zip" ./dfx-helper >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-helper-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-helper/ > /dev/null
+    - echo "Tranlate dev deployment"
+    - zip -r "dfx-translate-dev.zip" ./dfx-translate >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-translate-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-translate/ > /dev/null
+    - echo "Bootstrap table dev deployment"
+    - zip -r "dfx-bootstrap-table-dev.zip" ./dfx-bootstrap-table >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./dfx-bootstrap-table-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-bootstrap-table/ > /dev/null
+
 build-helper:
-  tags:
-    - "dafnik"
   stage: build
   only:
     - /^helper-v.*$/
@@ -55,8 +96,6 @@ build-helper:
     - ls -al
 
 deploy-helper-release-zip:
-  tags:
-    - "dafnik"
   stage: deploy
   dependencies:
     - build-helper
@@ -80,8 +119,6 @@ deploy-helper-release-zip:
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "dfx-helper-v${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-helper/ > /dev/null
 
 deploy-helper-release-npm:
-  tags:
-    - "dafnik"
   stage: deploy
   allow_failure: true
   dependencies:
@@ -98,8 +135,6 @@ deploy-helper-release-npm:
     - npm publish
 
 build-translate:
-  tags:
-    - "dafnik"
   stage: build
   only:
     - /^translate-v.*$/
@@ -120,8 +155,6 @@ build-translate:
     - ls -al
 
 deploy-translate-release-zip:
-  tags:
-    - "dafnik"
   stage: deploy
   allow_failure: true
   dependencies:
@@ -147,8 +180,6 @@ deploy-translate-release-zip:
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "dfx-translate-v${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-translate/ > /dev/null
 
 deploy-translate-release-npm:
-  tags:
-    - "dafnik"
   stage: deploy
   allow_failure: true
   dependencies:
@@ -165,8 +196,6 @@ deploy-translate-release-npm:
     - npm publish
 
 build-bootstrap-table-demo:
-  tags:
-    - "dafnik"
   stage: build
   only:
     - develop
@@ -185,8 +214,6 @@ build-bootstrap-table-demo:
     - ls -al
 
 deploy-bootstrap-table-demo:
-  tags:
-    - "dafnik"
   stage: deploy
   dependencies:
     - build-bootstrap-table-demo
@@ -205,8 +232,6 @@ deploy-bootstrap-table-demo:
     - scp -P $SSH_TESTING_PORT -o StrictHostKeyChecking=no -rp ./dfx-bootstrap-table-demo/* $SSH_TESTING_USERNAME@$SSH_TESTING_HOST:/var/www/dfx-bootstrap-table-demo > /dev/null
 
 build-bootstrap-table:
-  tags:
-    - "dafnik"
   stage: build
   only:
     - /^bs-table-v.*$/
@@ -227,8 +252,6 @@ build-bootstrap-table:
     - ls -al
 
 deploy-bootstrap-table-release-zip:
-  tags:
-    - "dafnik"
   stage: deploy
   dependencies:
     - build-bootstrap-table
@@ -252,8 +275,6 @@ deploy-bootstrap-table-release-zip:
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "dfx-bootstrap-table-v${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/common/dfx-bootstrap-table/ > /dev/null
 
 deploy-bootstrap-table-release-npm:
-  tags:
-    - "dafnik"
   stage: deploy
   dependencies:
     - build-bootstrap-table

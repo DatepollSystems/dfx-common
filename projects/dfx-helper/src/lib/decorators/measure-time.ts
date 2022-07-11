@@ -6,8 +6,10 @@ import {Converter} from '../helper/converter';
  * @param unit The unit in which the execution time should be measured, defaults to <code>ms</code>
  * @since 4.0.0
  */
-export function MeasureTime(unit: 'ms' | 's' | 'm' | 'h' = 'ms') {
-  return function (target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
+export function MeasureTime(
+  unit: 'ms' | 's' | 'm' | 'h' = 'ms'
+): (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor {
+  return function (target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
     const ogMethod = descriptor.value;
     descriptor.value = function (...args: any[]) {
       const watch = Stopwatch.createStarted();

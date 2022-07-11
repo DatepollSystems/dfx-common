@@ -155,7 +155,9 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     const url = KeyValuePair.parse(this.globalUpdateUrl, urlKeyPairs);
     const httpParams = KeyValuePair.parseIntoHttpParams(params);
     return this.httpService.put(
-      url ? url : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + entity.id : ''),
+      url
+        ? url
+        : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + (entity as EntityType).id : ''),
       entity,
       httpParams,
       'update'

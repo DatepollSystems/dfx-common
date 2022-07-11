@@ -34,23 +34,23 @@ export class Converter {
   /**
    * @deprecated <b>Use <code>toBoolean(value)</code></b>
    *
-   * Converts string to boolean
-   * @param {string} string
-   * @return {boolean} Returns <code>true</code> if trimmed to lower case string equals <code>'true'</code>, else <code>false</code>
+   * Converts value to boolean
+   * @param {string} value
+   * @return {boolean} Returns <code>true</code> if trimmed to lower case value equals <code>'true'</code>, else <code>false</code>
    */
-  public static stringToBoolean(string: UndefinedOrNullOr<string>): boolean {
-    return this.toBoolean(string);
+  public static stringToBoolean(value: UndefinedOrNullOr<string>): boolean {
+    return this.toBoolean(value);
   }
 
   /**
    * @deprecated <b>Use <code>toBoolean(value)</code></b>
    *
-   * Converts number to boolean
-   * @param {number} number
-   * @return {boolean} Returns <code>true</code> if number is <code>1</code>, else <code>false</code>
+   * Converts value to boolean
+   * @param {number} value
+   * @return {boolean} Returns <code>true</code> if value is <code>1</code>, else <code>false</code>
    */
-  public static numberToBoolean(number: number): boolean {
-    return this.toBoolean(number);
+  public static numberToBoolean(value: number): boolean {
+    return this.toBoolean(value);
   }
   //endregion
 
@@ -72,23 +72,23 @@ export class Converter {
   /**
    * @deprecated <b>Use <code>toString(value)</code></b>
    *
-   * Converts boolean to string
-   * @param {boolean} boolean
-   * @return {string} Returns <code>'true'</code> if the boolean is <code>true</code>, else <code>'false'</code>
+   * Converts value to string
+   * @param {boolean} value
+   * @return {string} Returns <code>'true'</code> if the value is <code>true</code>, else <code>'false'</code>
    */
-  public static booleanToString(boolean: UndefinedOrNullOr<boolean>): string {
-    return this.toString(boolean);
+  public static booleanToString(value: UndefinedOrNullOr<boolean>): string {
+    return this.toString(value);
   }
 
   /**
    * @deprecated <b>Use <code>toString(value)</code></b>
    *
-   * Converts number to string
-   * @param {number} number
+   * Converts value to string
+   * @param {number} value
    * @return string
    */
-  public static numberToString(number: UndefinedOrNullOr<number>): string {
-    return this.toString(number);
+  public static numberToString(value: UndefinedOrNullOr<number>): string {
+    return this.toString(value);
   }
   //endregion
 
@@ -111,23 +111,23 @@ export class Converter {
   /**
    * @deprecated <b>Use <code>toNumber(value)</code></b>
    *
-   * Converts string to number
-   * @param {string} string
+   * Converts value to number
+   * @param {string} value
    * @return {number}
    */
-  public static stringToNumber(string: string): number {
-    return this.toNumber(string);
+  public static stringToNumber(value: string): number {
+    return this.toNumber(value);
   }
 
   /**
    * @deprecated <b>Use <code>toNumber(value)</code></b>
    *
-   * Converts boolean to number
-   * @param {boolean} boolean
-   * @return {number} Returns <code>1</code> if the boolean is <code>true</code>, else <code>0</code>
+   * Converts value to number
+   * @param {boolean} value
+   * @return {number} Returns <code>1</code> if the value is <code>true</code>, else <code>0</code>
    */
-  public static booleanToNumber(boolean: boolean): number {
-    return this.toNumber(boolean);
+  public static booleanToNumber(value: boolean): number {
+    return this.toNumber(value);
   }
   //endregion
 }

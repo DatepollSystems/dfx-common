@@ -1,7 +1,7 @@
 export class Helper {
   private static data: EventType[] = [];
 
-  public static getTestData(max: number) {
+  public static getTestData(max: number): EventType[] {
     if (this.data.length > 0) {
       return this.data;
     }

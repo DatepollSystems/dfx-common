@@ -1,6 +1,5 @@
 import {List} from '../collection/list';
 import {AEntityWithNumberID} from '../entities/abstract-entity';
-import {AEntityWithNumberIDAndName} from '../entities/abstract-entity-with-name';
 import {EntityList} from '../collection/entity-list';
 
 describe('Collection', () => {
@@ -90,7 +89,7 @@ describe('Collection', () => {
       tarr.push('test' + i);
     }
     const test1 = new List<string>(tarr);
-    let test = test1.clone().shuffle();
+    const test = test1.clone().shuffle();
     let check = false;
     for (let i = 0; i < test.length; i++) {
       if (test[i] !== tarr[i]) {
@@ -178,7 +177,7 @@ describe('Collection', () => {
     expect(test.containsDuplicates()).toBeFalse();
   });
   it('containsAny', () => {
-    let test = new List<string>(['test', 'test2', 'test3', 'test4', 'test4', 'test5']);
+    const test = new List<string>(['test', 'test2', 'test3', 'test4', 'test4', 'test5']);
     expect(test.containsAny('test4')).toBeTrue();
     expect(test.containsAny('test')).toBeTrue();
     expect(test.containsAny('test1212')).toBeFalse();
@@ -186,7 +185,7 @@ describe('Collection', () => {
     expect(test.containsAny(undefined)).toBeFalse();
   });
   it('containsNone', () => {
-    let test = new List<string>(['test', 'test2', 'test3', 'test4', 'test4', 'test5']);
+    const test = new List<string>(['test', 'test2', 'test3', 'test4', 'test4', 'test5']);
     expect(test.containsNone('test400')).toBeTrue();
     expect(test.containsNone('test20000')).toBeTrue();
     expect(test.containsNone('test2')).toBeFalse();
@@ -433,8 +432,6 @@ describe('Collection', () => {
     const entity2 = new TestEntity(1);
     const entity3 = new TestEntity(2);
     const entity4 = new TestEntity(3);
-    const entity5 = new TestEntity(4);
-    const entity6 = new TestEntity2(4);
     const test = new EntityList<TestEntity>([entity1, entity2, entity3, entity4]);
     const testClone = test.clone();
     expect(testClone.length).toBe(4);

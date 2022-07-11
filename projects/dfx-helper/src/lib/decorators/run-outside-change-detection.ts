@@ -4,9 +4,9 @@
  * <b>Requires ngZone implementation</b>
  * @since 4.0.0
  */
-export function RunOutsideChangeDetection(targetClass: Object, functionName: string, descriptor: PropertyDescriptor) {
+export function RunOutsideChangeDetection(targetClass: Object, functionName: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   const ogMethod = descriptor.value;
-  descriptor.value = function(...data: any[]): Function {
+  descriptor.value = function (...data: any[]): Function {
     // @ts-ignore
     if (!this.ngZone) {
       throw new Error('Class with "RunOutsideChangeDetection" decorator should have "ngZone" class property with "NgZone" class.');

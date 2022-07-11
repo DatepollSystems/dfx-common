@@ -125,24 +125,24 @@ export class ArrayHelper {
   /**
    * Calls computeFunction with object if object is absent
    * @param {T[]} array
-   * @param {T|undefined} value
+   * @param {T|undefined} toCheck
    * @param {(value: T)} computeFunction
    */
-  public static computeIfAbsent<T>(array: T[], value: UndefinedOrNullOr<T>, computeFunction: (value: T) => void): void {
-    if (value && !array.includes(value)) {
-      computeFunction(value);
+  public static computeIfAbsent<T>(array: T[], toCheck: UndefinedOrNullOr<T>, computeFunction: (value: T) => void): void {
+    if (toCheck && !array.includes(toCheck)) {
+      computeFunction(toCheck);
     }
   }
 
   /**
    * Calls computeFunction with object if object is present
    * @param {T[]} array
-   * @param {T|undefined} value
+   * @param {T|undefined} toCheck
    * @param {(value: T)} computeFunction
    */
-  public static computeIfPresent<T>(array: T[], value: UndefinedOrNullOr<T>, computeFunction: (value: T) => void): void {
-    if (value && array.includes(value)) {
-      computeFunction(value);
+  public static computeIfPresent<T>(array: T[], toCheck: UndefinedOrNullOr<T>, computeFunction: (value: T) => void): void {
+    if (toCheck && array.includes(toCheck)) {
+      computeFunction(toCheck);
     }
   }
 }

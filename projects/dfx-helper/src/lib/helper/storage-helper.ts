@@ -1,6 +1,7 @@
 import {TypeHelper} from './type-helper';
 import {Converter} from './converter';
 import {UndefinedOrNullOr} from '../types';
+import {Generator, RandomStringOptions} from './generator';
 
 export class StorageHelper {
   private static ttlSuffix = '_ttl';
@@ -61,7 +62,7 @@ export class StorageHelper {
     }
 
     if (ttl) {
-      let deathTime = new Date();
+      const deathTime = new Date();
       deathTime.setSeconds(deathTime.getSeconds() + ttl);
       this.set(key + this.ttlSuffix, deathTime);
     }
@@ -90,7 +91,7 @@ export class StorageHelper {
     }
 
     const val = localStorage.getItem(key);
-    if (val == null) {
+    if (val === null) {
       return undefined;
     }
     return val;
@@ -98,34 +99,22 @@ export class StorageHelper {
 
   public static getNumber(key: string): number | undefined {
     const val = this.getString(key);
-    if (val == null) {
-      return undefined;
-    }
-    return Converter.toNumber(val);
+    return val ? Converter.toNumber(val) : undefined;
   }
 
   public static getBoolean(key: string): boolean | undefined {
     const val = this.getString(key);
-    if (val == null) {
-      return undefined;
-    }
-    return Converter.toBoolean(val);
+    return val ? Converter.toBoolean(val) : undefined;
   }
 
   public static getDate(key: string): Date | undefined {
     const val = this.getString(key);
-    if (val == null) {
-      return undefined;
-    }
-    return new Date(Converter.toNumber(val));
+    return val ? new Date(Converter.toNumber(val)) : undefined;
   }
 
   public static getObject(key: string): any | undefined {
     const val = this.getString(key);
-    if (val == undefined) {
-      return undefined;
-    }
-    return JSON.parse(val);
+    return val ? JSON.parse(val) : undefined;
   }
 
   //endregion
@@ -141,7 +130,7 @@ export class StorageHelper {
 
   /**
    * Removes an entry
-   * @param {string} key
+   * @param {string} key Key to remove
    */
   public static remove(key: string): void {
     localStorage.removeItem(key);
@@ -155,25 +144,48 @@ export class StorageHelper {
   }
 
   /**
-   * Get the count / size of all entries
+   * Get the length of the storage
    */
   public static size(): number {
     return localStorage.length;
   }
 
   /**
-   * Checks if entries exists
-   * @return boolean Returns <code>true</code> if local storage is empty, <code>false</code> if not
+   * Checks if local storage is empty
+   * @return {boolean} Returns <code>true</code> if local storage is empty, <code>false</code> if not
    */
   public static isEmpty(): boolean {
     return this.size() === 0;
   }
 
   /**
-   * Checks if entries exists
-   * @return boolean Returns <code>false</code> if local storage is empty, <code>true</code> if not
+   * Checks if local storage has entries
+   * @return {boolean} Returns <code>true</code> if local storage has entries, <code>false</code> if not
    */
   public static hasEntries(): boolean {
     return !this.isEmpty();
+  }
+
+  /**
+   * Checks if local storage is full
+   * @return {boolean} Returns <code>true</code> if local storage is full, <code>false</code> if not
+   */
+  public static isFull(): boolean {
+    const key = Generator.stringByOptions(6, RandomStringOptions.NUMBERS, RandomStringOptions.SPECIAL_CHARACTERS);
+    try {
+      localStorage.setItem(key, '0');
+    } catch (e) {
+      return true;
+    }
+    this.remove(key);
+    return false;
+  }
+
+  /**
+   * Checks if local storage is not full
+   * @return {boolean} Returns <code>true</code> if local storage is not full, <code>false</code> if not
+   */
+  public static isNotFull(): boolean {
+    return !this.isFull();
   }
 }

@@ -107,7 +107,7 @@ export class NgbSortHeader extends _NgbSortHeaderBase implements CanDisable, Ngb
    * Flag set to true when the indicator should be displayed while the sort is not active. Used to
    * provide an affordance that the header is sortable by showing on focus and hover.
    */
-  _showIndicatorHint: boolean = false;
+  _showIndicatorHint = false;
 
   /**
    * The view transition state of the arrow (translation/ opacity) - indicates its `from` and `to`
@@ -150,7 +150,7 @@ export class NgbSortHeader extends _NgbSortHeaderBase implements CanDisable, Ngb
   // Default the action description to "Sort" because it's better than nothing.
   // Without a description, the button's label comes from the sort header text content,
   // which doesn't give any indication that it performs a sorting operation.
-  private _sortActionDescription: string = 'Sort';
+  private _sortActionDescription = 'Sort';
 
   /** Overrides the disable clear value of the containing MatSort for this MatSortable. */
   @Input()

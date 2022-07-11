@@ -1,11 +1,9 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
 export interface TranslateConfig {
-  defaultLanguage?: string | null;
-  useLocalStorage?: boolean | null;
-  languagesWithAutoTranslation?: string[]|null;
+  defaultLanguage?: string;
+  useLocalStorage?: boolean;
+  languagesWithAutoTranslation?: string[];
 }
 
-export const TRANSLATE_CONFIG = new InjectionToken(
-  'TRANSLATE_CONFIG'
-);
+export const TRANSLATE_CONFIG = new InjectionToken('TRANSLATE_CONFIG');

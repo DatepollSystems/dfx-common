@@ -10,11 +10,9 @@ export interface IHasID<idType> {
 /**
  * @since 3.2.5
  */
-export interface IHasNumberID extends IHasID<number> {
-}
+export type IHasNumberID = IHasID<number>;
 
 /**
  * @since 3.2.5
  */
-export interface IHasStringID extends IHasID<string> {
-}
+export type IHasStringID = IHasID<string>;

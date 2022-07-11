@@ -7,7 +7,7 @@ import {AnyOrUndefined, Params, UndefinedOr} from '../types';
 
 export abstract class AHttpService {
   protected abstract apiUrl: UndefinedOr<string>;
-  protected version: string = '';
+  protected version = '';
   protected readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
   protected lumber = LoggerFactory.getLogger('AHttpService');
 
@@ -91,17 +91,17 @@ export abstract class AHttpService {
     data: AnyOrUndefined,
     error: boolean = false
   ): void {
-    let string = 'URL: "' + url + '"';
+    let myString = 'URL: "' + url + '"';
     if (params) {
-      string += ' | params: "' + params.toString() + '"';
+      myString += ' | params: "' + params.toString() + '"';
     }
     if (caller) {
-      string += ' | caller: "' + caller + '"';
+      myString += ' | caller: "' + caller + '"';
     }
     if (error) {
-      this.lumber.error(type, string);
+      this.lumber.error(type, myString);
     } else {
-      this.lumber.log(type, string, data);
+      this.lumber.log(type, myString, data);
     }
   }
 }

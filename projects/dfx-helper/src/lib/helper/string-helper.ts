@@ -11,7 +11,7 @@ export class StringHelper {
     'i'
   );
   private static emailRegex = new RegExp(
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    /^(([^<>()\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/
   );
   private static hasNumbersInStringRegex = new RegExp(/\d/);
   private static hasOnlyLettersInStringRegex = new RegExp(/^[a-zA-Z]+$/);
@@ -39,7 +39,7 @@ export class StringHelper {
    * @param {string} email
    * @return boolean
    */
-  public static isEmail(email: string) {
+  public static isEmail(email: string): boolean {
     return this.emailRegex.test(email);
   }
 
@@ -48,65 +48,65 @@ export class StringHelper {
    * @param {string} email
    * @return boolean
    */
-  public static isNoEmail(email: string) {
+  public static isNoEmail(email: string): boolean {
     return !this.emailRegex.test(email);
   }
 
   /**
-   * Returns <code>true</code> if the given string contains no numbers, <code>false</code> if not
-   * @param {string} string
+   * Returns <code>true</code> if the given text contains no numbers, <code>false</code> if not
+   * @param {string} text
    * @return boolean
    */
-  public static hasNoNumbersInString(string: string): boolean {
-    return !this.hasNumbersInStringRegex.test(string);
+  public static hasNoNumbersInString(text: string): boolean {
+    return !this.hasNumbersInStringRegex.test(text);
   }
 
   /**
-   * Returns <code>true</code> if the given string contains numbers, <code>false</code> if not
-   * @param {string} string
+   * Returns <code>true</code> if the given text contains numbers, <code>false</code> if not
+   * @param {string} text
    * @return boolean
    */
-  public static hasNumbersInString(string: string): boolean {
-    return this.hasNumbersInStringRegex.test(string);
+  public static hasNumbersInString(text: string): boolean {
+    return this.hasNumbersInStringRegex.test(text);
   }
 
   /**
-   * Returns <code>true</code> if the given string contains only a-zA-Z, <code>false</code> if it also contains special characters or numbers
-   * @param {string} string
+   * Returns <code>true</code> if the given text contains only a-zA-Z, <code>false</code> if it also contains special characters or numbers
+   * @param {string} text
    * @return boolean
    */
-  public static hasOnlyLettersInString(string: string): boolean {
-    return this.hasOnlyLettersInStringRegex.test(string);
+  public static hasOnlyLettersInString(text: string): boolean {
+    return this.hasOnlyLettersInStringRegex.test(text);
   }
 
   /**
-   * Returns <code>true</code> if the given string contains not only a-zA-Z, <code>false</code> if it contains only a-zA-Z
-   * @param {string} string
+   * Returns <code>true</code> if the given text contains not only a-zA-Z, <code>false</code> if it contains only a-zA-Z
+   * @param {string} text
    * @return boolean
    */
-  public static hasNotOnlyLettersInString(string: string): boolean {
-    return !this.hasOnlyLettersInStringRegex.test(string);
+  public static hasNotOnlyLettersInString(text: string): boolean {
+    return !this.hasOnlyLettersInStringRegex.test(text);
   }
 
-  public static stripWhitespace(string: string) {
-    return string.replace(/^\s+/, '').replace(/\s+$/, '');
+  public static stripWhitespace(text: string): string {
+    return text.replace(/^\s+/, '').replace(/\s+$/, '');
   }
 
   /**
-   * Returns the whole string if the length does not exceed the maxLength, else the string will be sliced and a suffix will be added
-   * @param {string} string The string to check for slicing
-   * @param {number} maxLength Maximal length of the string
-   * @param {string|null} suffix Suffix to add if string length exceeds the <code>maxLength</code>, default <code>'...'</code>; Set to <code>null</code> to disable suffix.
+   * Returns the whole text if the length does not exceed the maxLength, else the text will be sliced and a suffix will be added
+   * @param {string} text The text to check for slicing
+   * @param {number} maxLength Maximal length of the text
+   * @param {string|null} suffix Suffix to add if text length exceeds the <code>maxLength</code>, default <code>'...'</code>; Set to <code>null</code> to disable suffix.
    * @return string
    */
-  public static cutString(string: string, maxLength: number = 10, suffix: NullOr<string> = '...'): string {
-    if (string.length < maxLength) {
-      return string;
+  public static cutString(text: string, maxLength: number = 10, suffix: NullOr<string> = '...'): string {
+    if (text.length < maxLength) {
+      return text;
     }
     if (!suffix) {
       suffix = '';
     }
-    return string.slice(0, maxLength) + suffix;
+    return text.slice(0, maxLength) + suffix;
   }
 
   /**
@@ -124,8 +124,8 @@ export class StringHelper {
     suffix: NullOr<string> = '...'
   ): string {
     let toReturn = '';
-    for (const string of strings) {
-      toReturn += string + separator + ' ';
+    for (const text of strings) {
+      toReturn += text + separator + ' ';
     }
     if (!suffix) {
       suffix = '';

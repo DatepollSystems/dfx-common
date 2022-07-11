@@ -11,7 +11,7 @@ describe('RememberResult', () => {
     expect(Test.test('test2')).toBe('test2');
     expect(CallChecker.hasBeenCalled()).toBeTrue();
     CallChecker.reset();
-    expect(Test.test('test')).toBe('test')
+    expect(Test.test('test')).toBe('test');
     expect(CallChecker.hasBeenCalled()).toBeFalse();
   });
   it('expect to not call', () => {
@@ -40,7 +40,6 @@ class Test {
     CallChecker.call();
     return test;
   }
-
 
   @RememberResult
   public static test2(): void {

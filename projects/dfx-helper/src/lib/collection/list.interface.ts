@@ -2,7 +2,7 @@ import {ICompute, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
 import {IGenericImplTrait} from '../traits/generic-impl-trait';
 
-export interface IList<T extends any> extends Array<T>, IGenericImplTrait<IList<T>> {
+export interface IList<T> extends Array<T>, IGenericImplTrait<IList<T>> {
   getItems(): T[];
 
   /**
