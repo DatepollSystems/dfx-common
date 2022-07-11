@@ -6,7 +6,7 @@ import {LoggerFactory} from '../helper/logger';
 
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {
-  private lumber = LoggerFactory.getLogger('httpClient');
+  private lumber = LoggerFactory.getLogger('HttpClient');
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let text = 'URL: "' + req.url + '"';

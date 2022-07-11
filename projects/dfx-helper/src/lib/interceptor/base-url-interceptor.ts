@@ -30,7 +30,7 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     if (toIntercept && this.baseUrl && this.baseUrl.length > 0) {
       return next.handle(req.clone({url: `${this.baseUrl + req.url}`}));
     } else if (toIntercept) {
-      this.lumber.warning('intercept', 'It looks like you are intercepting requests to add a base url but you did not define one.');
+      this.lumber.warning('intercept', 'baseUrl undefined! It looks like you are using the BaseUrlInterceptor but forgot assigning it.');
     }
     return next.handle(req);
   }
