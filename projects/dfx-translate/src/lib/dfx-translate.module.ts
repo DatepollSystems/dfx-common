@@ -10,12 +10,15 @@ import {TRANSLATE_CONFIG, TranslateConfig} from './translate.config';
   providers: [],
 })
 export class DfxTranslateModule {
-  static boot(configuration: TranslateConfig): ModuleWithProviders<DfxTranslateModule> {
+  static boot(configuration?: TranslateConfig): ModuleWithProviders<DfxTranslateModule> {
     return DfxTranslateModule.setup(configuration);
   }
 
-  static setup(configuration: TranslateConfig): ModuleWithProviders<DfxTranslateModule> {
-    console.log(configuration);
+  static setup(configuration?: TranslateConfig): ModuleWithProviders<DfxTranslateModule> {
+    if (configuration == null) {
+      configuration = {} as TranslateConfig;
+    }
+    console.log('dfx-translate configuration', configuration);
     return {
       ngModule: DfxTranslateModule,
       providers: [
