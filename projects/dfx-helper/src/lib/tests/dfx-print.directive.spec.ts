@@ -40,16 +40,16 @@ import {DfxPrintDirective} from '../directives/dfx-print.directive';
         </tr>
       </table>
     </div>
-    <button printSectionId="print-section" ngxPrint></button>
+    <button printSectionId="print-section" dfxPrint></button>
   `,
 })
-class TestNgxPrintComponent {}
+class TestDfxPrintComponent {}
 
-describe('NgxPrintDirective', () => {
+describe('DfxPrintDirective', () => {
   let buttonEl: DebugElement;
-  let fixture: ComponentFixture<TestNgxPrintComponent>;
+  let fixture: ComponentFixture<TestDfxPrintComponent>;
 
-  // To change this later, so it'll depend on TestNgxPrintComponent
+  // To change this later, so it'll depend on TestDfxPrintComponent
   const styleSheet: {[key: string]: {[key: string]: string}} = {
     h2: {border: 'solid 1px'},
     h1: {color: 'red', border: '1px solid'},
@@ -58,11 +58,11 @@ describe('NgxPrintDirective', () => {
   beforeEach(() => {
     // Configure a NgModule-like decorator metadata
     TestBed.configureTestingModule({
-      declarations: [TestNgxPrintComponent, DfxPrintDirective],
+      declarations: [TestDfxPrintComponent, DfxPrintDirective],
     });
 
     // Create a fixture object (that is going to allows us to create an instance of that component)
-    fixture = TestBed.createComponent(TestNgxPrintComponent);
+    fixture = TestBed.createComponent(TestDfxPrintComponent);
 
     // Get the button element (on which we tag the directive) to simulate clicks on it
     buttonEl = fixture.debugElement.query(By.directive(DfxPrintDirective));
