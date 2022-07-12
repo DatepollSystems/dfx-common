@@ -6,7 +6,7 @@ import {Component, DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
-import {NgxPrintDirective} from '../directives/ngx-print.directive';
+import {DfxPrintDirective} from '../directives/dfx-print.directive';
 
 @Component({
   template: `
@@ -58,25 +58,25 @@ describe('NgxPrintDirective', () => {
   beforeEach(() => {
     // Configure a NgModule-like decorator metadata
     TestBed.configureTestingModule({
-      declarations: [TestNgxPrintComponent, NgxPrintDirective],
+      declarations: [TestNgxPrintComponent, DfxPrintDirective],
     });
 
     // Create a fixture object (that is going to allows us to create an instance of that component)
     fixture = TestBed.createComponent(TestNgxPrintComponent);
 
     // Get the button element (on which we tag the directive) to simulate clicks on it
-    buttonEl = fixture.debugElement.query(By.directive(NgxPrintDirective));
+    buttonEl = fixture.debugElement.query(By.directive(DfxPrintDirective));
 
     fixture.detectChanges();
   });
 
   it('should create an instance', () => {
-    const directive = new NgxPrintDirective();
+    const directive = new DfxPrintDirective();
     expect(directive).toBeTruthy();
   });
 
   it('should test the @Input printStyle', () => {
-    const directive = new NgxPrintDirective();
+    const directive = new DfxPrintDirective();
     directive.printStyle = styleSheet;
     for (const key in directive.printStyle) {
       if (directive.printStyle.hasOwnProperty(key)) {
@@ -93,7 +93,7 @@ describe('NgxPrintDirective', () => {
   });
 
   it('should returns a string from array of objects', () => {
-    const directive = new NgxPrintDirective();
+    const directive = new DfxPrintDirective();
     directive._printStyle = ['h2{border:solid 1px}', 'h1{color:red,border:1px solid}'];
 
     // immediately invoked arrow function, else you can uncomment `returnedString` and use it instead

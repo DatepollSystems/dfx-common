@@ -1,4 +1,4 @@
-import {NullOr, UndefinedOr} from '../types';
+import {UndefinedOr, UndefinedOrNullOr} from '../types';
 
 export class StringHelper {
   private static urlRegex = new RegExp(
@@ -99,7 +99,7 @@ export class StringHelper {
    * @param {string|null} suffix Suffix to add if text length exceeds the <code>maxLength</code>, default <code>'...'</code>; Set to <code>null</code> to disable suffix.
    * @return string
    */
-  public static cutString(text: string, maxLength: number = 10, suffix: NullOr<string> = '...'): string {
+  public static cutString(text: string, maxLength: number = 10, suffix: UndefinedOrNullOr<string> = '...'): string {
     if (text.length < maxLength) {
       return text;
     }
@@ -119,9 +119,9 @@ export class StringHelper {
    */
   public static getImploded(
     strings: string[],
-    maxLength: UndefinedOr<number> = undefined,
-    separator: UndefinedOr<string> = ',',
-    suffix: NullOr<string> = '...'
+    maxLength?: number,
+    separator: UndefinedOrNullOr<string> = ',',
+    suffix: UndefinedOrNullOr<string> = '...'
   ): string {
     let toReturn = '';
     for (const text of strings) {

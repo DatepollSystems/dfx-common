@@ -6,9 +6,9 @@ Licensed under MIT license
 import {Directive, HostListener, Input, NgModule} from '@angular/core';
 
 @Directive({
-  selector: 'button[ngxPrint]',
+  selector: 'button[dfxPrint]',
 })
-export class NgxPrintDirective {
+export class DfxPrintDirective {
   @Input() printSectionId: string | undefined;
   @Input() printTitle: string | undefined;
   @Input() useExistingCss = false;
@@ -105,10 +105,10 @@ export class NgxPrintDirective {
       throw Error('Print section not found');
     }
     const innards = printContents.getElementsByTagName('input');
-    NgxPrintDirective.getFormData(innards);
+    DfxPrintDirective.getFormData(innards);
 
     const txt = printContents.getElementsByTagName('textarea');
-    NgxPrintDirective.getFormData(txt);
+    DfxPrintDirective.getFormData(txt);
 
     return printContents.innerHTML;
   }
@@ -117,11 +117,11 @@ export class NgxPrintDirective {
   public print(): void {
     let styles = '',
       links = '';
-    const baseTag = NgxPrintDirective.getElementTag('base');
+    const baseTag = DfxPrintDirective.getElementTag('base');
 
     if (this.useExistingCss) {
-      styles = NgxPrintDirective.getElementTag('style');
-      links = NgxPrintDirective.getElementTag('link');
+      styles = DfxPrintDirective.getElementTag('style');
+      links = DfxPrintDirective.getElementTag('link');
     }
 
     const printContents = this.getHtmlContents();
@@ -159,8 +159,8 @@ export class NgxPrintDirective {
 }
 
 @NgModule({
-  declarations: [NgxPrintDirective],
+  declarations: [DfxPrintDirective],
   imports: [],
-  exports: [NgxPrintDirective],
+  exports: [DfxPrintDirective],
 })
-export class NgxPrintModule {}
+export class DfxPrintModule {}

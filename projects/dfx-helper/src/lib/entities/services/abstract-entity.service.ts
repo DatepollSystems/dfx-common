@@ -1,98 +1,103 @@
-import {Observable, Subject} from 'rxjs';
-
-import {AHttpService} from '../../services/abstract-http.service';
+import {HttpClient} from '@angular/common/http';
+import {Observable, Subject, tap} from 'rxjs';
 
 import {IEntity} from '../entity.interface';
-import {EntityList, IEntityList} from '../../collection/entity-list';
 
-import {AnyOr, StringOrNumber, UndefinedOr, UndefinedOrNullOr} from '../../types';
+import {EntityList, IEntityList} from '../../collection/entity-list';
+import {AnyOr, StringOrNumber, UndefinedOr} from '../../types';
 import {KeyValuePair} from '../../key-value-pair';
 
 export abstract class AEntityService<idType extends StringOrNumber, EntityType extends IEntity<idType>> {
   public allChange: Subject<IEntityList<EntityType>> = new Subject<IEntityList<EntityType>>();
-  public singleChange: Subject<EntityType> = new Subject<EntityType>();
   protected entities: IEntityList<EntityType> = new EntityList();
+
+  public singleChange: Subject<UndefinedOr<EntityType>> = new Subject<UndefinedOr<EntityType>>();
   protected entity: UndefinedOr<EntityType> = undefined;
 
+  protected constructor(protected httpClient: HttpClient, url?: string) {
+    if (url) {
+      this.url = url;
+    }
+  }
+
   // region Config properties
+  /**
+   * @description Sets base url for all requests
+   */
+  protected url!: string;
+
   /**
    * @description Overwrites url for get all request
    * @default undefined
    */
-  protected globalGetAllUrl: UndefinedOr<string> = undefined;
+  protected globalGetAllUrl?: string;
   /**
    * @description Sets <code>HttpParams</code> for get all request
    * @default undefined
    */
-  protected globalGetAllParams: UndefinedOrNullOr<KeyValuePair[]> = undefined;
+  protected globalGetAllParams?: KeyValuePair[];
   /**
    * @description Overwrites url for get single request but also adds <code>/{id}</code> to url
    * @default undefined
    */
-  protected globalGetSingleUrl: UndefinedOr<string> = undefined;
+  protected globalGetSingleUrl?: string;
   /**
    * @description Overwrites <code>HttpParams</code> for get single request
    * @default undefined
    */
-  protected globalGetSingleParams: UndefinedOrNullOr<KeyValuePair[]> = undefined;
+  protected globalGetSingleParams?: KeyValuePair[];
   /**
    * @description Overwrites url for create request
    * @default undefined
    */
-  protected globalCreateUrl: UndefinedOr<string> = undefined;
+  protected globalCreateUrl?: string;
   /**
    * @description Overwrites url for update request but also adds <code>/{id}</code> to url if enabled via <code>updateUrlHasIdInIt</code>
    * @default undefined
    */
-  protected globalUpdateUrl: UndefinedOr<string> = undefined;
+  protected globalUpdateUrl?: string;
   /**
    * @description Overwrites url for delete request but also adds <code>/{id}</code> to url
    * @default undefined
    */
-  protected globalDeleteUrl: UndefinedOr<string> = undefined;
+  protected globalDeleteUrl?: string;
   /**
    * @description Enables or disables adding of <code>/{id}</code> to url
    * @default false
    */
   protected updateUrlHasIdInIt = false;
 
-  //endregion
-
-  protected constructor(protected httpService: AHttpService, protected url: string) {}
-
-  //region Config setter
   /**
    * Overwrites url for get all requests
-   * @param {string} url Get all request url
+   * @param {UndefinedOr<string>} url Get all request url
    */
-  public setGetAllUrl(url: string): void {
+  public setGetAllUrl(url?: string): void {
     this.globalGetAllUrl = url;
   }
 
   /**
    * Overwrites params for get all requests
-   * @param {UndefinedOrNullOr<KeyValuePair[]} params Get all request params
+   * @param {UndefinedOr<KeyValuePair[]} params Get all request params
    */
-  public setGetAllParams(params: UndefinedOrNullOr<KeyValuePair[]>): void {
+  public setGetAllParams(params?: KeyValuePair[]): void {
     this.globalGetAllParams = params;
   }
 
   /**
    * Overwrites url for get single requests
-   * @param {string} url Get single request url
+   * @param {UndefinedOr<string>} url Get single request url
    */
-  public setGetSingleUrl(url: string): void {
+  public setGetSingleUrl(url?: string): void {
     this.globalGetSingleUrl = url;
   }
 
   /**
    * Overwrites params for get single requests
-   * @param {UndefinedOrNullOr<KeyValuePair[]>} params Get single request params
+   * @param {UndefinedOr<KeyValuePair[]>} params Get single request params
    */
-  public setGetSingleParams(params: UndefinedOrNullOr<KeyValuePair[]>): void {
+  public setGetSingleParams(params?: KeyValuePair[]): void {
     this.globalGetSingleParams = params;
   }
-
   //endregion
 
   //region getAll
@@ -101,14 +106,20 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
     return this.entities.clone();
   }
 
+  protected setAll(entities: EntityList<EntityType>): void {
+    this.entities = entities;
+    this.allChange.next(this.entities.clone());
+  }
+
   public removeAll(): void {
     this.setAll(new EntityList<EntityType>());
   }
 
-  public fetchAll(urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): void {
+  public fetchAll(urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): void {
     const url = KeyValuePair.parse(this.globalGetAllUrl, urlKeyPairs);
-    const httpParams = KeyValuePair.parseIntoHttpParams(params ? params : this.globalGetAllParams);
-    this.httpService.get(url ? url : this.globalGetAllUrl ? this.globalGetAllUrl : this.url, httpParams, 'fetchAll').subscribe({
+    const params = KeyValuePair.parseIntoHttpParams(httpParams ? httpParams : this.globalGetAllParams);
+
+    this.httpClient.get(url ?? this.globalGetAllUrl ?? this.url, {params}).subscribe({
       next: (data: any) => {
         const entities = new EntityList<EntityType>();
         for (const dto of data) {
@@ -116,103 +127,88 @@ export abstract class AEntityService<idType extends StringOrNumber, EntityType e
         }
         this.setAll(entities);
       },
-      error: (error) => console.log(error),
     });
   }
 
+  //endregion
+
   //region getSingle
+  protected setSingle(entity?: EntityType): void {
+    this.entity = entity;
+    this.singleChange.next(this.entity);
+  }
+
   public getSingle(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): UndefinedOr<EntityType> {
     this.fetchSingle(id, params, urlKeyPairs);
     return this.entity;
   }
 
+  public removeSingle(): void {
+    this.setSingle(undefined);
+  }
+
+  public fetchSingle(id: idType, urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): void {
+    const url = KeyValuePair.parse(this.globalGetSingleUrl, urlKeyPairs);
+    const params = KeyValuePair.parseIntoHttpParams(httpParams ? httpParams : this.globalGetSingleParams);
+    this.httpClient.get(`${url ?? this.globalGetSingleUrl ?? this.url}/${id}`, {params}).subscribe({
+      next: (data: any) => {
+        this.setSingle(this.convert(data));
+      },
+    });
+  }
+
   //endregion
 
-  public removeSingle(): void {
-    this.entity = undefined;
-  }
-
-  public fetchSingle(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): void {
-    const url = KeyValuePair.parse(this.globalGetSingleUrl, urlKeyPairs);
-    const httpParams = KeyValuePair.parseIntoHttpParams(params ? params : this.globalGetSingleParams);
-    this.httpService
-      .get(url ? url : (this.globalGetSingleUrl ? this.globalGetSingleUrl : this.url) + '/' + id, httpParams, 'fetchSingle')
-      .subscribe({
-        next: (data: any) => {
-          this.setSingle(this.convert(data));
-        },
-        error: (error) => console.log(error),
-      });
-  }
-
-  public _create(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
+  public _create(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalCreateUrl, urlKeyPairs);
-    const httpParams = KeyValuePair.parseIntoHttpParams(params);
-    return this.httpService.post(url ? url : this.globalCreateUrl ? this.globalCreateUrl : this.url, entity, httpParams, 'create');
+    const params = KeyValuePair.parseIntoHttpParams(httpParams);
+    return this.httpClient.post(url ?? this.globalCreateUrl ?? this.url, entity, {params});
   }
 
-  public _update(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
+  public _update(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalUpdateUrl, urlKeyPairs);
-    const httpParams = KeyValuePair.parseIntoHttpParams(params);
-    return this.httpService.put(
-      url
-        ? url
-        : (this.globalUpdateUrl ? this.globalUpdateUrl : this.url) + (this.updateUrlHasIdInIt ? '/' + (entity as EntityType).id : ''),
+    const params = KeyValuePair.parseIntoHttpParams(httpParams);
+    return this.httpClient.put(
+      `${(url ?? this.globalUpdateUrl ?? this.url) + (this.updateUrlHasIdInIt ? '/' + (entity as EntityType).id : '')}`,
       entity,
-      httpParams,
-      'update'
+      {params}
     );
   }
 
-  //endregion
-
-  public _delete(id: idType, urlKeyPairs?: KeyValuePair[], params?: KeyValuePair[]): Observable<unknown> {
+  public _delete(id: idType, urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): Observable<unknown> {
     const url = KeyValuePair.parse(this.globalDeleteUrl, urlKeyPairs);
-    const httpParams = KeyValuePair.parseIntoHttpParams(params);
-    return this.httpService.delete(url ? url : (this.globalDeleteUrl ? this.globalDeleteUrl : this.url) + '/' + id, httpParams, 'delete');
+    const params = KeyValuePair.parseIntoHttpParams(httpParams);
+    return this.httpClient.delete(`${url ?? this.globalDeleteUrl ?? this.url}/${id}`, {params});
   }
 
-  public create(entity: AnyOr<EntityType>): void {
-    this._create(entity).subscribe({
-      next: () => {
+  public create(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): Observable<unknown> {
+    return this._create(entity, urlKeyPairs, httpParams).pipe(
+      tap(() => {
         this.fetchAll();
-      },
-      error: (error) => console.log(error),
-    });
+      })
+    );
   }
 
-  public update(entity: AnyOr<EntityType>): void {
-    this._update(entity).subscribe({
-      next: () => {
+  public update(entity: AnyOr<EntityType>, urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): Observable<unknown> {
+    return this._update(entity, urlKeyPairs, httpParams).pipe(
+      tap(() => {
         this.fetchAll();
-      },
-      error: (error) => console.log(error),
-    });
+      })
+    );
   }
 
-  public delete(id: idType): void {
-    this._delete(id).subscribe({
-      next: () => {
+  public delete(id: idType, urlKeyPairs?: KeyValuePair[], httpParams?: KeyValuePair[]): Observable<unknown> {
+    return this._delete(id, urlKeyPairs, httpParams).pipe(
+      tap(() => {
         this.fetchAll();
-      },
-      error: (error) => console.log(error),
-    });
-  }
-
-  protected setAll(entities: EntityList<EntityType>): void {
-    this.entities = entities;
-    this.allChange.next(this.entities.clone());
-  }
-
-  protected setSingle(entity: EntityType): void {
-    this.entity = entity;
-    this.singleChange.next(this.entity);
+      })
+    );
   }
 
   /**
    * Converts json data to model extending from IEntity
    * @param {any} jsonData
-   * @return {IEntity} Returns model
+   * @return Converted model
    */
   protected abstract convert(jsonData: any): EntityType;
 }

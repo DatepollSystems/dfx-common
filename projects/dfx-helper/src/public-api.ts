@@ -15,7 +15,7 @@ export * from './lib/decorators/measure-time';
 export * from './lib/decorators/remember-result';
 export * from './lib/decorators/run-outside-change-detection';
 
-export * from './lib/directives/ngx-print.directive';
+export * from './lib/directives/dfx-print.directive';
 export * from './lib/directives/track-by.directive';
 
 export * from './lib/entities/services/abstract-entity.service';
@@ -41,7 +41,10 @@ export * from './lib/helper/string-helper';
 export * from './lib/helper/type-helper';
 export * from './lib/helper/ui-helper';
 
-export * from './lib/services/abstract-http.service';
+export * from './lib/interceptor/base-url-interceptor';
+export * from './lib/interceptor/logging-interceptor';
+export * from './lib/interceptor/post-put-json-content-type-interceptor';
+
 export * from './lib/services/is-mobile.service';
 
 export * from './lib/traits/generic-impl-trait';

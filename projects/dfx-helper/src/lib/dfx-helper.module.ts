@@ -13,7 +13,7 @@ export class DfxHelperModule {
     if (configuration == null) {
       configuration = {} as HelperConfig;
     }
-    LoggerFactory.getLogger().log('setup', 'Configuration file', configuration);
+    LoggerFactory.getLogger('DfxHelperModule').log('setup', 'Configuration file', configuration);
     return {
       ngModule: DfxHelperModule,
       providers: [
