@@ -2,22 +2,12 @@ import {Component, DebugElement} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {of} from 'rxjs';
 import {DfxTranslateModule} from '../dfx-translate.module';
 import {TranslateService} from '../translate.service';
-
-const TRANSLATIONS_EN = {
-  testkey1: 'testanswer1',
-  testkey2: 'testanswer2',
-};
-
-const TRANSLATIONS_DE = {
-  testkey1: 'testanswer1_DE',
-  testkey2: 'testanswer2_DE',
-};
+import {serviceStub} from './helper';
 
 @Component({
-  template: ` <div>{{ translateKey | tr }}</div> `,
+  template: '<div>{{ translateKey | tr }}</div>',
 })
 class TestTranslateDirectiveComponent {
   translateKey?: string;
@@ -29,16 +19,8 @@ describe('TranslateDirective', () => {
   let de: DebugElement;
   let translateService: TranslateService;
 
-  let serviceStub: any;
-
   beforeEach(() => {
     localStorage.clear();
-
-    serviceStub = {
-      get: (path: string) => {
-        return of(path === 'assets/i18n/en.json' ? TRANSLATIONS_EN : TRANSLATIONS_DE);
-      },
-    };
 
     void TestBed.configureTestingModule({
       declarations: [TestTranslateDirectiveComponent],
@@ -47,7 +29,7 @@ describe('TranslateDirective', () => {
           useLocalStorage: false,
         }),
       ],
-      providers: [{provide: HttpClient, useValue: serviceStub as HttpClient}],
+      providers: [{provide: HttpClient, useValue: serviceStub}],
     }).compileComponents();
 
     translateService = TestBed.inject(TranslateService);
