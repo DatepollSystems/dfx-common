@@ -28,6 +28,7 @@ test:
     - npm run all:lint
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks sometimes (not enough memory)
     - npm run helper:test:coverage
+    - npm run helper:translate:coverage
 
 build-dev:
   stage: build
