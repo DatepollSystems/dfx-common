@@ -15,7 +15,7 @@ export class DfxTranslateModule {
   }
 
   static setup(configuration?: TranslateConfig): ModuleWithProviders<DfxTranslateModule> {
-    if (configuration == null) {
+    if (!configuration) {
       configuration = {} as TranslateConfig;
     }
     console.log('dfx-translate configuration', configuration);
