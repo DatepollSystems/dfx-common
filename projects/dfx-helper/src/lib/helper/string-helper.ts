@@ -1,4 +1,4 @@
-import {UndefinedOr, UndefinedOrNullOr} from '../types';
+import {UndefinedOrNullOr} from '../types';
 
 export class StringHelper {
   private static urlRegex = new RegExp(
