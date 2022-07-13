@@ -4,7 +4,7 @@ Licensed under MIT license
  */
 import {Component, DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TrackByIdDirective, TrackByPropertyDirective} from '../directives/track-by.directive';
+import {TrackByIdDirective, TrackByPropertyDirective} from '../lib/directives/track-by.directive';
 
 interface Player {
   id: number;

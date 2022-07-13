@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {TestBed} from '@angular/core/testing';
-import {DfxTranslateModule} from '../dfx-translate.module';
-import {TranslateService} from '../translate.service';
+import {DfxTranslateModule} from '../lib/dfx-translate.module';
+import {TranslateService} from '../lib/translate.service';
 import {serviceStub} from './helper';
 
 @Component({

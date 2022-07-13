@@ -1,4 +1,4 @@
-import {KeyValuePair} from '../key-value-pair';
+import {KeyValuePair} from '../lib/key-value-pair';
 
 describe('Types KeyValuePair.parseIntoUrl', () => {
   it('parse multiple numbers', () => {

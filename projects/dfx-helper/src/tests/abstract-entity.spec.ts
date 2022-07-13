@@ -1,5 +1,5 @@
-import {AEntityWithNumberID} from '../entities/abstract-entity';
-import {AEntityWithNumberIDAndName} from '../entities/abstract-entity-with-name';
+import {AEntityWithNumberID} from '../lib/entities/abstract-entity';
+import {AEntityWithNumberIDAndName} from '../lib/entities/abstract-entity-with-name';
 
 describe('AbstractEntity', () => {
   it('hashCode', () => {

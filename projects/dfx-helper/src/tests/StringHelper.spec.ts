@@ -1,4 +1,4 @@
-import {StringHelper} from '../helper/string-helper';
+import {StringHelper} from '../lib/helper/string-helper';
 
 describe('StringHelper', () => {
   it('isUrl', () => {

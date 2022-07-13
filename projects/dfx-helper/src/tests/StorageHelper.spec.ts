@@ -1,5 +1,5 @@
-import {StorageHelper} from '../helper/storage-helper';
-import {Thread} from '../helper/thread';
+import {StorageHelper} from '../lib/helper/storage-helper';
+import {Thread} from '../lib/helper/thread';
 
 describe('StorageHelper', () => {
   beforeEach(() => {

@@ -6,7 +6,7 @@ import {Component, DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
-import {DfxPrintDirective} from '../directives/dfx-print.directive';
+import {DfxPrintDirective} from '../lib/directives/dfx-print.directive';
 
 @Component({
   template: `

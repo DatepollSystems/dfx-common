@@ -1,6 +1,6 @@
-import {List} from '../collection/list';
-import {AEntityWithNumberID} from '../entities/abstract-entity';
-import {EntityList} from '../collection/entity-list';
+import {List} from '../lib/collection/list';
+import {AEntityWithNumberID} from '../lib/entities/abstract-entity';
+import {EntityList} from '../lib/collection/entity-list';
 
 describe('Collection', () => {
   it('getItems', () => {

@@ -1,5 +1,5 @@
-import {ArrayHelper} from '../helper/array-helper';
-import {AEntity} from '../entities/abstract-entity';
+import {ArrayHelper} from '../lib/helper/array-helper';
+import {AEntity} from '../lib/entities/abstract-entity';
 
 describe('ArrayHelper', () => {
   it('isArray', () => {

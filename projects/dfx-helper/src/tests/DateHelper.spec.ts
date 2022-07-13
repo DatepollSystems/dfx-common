@@ -1,4 +1,4 @@
-import {DateHelper} from '../helper/date-helper';
+import {DateHelper} from '../lib/helper/date-helper';
 
 describe('DateHelper', () => {
   it('getFormattedWithHoursMinutesAndSeconds', () => {

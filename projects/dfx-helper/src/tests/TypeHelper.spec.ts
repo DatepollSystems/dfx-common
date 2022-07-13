@@ -1,4 +1,4 @@
-import {TypeHelper} from '../helper/type-helper';
+import {TypeHelper} from '../lib/helper/type-helper';
 
 describe('TypeHelper', () => {
   it('isBoolean', () => {
