@@ -1,6 +1,7 @@
 import {DateHelper} from './date-helper';
 import {Subject} from 'rxjs';
 import {UndefinedOr} from '../types';
+import {Injectable} from '@angular/core';
 
 enum LogType {
   INFO = 1,
@@ -27,10 +28,10 @@ export class Logger {
     this.className = className;
   }
 
-  private _log(logType: LogType, methodeName: string, description: string, object: UndefinedOr<any> = undefined): string {
+  private _log(logType: LogType, methodeName: string, description: string, object: UndefinedOr<any> = undefined): Logger {
     const date = new Date();
     const milli = date.getMilliseconds() > 99 ? date.getMilliseconds() : date.getMilliseconds() + ' ';
-    let header = DateHelper.getDateFormattedWithHoursMinutesAndSeconds(date) + ':' + milli + ' | ';
+    let header = DateHelper.getFormatted(date) + ':' + milli + ' | ';
     switch (logType) {
       case LogType.LOG:
         header += 'LOG     |';
@@ -61,7 +62,7 @@ export class Logger {
       console.log(header);
     }
     LogHelper.add(header);
-    return header;
+    return this;
   }
 
   /**
@@ -71,7 +72,7 @@ export class Logger {
    * @param {any} object An optional objects which gets printed to the console
    * @return {string} Returns the log message (without the object)
    */
-  public log(methodeName: string, description: string, object: UndefinedOr<any> = undefined): string {
+  public log(methodeName: string, description: string, object: UndefinedOr<any> = undefined): Logger {
     return this._log(LogType.LOG, methodeName, description, object);
   }
 
@@ -82,7 +83,7 @@ export class Logger {
    * @param {any} object An optional objects which gets printed to the console
    * @return {string} Returns the log message (without the object)
    */
-  public info(methodeName: string, description: string, object: UndefinedOr<any> = undefined): string {
+  public info(methodeName: string, description: string, object: UndefinedOr<any> = undefined): Logger {
     return this._log(LogType.INFO, methodeName, description, object);
   }
 
@@ -93,7 +94,7 @@ export class Logger {
    * @param {any} object An optional objects which gets printed to the console
    * @return {string} Returns the log message (without the object)
    */
-  public warning(methodeName: string, description: string, object: UndefinedOr<any> = undefined): string {
+  public warning(methodeName: string, description: string, object: UndefinedOr<any> = undefined): Logger {
     return this._log(LogType.WARNING, methodeName, description, object);
   }
 
@@ -104,12 +105,16 @@ export class Logger {
    * @param {any} object An optional objects which gets printed to the console
    * @return {string} Returns the log message (without the object)
    */
-  public error(methodeName: string, description: string, object: UndefinedOr<any> = undefined): string {
+  public error(methodeName: string, description: string, object: UndefinedOr<any> = undefined): Logger {
     return this._log(LogType.ERROR, methodeName, description, object);
   }
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class LoggerFactory {
+  private static loggers: Map<string, Logger> = new Map();
   private static genericLogger?: Logger;
 
   /**
@@ -124,7 +129,16 @@ export class LoggerFactory {
       }
       return this.genericLogger;
     }
-    return new Logger(className);
+    let logger = this.loggers.get(className);
+    if (!logger) {
+      logger = new Logger(className);
+      this.loggers.set(className, logger);
+    }
+    return logger;
+  }
+
+  public getLogger(className?: string): Logger {
+    return LoggerFactory.getLogger(className);
   }
 }
 
