@@ -23,7 +23,6 @@ export * from './lib/entities/services/abstract-selectable-entity.service';
 export * from './lib/entities/abstract-entity';
 export * from './lib/entities/abstract-entity-with-name';
 export * from './lib/entities/entity.interface';
-export * from './lib/entities/entity-with-name.interface';
 export * from './lib/entities/has-id.interface';
 export * from './lib/entities/has-name.interface';
 

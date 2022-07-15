@@ -3,7 +3,7 @@ import {ACommonList} from './list.abstract';
 import {IEntity} from '../entities/entity.interface';
 import {ManyOrUndefinedOrNullOr, StringOrNumber, UndefinedOrNullOr} from '../types';
 
-export type IEntityList<T> = IList<T>;
+export type IEntityList<T extends IEntity<StringOrNumber>> = IList<T>;
 
 export class EntityList<T extends IEntity<StringOrNumber>> extends ACommonList<EntityList<T>, T> implements IEntityList<T> {
   constructor(items?: ManyOrUndefinedOrNullOr<T>) {
