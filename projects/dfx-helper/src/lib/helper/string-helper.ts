@@ -123,10 +123,7 @@ export class StringHelper {
     separator: UndefinedOrNullOr<string> = ',',
     suffix: UndefinedOrNullOr<string> = '...'
   ): string {
-    let toReturn = '';
-    for (const text of strings) {
-      toReturn += text + separator + ' ';
-    }
+    let toReturn = strings.join(separator + ' ');
     if (!suffix) {
       suffix = '';
     }
