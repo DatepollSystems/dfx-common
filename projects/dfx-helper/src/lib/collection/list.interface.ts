@@ -1,4 +1,4 @@
-import {ICompute, IPredicate} from '../functions.interface';
+import {ICompute, IMap, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
 import {IGenericImplTrait} from '../traits/generic-impl-trait';
 
@@ -93,6 +93,18 @@ export interface IList<T> extends Array<T>, IGenericImplTrait<IList<T>> {
    * Returns <code>true</code> if list does not contain item, <code>false</code> if not
    */
   containsNone(item: UndefinedOrNullOr<T>): boolean;
+
+  /**
+   * Calls callbackFn on each item
+   * @return IList<mappedType> New list of callback result
+   */
+  map<mappedType>(callbackFn: IMap<T, IList<T>, mappedType>): IList<mappedType>;
+
+  /**
+   * Calls callbackFn on each item if filter fulfills
+   * @return IList<mappedType> New list of callback result
+   */
+  mapIf<mappedType>(callbackFn: IMap<T, IList<T>, mappedType>, filterFn: IPredicate<T>): IList<mappedType>;
 
   /**
    * Calls callbackFn on each item if filter fulfills

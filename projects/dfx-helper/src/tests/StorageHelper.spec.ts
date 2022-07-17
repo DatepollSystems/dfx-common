@@ -27,31 +27,7 @@ describe('StorageHelper', () => {
     expect(StorageHelper.isEmpty()).toBeTrue();
     expect(StorageHelper.isFull()).toBeFalse();
     expect(StorageHelper.isNotFull()).toBeTrue();
-    let i = 1;
-    try {
-      for (i = 1; i <= 10000; i++) {
-        localStorage.setItem('test', new Array(i * 100000).join('a'));
-      }
-    } catch (error) {
-      console.log('test stopped at i: ' + i);
-      let j = 1;
-      try {
-        for (j = 1; j <= 100; j++) {
-          localStorage.setItem('test2', new Array(j * 1000).join('a'));
-        }
-      } catch (error1) {
-        console.log('test2 stopped at j: ' + j);
-        let k = 1;
-        try {
-          for (k = 1; k <= 1000; k++) {
-            localStorage.setItem('test3', new Array(k).join('a'));
-          }
-        } catch (error2) {
-          console.log('test3 stopped at k: ' + k);
-          console.log('total storage: ' + (i * 100000 + j * 1000 + k));
-        }
-      }
-    }
+    StorageHelper.fillUp();
     expect(StorageHelper.isFull()).toBeTrue();
     expect(StorageHelper.isNotFull()).toBeFalse();
   });

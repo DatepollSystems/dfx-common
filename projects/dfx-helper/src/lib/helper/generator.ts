@@ -67,7 +67,7 @@ export class Generator {
    * @deprecated Use <code>Generator.string()</code>
    * Returns a random string containing a-z,A-Z
    * @param {number} length Length of the random string
-   * @param {{containsNumbers?: boolean, containsSpecialCharacters?: boolean, specialCharactersSet?: string, containsLetters?: boolean, containsLowerCaseLatters?: boolean, containsUpperCaseLetters?: boolean}} options options object
+   * @param {{containsNumbers?: boolean, containsSpecialCharacters?: boolean, specialCharactersSet?: string, containsLetters?: boolean, containsLowerCaseLetters?: boolean, containsUpperCaseLetters?: boolean}} options options object
    * @description <code>containsNumbers</code> - default <code>false</code>, used to determine if the random string should contain numbers
    * @description <code>containsSpecialCharacters</code> - default <code>false</code>, used to determine if the random string should contain special characters
    * @description <code>specialCharactersSet</code> - default "<code>_-#+*~&?!=</code>", used to replace the default set
@@ -93,7 +93,7 @@ export class Generator {
   /**
    * Returns a random string containing a-z,A-Z
    * @param {number} length Length of the random string
-   * @param {{containsNumbers?: boolean, containsSpecialCharacters?: boolean, specialCharactersSet?: string, containsLetters?: boolean, containsLowerCaseLatters?: boolean, containsUpperCaseLetters?: boolean}} options options object
+   * @param {{containsNumbers?: boolean, containsSpecialCharacters?: boolean, specialCharactersSet?: string, containsLetters?: boolean, containsLowerCaseLetters?: boolean, containsUpperCaseLetters?: boolean}} options options object
    * @description <code>containsNumbers</code> - default <code>false</code>, used to determine if the random string should contain numbers
    * @description <code>containsSpecialCharacters</code> - default <code>false</code>, used to determine if the random string should contain special characters
    * @description <code>specialCharactersSet</code> - default "<code>_-#+*~&?!=</code>", used to replace the default set

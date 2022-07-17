@@ -23,7 +23,6 @@ export * from './lib/entities/services/abstract-selectable-entity.service';
 export * from './lib/entities/abstract-entity';
 export * from './lib/entities/abstract-entity-with-name';
 export * from './lib/entities/entity.interface';
-export * from './lib/entities/entity-with-name.interface';
 export * from './lib/entities/has-id.interface';
 export * from './lib/entities/has-name.interface';
 
@@ -41,9 +40,10 @@ export * from './lib/helper/string-helper';
 export * from './lib/helper/type-helper';
 export * from './lib/helper/ui-helper';
 
-export * from './lib/interceptor/base-url-interceptor';
-export * from './lib/interceptor/logging-interceptor';
-export * from './lib/interceptor/post-put-json-content-type-interceptor';
+export * from './lib/interceptor/abstract-ignoreable.interceptor';
+export * from './lib/interceptor/base-url.interceptor';
+export * from './lib/interceptor/logging.interceptor';
+export * from './lib/interceptor/post-put-json-content-type.interceptor';
 
 export * from './lib/services/is-mobile.service';
 
