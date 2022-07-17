@@ -13,7 +13,7 @@ export class StorageHelper {
    * @param {unknown} value
    * @param {number | undefined} ttl Time to live in seconds (no guarantee it is going to be deleted on time)
    */
-  public static set(key: string, value: null | undefined, ttl?: number): void;
+  public static set(key: string, value: null | undefined | unknown, ttl?: number): void;
   /**
    * @param {string} key key for storage item
    * @param {unknown} value
