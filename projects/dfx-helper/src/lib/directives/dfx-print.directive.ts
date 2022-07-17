@@ -26,7 +26,6 @@ export class DfxPrintDirective {
         this._printStyle.push((key + JSON.stringify(values[key])).replace(/['"]+/g, ''));
       }
     }
-    this.getStyleValues();
   }
 
   /**
@@ -52,7 +51,6 @@ export class DfxPrintDirective {
     for (const cssFile of cssFileList) {
       this._styleSheetFiles += `<link rel="stylesheet" type="text/css" href="${cssFile}">`;
     }
-    return this.getStyleSheetLinkTags();
   }
 
   /**
