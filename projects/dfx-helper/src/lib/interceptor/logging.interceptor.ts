@@ -6,14 +6,14 @@ import {LoggerFactory} from '../helper/logger';
 import {AbstractIgnoreableInterceptor} from './abstract-ignoreable.interceptor';
 import {HELPER_CONFIG, HelperConfig} from '../helper.config';
 
-export const BY_PASS_LOGGING_INTERCEPTOR = new HttpContextToken(() => false);
+export const LOGGING_INTERCEPTOR = new HttpContextToken(() => false);
 
 @Injectable()
 export class LoggingInterceptor extends AbstractIgnoreableInterceptor {
   private lumber = LoggerFactory.getLogger('HttpClient');
 
   constructor(@Inject(HELPER_CONFIG) private config: HelperConfig) {
-    super(config.loggingInterceptorIgnorePaths, BY_PASS_LOGGING_INTERCEPTOR);
+    super(LOGGING_INTERCEPTOR, config.loggingInterceptorIgnorePaths);
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

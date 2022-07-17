@@ -6,7 +6,7 @@ import {HELPER_CONFIG, HelperConfig} from '../helper.config';
 import {LoggerFactory} from '../helper/logger';
 import {AbstractIgnoreableInterceptor} from './abstract-ignoreable.interceptor';
 
-export const BY_PASS_BASE_URL_INTERCEPTOR = new HttpContextToken(() => false);
+export const BASE_URL_INTERCEPTOR = new HttpContextToken(() => false);
 
 @Injectable()
 export class BaseUrlInterceptor extends AbstractIgnoreableInterceptor {
@@ -14,7 +14,7 @@ export class BaseUrlInterceptor extends AbstractIgnoreableInterceptor {
   baseUrl?: string;
 
   constructor(@Inject(HELPER_CONFIG) private config: HelperConfig) {
-    super(config.baseUrlInterceptorIgnorePaths, BY_PASS_BASE_URL_INTERCEPTOR);
+    super(BASE_URL_INTERCEPTOR, config.baseUrlInterceptorIgnorePaths);
     this.baseUrl = config.baseUrl;
   }
 
@@ -27,7 +27,10 @@ export class BaseUrlInterceptor extends AbstractIgnoreableInterceptor {
       return next.handle(req.clone({url: `${this.baseUrl + req.url}`}));
     }
 
-    this.lumber.warning('intercept', 'baseUrl undefined! It looks like you are using the BaseUrlInterceptor but forgot assigning it.');
+    this.lumber.warning(
+      'intercept',
+      'baseUrl undefined! It looks like you are using the BaseUrlInterceptor but forgot assigning a base url.'
+    );
     return next.handle(req);
   }
 }

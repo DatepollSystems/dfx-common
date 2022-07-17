@@ -10,10 +10,10 @@ export class DfxHelperModule {
   }
 
   static setup(configuration?: HelperConfig): ModuleWithProviders<DfxHelperModule> {
-    if (configuration == null) {
+    if (!configuration) {
       configuration = {} as HelperConfig;
     }
-    LoggerFactory.getLogger('DfxHelperModule').log('setup', 'Configuration file', configuration);
+    LoggerFactory.getLogger('DfxHelperModule').info('setup', 'Configuration file', configuration);
     return {
       ngModule: DfxHelperModule,
       providers: [

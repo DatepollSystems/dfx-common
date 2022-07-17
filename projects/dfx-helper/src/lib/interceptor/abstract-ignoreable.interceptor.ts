@@ -1,10 +1,15 @@
-import {HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpContext, HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
-export abstract class AbstractIgnoreableInterceptor implements HttpInterceptor {
-  protected ignorePaths?: string[];
+export const byPassInterceptor = (BY_PASS_TOKEN: HttpContextToken<boolean>, context?: HttpContext): HttpContext => {
+  if (context) {
+    return context.set(BY_PASS_TOKEN, true);
+  }
+  return new HttpContext().set(BY_PASS_TOKEN, true);
+};
 
-  protected constructor(ignorePaths?: string[], private BY_PASS?: HttpContextToken<boolean>) {}
+export abstract class AbstractIgnoreableInterceptor implements HttpInterceptor {
+  protected constructor(protected BY_PASS?: HttpContextToken<boolean>, protected ignorePaths?: string[]) {}
 
   abstract intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>;
 
