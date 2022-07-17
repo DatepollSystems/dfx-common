@@ -83,11 +83,11 @@ describe('DfxPrintDirective', () => {
         directive._printStyle.push((key + JSON.stringify(directive.printStyle[key])).replace(/['"]+/g, ''));
       }
     }
-    directive.returnStyleValues();
+    directive.getStyleValues();
 
     expect(
       (() => {
-        return directive.returnStyleValues();
+        return directive.getStyleValues();
       })()
     ).toEqual('<style> h2{border:solid 1px} h1{color:red;border:1px solid} </style>');
   });
@@ -99,7 +99,7 @@ describe('DfxPrintDirective', () => {
     // immediately invoked arrow function, else you can uncomment `returnedString` and use it instead
     expect(
       (() => {
-        return directive.returnStyleValues();
+        return directive.getStyleValues();
       })()
     ).toEqual('<style> h2{border:solid 1px} h1{color:red;border:1px solid} </style>');
   });
