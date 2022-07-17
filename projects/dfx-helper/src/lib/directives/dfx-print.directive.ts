@@ -4,6 +4,7 @@ Licensed under MIT license
  */
 
 import {Directive, HostListener, Input, NgModule} from '@angular/core';
+import {ArrayHelper} from '../helper/array-helper';
 
 @Directive({
   selector: 'button[dfxPrint]',
@@ -18,9 +19,14 @@ export class DfxPrintDirective {
    */
   @Input() printDelay = 0;
 
-  public _printStyle: string[] = [];
+  private _printStyle: string[] = [];
   @Input()
-  set printStyle(values: {[key: string]: {[key: string]: string}}) {
+  set printStyle(values: {[key: string]: {[key: string]: string}} | string[]) {
+    if (ArrayHelper.isArray(values)) {
+      this._printStyle = values as string[];
+      return;
+    }
+    values = values as {[key: string]: {[key: string]: string}};
     for (const key in values) {
       if (values.hasOwnProperty(key)) {
         this._printStyle.push((key + JSON.stringify(values[key])).replace(/['"]+/g, ''));
@@ -98,7 +104,7 @@ export class DfxPrintDirective {
     const printContents = this.getHtmlContent();
     const popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
     if (!popupWin) {
-      throw Error('Could not create popup window');
+      throw new Error('Could not create popup window');
     }
     popupWin.document.open();
     popupWin.document.write(`
