@@ -8,19 +8,20 @@ export function RememberResult(
   hashFn?: (...args: any[]) => string
 ): (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor {
   return function (target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
-    const cache = new Map<string, {value: string}>();
+    const cache = new Map<string, string>();
 
     const ogMethod = descriptor.value;
     descriptor.value = function (...args: any[]) {
       const key = hashFn ? hashFn.apply(this, args) : JSON.stringify(args);
 
-      if (cache.has(key)) {
-        return cache.get(key).value;
+      const cacheEntry = cache.get(key);
+      if (cacheEntry) {
+        return cacheEntry;
       }
 
-      cache.set(key, {value: ogMethod.apply(this, args)});
+      cache.set(key, ogMethod.apply(this, args));
 
-      return cache.get(key).value;
+      return cache.get(key);
     };
     return descriptor;
   };
