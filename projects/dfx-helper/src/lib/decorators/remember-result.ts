@@ -8,7 +8,7 @@ export function RememberResult(
   hashFn?: (...args: any[]) => string
 ): (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor {
   return function (target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
-    const cache = new Map<string, {value: string} | undefined>();
+    const cache = new Map<string, {value: string}>();
 
     const ogMethod = descriptor.value;
     descriptor.value = function (...args: any[]) {

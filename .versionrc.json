@@ -44,5 +44,5 @@
   "header": "Changelog",
   "commitUrlFormat": "https://gitlab.com/DatePoll/common/dfx-common/-/commit/{{hash}}",
   "compareUrlFormat": "https://gitlab.com/DatePoll/common/dfx-common/-/compare/{{previousTag}}...{{currentTag}}",
-  "releaseCommitMessageFormat": "chore({{owner}}): {{currentTag}}"
+  "releaseCommitMessageFormat": "chore(update): bump version to {{currentTag}}"
 }
