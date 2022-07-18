@@ -4,12 +4,12 @@ import {Observable} from 'rxjs';
 import {HELPER_CONFIG, HelperConfig} from '../helper.config';
 import {AbstractIgnoreableInterceptor} from './abstract-ignoreable.interceptor';
 
-export const POST_PUT_JSON_CONTENT_TYPE_INJECTOR = new HttpContextToken(() => false);
+export const POST_PUT_JSON_CONTENT_TYPE_INTERCEPTOR = new HttpContextToken(() => false);
 
 @Injectable()
 export class PostPutJsonContentTypeInterceptor extends AbstractIgnoreableInterceptor {
   constructor(@Inject(HELPER_CONFIG) config: HelperConfig) {
-    super(POST_PUT_JSON_CONTENT_TYPE_INJECTOR, config.postPutJsonContentTypeInterceptorIgnorePaths);
+    super(POST_PUT_JSON_CONTENT_TYPE_INTERCEPTOR, config.postPutJsonContentTypeInterceptorIgnorePaths);
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

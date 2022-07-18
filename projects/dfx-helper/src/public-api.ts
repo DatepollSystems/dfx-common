@@ -42,6 +42,7 @@ export * from './lib/helper/ui-helper';
 
 export * from './lib/interceptor/abstract-ignoreable.interceptor';
 export * from './lib/interceptor/base-url.interceptor';
+export * from './lib/interceptor/by-pass-interceptor.builder';
 export * from './lib/interceptor/logging.interceptor';
 export * from './lib/interceptor/post-put-json-content-type.interceptor';
 
