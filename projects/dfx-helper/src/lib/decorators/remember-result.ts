@@ -3,20 +3,25 @@
  * <br>Should <b>only</b> be used on <b>pure</b> functions!
  * @since 4.0.0
  */
-export function RememberResult(target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
-  const ogMethod = descriptor.value;
-  descriptor.value = function (...args: any[]) {
-    let uniqueArgsIdentifier = '';
-    for (const arg of args) {
-      uniqueArgsIdentifier += arg.toString();
-    }
-    if (!ogMethod.cachedResult) {
-      ogMethod.cachedResult = {};
-    }
-    if (!ogMethod.cachedResult[uniqueArgsIdentifier]) {
-      ogMethod.cachedResult[uniqueArgsIdentifier] = ogMethod.apply(this, args);
-    }
-    return ogMethod.cachedResult[uniqueArgsIdentifier];
+
+export function RememberResult(
+  hashFn?: (...args: any[]) => string
+): (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor {
+  return function (target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+    const cache = new Map<string, {value: string} | undefined>();
+
+    const ogMethod = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+      const key = hashFn ? hashFn.apply(this, args) : JSON.stringify(args);
+
+      if (cache.has(key)) {
+        return cache.get(key).value;
+      }
+
+      cache.set(key, {value: ogMethod.apply(this, args)});
+
+      return cache.get(key).value;
+    };
+    return descriptor;
   };
-  return descriptor;
 }
