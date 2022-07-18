@@ -1,16 +1,3 @@
-## v4.5.0
-
-### New
-
-- Add `StorageHelper.isFull()` and `StorageHelper.isNotFull()`
-- Add `ngxPrint` directive
-- Add `trackById` and `trackByProperty` directive
-
-### Changes
-
-- Lint complete project
-- Log header and object in same line
-
 ## v4.4.0
 
 ### New
