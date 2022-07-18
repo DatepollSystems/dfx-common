@@ -4,13 +4,14 @@ Licensed under MIT license
  */
 
 import {Directive, HostListener, Input, NgModule} from '@angular/core';
+import {ArrayHelper} from '../helper/array-helper';
 
 @Directive({
   selector: 'button[dfxPrint]',
 })
 export class DfxPrintDirective {
-  @Input() printSectionId: string | undefined;
-  @Input() printTitle: string | undefined;
+  @Input() printSectionId!: string;
+  @Input() printTitle?: string;
   @Input() useExistingCss = false;
 
   /**
@@ -18,15 +19,19 @@ export class DfxPrintDirective {
    */
   @Input() printDelay = 0;
 
-  public _printStyle: string[] = [];
+  private _printStyle: string[] = [];
   @Input()
-  set printStyle(values: {[key: string]: {[key: string]: string}}) {
+  set printStyle(values: {[key: string]: {[key: string]: string}} | string[]) {
+    if (ArrayHelper.isArray(values)) {
+      this._printStyle = values as string[];
+      return;
+    }
+    values = values as {[key: string]: {[key: string]: string}};
     for (const key in values) {
       if (values.hasOwnProperty(key)) {
         this._printStyle.push((key + JSON.stringify(values[key])).replace(/['"]+/g, ''));
       }
     }
-    this.returnStyleValues();
   }
 
   /**
@@ -35,40 +40,43 @@ export class DfxPrintDirective {
    *
    * -join/replace to transform an array objects to css-styled string
    */
-  public returnStyleValues(): string {
+  public getStyleValues(): string {
     return `<style> ${this._printStyle.join(' ').replace(/,/g, ';')} </style>`;
   }
 
-  /**
-   * @returns html for the given tag
-   */
-  private _styleSheetFile = '';
+  private _styleSheetFiles = '';
 
   /**
-   * @param cssList
+   * Set paths to css files which should be used for styling
+   * @param cssFileList List containing paths to css files
+   * @return String containing all links
    */
   @Input()
-  set styleSheetFile(cssList: string) {
-    const linkTagFn = function (cssFileName: string) {
-      return `<link rel="stylesheet" type="text/css" href="${cssFileName}">`;
-    };
-    if (cssList.indexOf(',') !== -1) {
-      const valueArr = cssList.split(',');
-      for (const val of valueArr) {
-        this._styleSheetFile = this._styleSheetFile + linkTagFn(val);
-      }
-    } else {
-      this._styleSheetFile = linkTagFn(cssList);
+  set styleSheetFiles(cssFileList: string[]) {
+    this._styleSheetFiles = '';
+    for (const cssFile of cssFileList) {
+      this._styleSheetFiles += `<link rel="stylesheet" type="text/css" href="${cssFile}">`;
     }
   }
 
   /**
-   * @returns string which contains the link tags containing the css which will
+   * @returns string which contains all link tags containing the css which will
    * be injected later within <head></head> tag.
-   *
    */
-  private returnStyleSheetLinkTags() {
-    return this._styleSheetFile;
+  private getStyleSheetLinkTags() {
+    return this._styleSheetFiles;
+  }
+
+  /**
+   * @returns html section to be printed along with some associated inputs
+   */
+  private getHtmlContent(): string {
+    const printContents = document.getElementById(this.printSectionId);
+    if (!printContents) {
+      throw Error('Print section not found');
+    }
+
+    return printContents.innerHTML;
   }
 
   private static getElementTag(tag: keyof HTMLElementTagNameMap): string {
@@ -80,43 +88,12 @@ export class DfxPrintDirective {
     return html.join('\r\n');
   }
 
-  /**
-   * @param datas the html element collection to save defaults to
-   */
-  private static getFormData(datas: HTMLCollectionOf<any>) {
-    for (let i = 0; i < datas.length; i++) {
-      const data = datas[i];
-      data.defaultValue = data.value;
-      if (data.checked) {
-        data.defaultChecked = true;
-      }
-    }
-  }
-
-  /**
-   * @returns html section to be printed along with some associated inputs
-   */
-  private getHtmlContents() {
-    if (!this.printSectionId) {
-      throw Error('Print section id undefined');
-    }
-    const printContents = document.getElementById(this.printSectionId);
-    if (!printContents) {
-      throw Error('Print section not found');
-    }
-    const innards = printContents.getElementsByTagName('input');
-    DfxPrintDirective.getFormData(innards);
-
-    const txt = printContents.getElementsByTagName('textarea');
-    DfxPrintDirective.getFormData(txt);
-
-    return printContents.innerHTML;
-  }
-
   @HostListener('click')
   public print(): void {
     let styles = '',
       links = '';
+
+    // Base tag https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
     const baseTag = DfxPrintDirective.getElementTag('base');
 
     if (this.useExistingCss) {
@@ -124,16 +101,19 @@ export class DfxPrintDirective {
       links = DfxPrintDirective.getElementTag('link');
     }
 
-    const printContents = this.getHtmlContents();
+    const printContents = this.getHtmlContent();
     const popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
-    popupWin?.document.open();
-    popupWin?.document.write(`
+    if (!popupWin) {
+      throw new Error('Could not create popup window');
+    }
+    popupWin.document.open();
+    popupWin.document.write(`
       <html lang="en">
         <head>
-          <title>${this.printTitle ? this.printTitle : ''}</title>
+          <title>${this.printTitle ?? ''}</title>
           ${baseTag}
-          ${this.returnStyleValues()}
-          ${this.returnStyleSheetLinkTags()}
+          ${this.getStyleValues()}
+          ${this.getStyleSheetLinkTags()}
           ${styles}
           ${links}
         </head>
@@ -154,7 +134,7 @@ export class DfxPrintDirective {
           </script>
         </body>
       </html>`);
-    popupWin?.document.close();
+    popupWin.document.close();
   }
 }
 

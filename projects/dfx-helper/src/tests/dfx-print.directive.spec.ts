@@ -6,7 +6,7 @@ import {Component, DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
-import {DfxPrintDirective} from '../directives/dfx-print.directive';
+import {DfxPrintDirective} from '../lib/directives/dfx-print.directive';
 
 @Component({
   template: `
@@ -29,7 +29,7 @@ import {DfxPrintDirective} from '../directives/dfx-print.directive';
           <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
         </li>
       </ul>
-      <table border="1">
+      <table>
         <tr>
           <td>Row 1, Column 1</td>
           <td>Row 1, Column 2</td>
@@ -40,68 +40,53 @@ import {DfxPrintDirective} from '../directives/dfx-print.directive';
         </tr>
       </table>
     </div>
-    <button printSectionId="print-section" ngxPrint></button>
+    <button printSectionId="print-section" dfxPrint></button>
   `,
 })
-class TestNgxPrintComponent {}
+class TestDfxPrintComponent {}
 
-describe('NgxPrintDirective', () => {
+describe('DfxPrintDirective', () => {
   let buttonEl: DebugElement;
-  let fixture: ComponentFixture<TestNgxPrintComponent>;
+  let component: TestDfxPrintComponent;
+  let de: DebugElement;
+  let fixture: ComponentFixture<TestDfxPrintComponent>;
 
-  // To change this later, so it'll depend on TestNgxPrintComponent
   const styleSheet: {[key: string]: {[key: string]: string}} = {
     h2: {border: 'solid 1px'},
     h1: {color: 'red', border: '1px solid'},
   };
 
   beforeEach(() => {
-    // Configure a NgModule-like decorator metadata
     TestBed.configureTestingModule({
-      declarations: [TestNgxPrintComponent, DfxPrintDirective],
-    });
+      declarations: [TestDfxPrintComponent, DfxPrintDirective],
+    }).compileComponents();
 
-    // Create a fixture object (that is going to allows us to create an instance of that component)
-    fixture = TestBed.createComponent(TestNgxPrintComponent);
+    fixture = TestBed.createComponent(TestDfxPrintComponent);
+    component = fixture.componentInstance;
+    de = fixture.debugElement;
 
     // Get the button element (on which we tag the directive) to simulate clicks on it
-    buttonEl = fixture.debugElement.query(By.directive(DfxPrintDirective));
+    buttonEl = de.query(By.directive(DfxPrintDirective));
 
     fixture.detectChanges();
   });
 
   it('should create an instance', () => {
-    const directive = new DfxPrintDirective();
-    expect(directive).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should test the @Input printStyle', () => {
+  it('should test the input printStyle via object', () => {
     const directive = new DfxPrintDirective();
     directive.printStyle = styleSheet;
-    for (const key in directive.printStyle) {
-      if (directive.printStyle.hasOwnProperty(key)) {
-        directive._printStyle.push((key + JSON.stringify(directive.printStyle[key])).replace(/['"]+/g, ''));
-      }
-    }
-    directive.returnStyleValues();
 
-    expect(
-      (() => {
-        return directive.returnStyleValues();
-      })()
-    ).toEqual('<style> h2{border:solid 1px} h1{color:red;border:1px solid} </style>');
+    expect(directive.getStyleValues()).toEqual('<style> h2{border:solid 1px} h1{color:red;border:1px solid} </style>');
   });
 
-  it('should returns a string from array of objects', () => {
+  it('should test the input printStyle via array', () => {
     const directive = new DfxPrintDirective();
-    directive._printStyle = ['h2{border:solid 1px}', 'h1{color:red,border:1px solid}'];
+    directive.printStyle = ['h2{border:solid 1px}', 'h1{color:red,border:1px solid}'];
 
-    // immediately invoked arrow function, else you can uncomment `returnedString` and use it instead
-    expect(
-      (() => {
-        return directive.returnStyleValues();
-      })()
-    ).toEqual('<style> h2{border:solid 1px} h1{color:red;border:1px solid} </style>');
+    expect(directive.getStyleValues()).toEqual('<style> h2{border:solid 1px} h1{color:red;border:1px solid} </style>');
   });
 
   it('should popup a new window', () => {

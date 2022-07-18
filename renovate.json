@@ -1,15 +1,13 @@
 {
-  "pinVersions": false,
+  "pinVersions": true,
   "semanticCommits": "enabled",
-  "semanticPrefix": "renovate",
+  "semanticPrefix": "deps",
   "separateMajorMinor": false,
-  "prHourlyLimit": 2,
   "labels": ["npm", "dependencies"],
   "timezone": "Europe/Vienna",
   "lockFileMaintenance": {
     "enabled": true
   },
-  "schedule": ["after 10pm every weekday", "before 4am every weekday", "every weekend"],
   "baseBranches": ["develop"],
   "assignees": ["Dafnik"],
   "ignoreDeps": ["typescript"],

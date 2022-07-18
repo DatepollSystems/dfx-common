@@ -1,7 +1,8 @@
 import {IList} from './list.interface';
-import {ICompute, IPredicate} from '../functions.interface';
+import {ICompute, IMap, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
 import {GenericHelper} from '../helper/generic-helper';
+import {listOf} from './list';
 
 export abstract class ACommonList<listType extends IList<T>, T> extends Array<T> implements IList<T> {
   protected constructor(items?: ManyOrUndefinedOrNullOr<T>) {
@@ -134,6 +135,25 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
       return false;
     }
     return !this.includes(item);
+  }
+
+  public override map<mappedType>(callbackFn: IMap<T, listType, mappedType>): IList<mappedType> {
+    const result = listOf<mappedType>();
+    for (let index = 0; index < this.length; index++) {
+      result.add(callbackFn(this[index], index, this.thisAsT()));
+    }
+    return result;
+  }
+
+  public mapIf<mappedType>(callbackFn: IMap<T, listType, mappedType>, filterFn: IPredicate<T>): IList<mappedType> {
+    const result = listOf<mappedType>();
+    for (let index = 0; index < this.length; index++) {
+      const item = this[index];
+      if (filterFn(item)) {
+        result.add(callbackFn(item, index, this.thisAsT()));
+      }
+    }
+    return result;
   }
 
   public forEachIf(callbackFn: ICompute<T>, filterFn: IPredicate<T>): listType {

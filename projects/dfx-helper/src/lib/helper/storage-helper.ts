@@ -13,7 +13,7 @@ export class StorageHelper {
    * @param {unknown} value
    * @param {number | undefined} ttl Time to live in seconds (no guarantee it is going to be deleted on time)
    */
-  public static set(key: string, value: null | undefined, ttl?: number): void;
+  public static set(key: string, value: null | undefined | unknown, ttl?: number): void;
   /**
    * @param {string} key key for storage item
    * @param {unknown} value
@@ -174,7 +174,7 @@ export class StorageHelper {
     const key = Generator.stringByOptions(6, RandomStringOptions.NUMBERS, RandomStringOptions.SPECIAL_CHARACTERS);
     try {
       localStorage.setItem(key, '0');
-    } catch (e) {
+    } catch {
       return true;
     }
     this.remove(key);
@@ -187,5 +187,33 @@ export class StorageHelper {
    */
   public static isNotFull(): boolean {
     return !this.isFull();
+  }
+
+  /**
+   * <b>SHOULD NEVER BE USED IN PRODUCTION</b><br/>
+   * <b>ONLY FOR TESTING PURPOSE</b><br/>
+   * Fills the complete local storage up (with garbage)
+   * @deprecated
+   */
+  public static fillUp(): void {
+    try {
+      for (let i = 1; i <= 10000; i++) {
+        localStorage.setItem('fill_up_test_1', new Array(i * 100000).join('a'));
+      }
+    } catch {
+      let j = 1;
+      try {
+        for (j = 1; j <= 100; j++) {
+          localStorage.setItem('fill_up_test_2', new Array(j * 1000).join('a'));
+        }
+      } catch {
+        let k = 1;
+        try {
+          for (k = 1; k <= 1000; k++) {
+            localStorage.setItem('fill_up_test_3', new Array(k).join('a'));
+          }
+        } catch {}
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import {StringHelper} from '../helper/string-helper';
+import {StringHelper} from '../lib/helper/string-helper';
 
 describe('StringHelper', () => {
   it('isUrl', () => {
@@ -130,9 +130,9 @@ describe('StringHelper', () => {
   });
   it('getImploded', () => {
     const test = ['Apple', 'Bannana', 'Rasberry', 'Pie', 'Ananas', 'Lannanas'];
-    expect(StringHelper.getImploded(test)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, Lannanas, ');
-    expect(StringHelper.getImploded(test, undefined, undefined)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, Lannanas, ');
-    expect(StringHelper.getImploded(test, undefined, undefined, null)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, Lannanas, ');
+    expect(StringHelper.getImploded(test)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, Lannanas');
+    expect(StringHelper.getImploded(test, undefined, undefined)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, Lannanas');
+    expect(StringHelper.getImploded(test, undefined, undefined, null)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, Lannanas');
 
     expect(StringHelper.getImploded(test, 40)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, L...');
     expect(StringHelper.getImploded(test, 40, undefined, null)).toBe('Apple, Bannana, Rasberry, Pie, Ananas, L');
@@ -141,6 +141,6 @@ describe('StringHelper', () => {
     expect(StringHelper.getImploded(test, 15, undefined, 'BBB')).toBe('Apple, Bannana,BBB');
     expect(StringHelper.getImploded(test, 15)).toBe('Apple, Bannana,...');
 
-    expect(StringHelper.getImploded(test, undefined, ';')).toBe('Apple; Bannana; Rasberry; Pie; Ananas; Lannanas; ');
+    expect(StringHelper.getImploded(test, undefined, ';')).toBe('Apple; Bannana; Rasberry; Pie; Ananas; Lannanas');
   });
 });

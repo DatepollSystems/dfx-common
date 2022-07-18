@@ -1,6 +1,6 @@
-import {Generator, RandomStringOptions} from '../helper/generator';
-import {StringHelper} from '../helper/string-helper';
-import {ArrayHelper} from '../helper/array-helper';
+import {Generator, RandomStringOptions} from '../lib/helper/generator';
+import {StringHelper} from '../lib/helper/string-helper';
+import {ArrayHelper} from '../lib/helper/array-helper';
 
 describe('Generator', () => {
   it('randomness string', () => {

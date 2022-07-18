@@ -1,4 +1,4 @@
-import {UIHelper} from '../helper/ui-helper';
+import {UIHelper} from '../lib/helper/ui-helper';
 
 describe('UIHelper', () => {
   it('getReadTime', () => {

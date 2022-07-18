@@ -1,4 +1,4 @@
-import {UndefinedOr, UndefinedOrNullOr} from '../types';
+import {UndefinedOrNullOr} from '../types';
 
 export class StringHelper {
   private static urlRegex = new RegExp(
@@ -123,10 +123,7 @@ export class StringHelper {
     separator: UndefinedOrNullOr<string> = ',',
     suffix: UndefinedOrNullOr<string> = '...'
   ): string {
-    let toReturn = '';
-    for (const text of strings) {
-      toReturn += text + separator + ' ';
-    }
+    let toReturn = strings.join(separator + ' ');
     if (!suffix) {
       suffix = '';
     }

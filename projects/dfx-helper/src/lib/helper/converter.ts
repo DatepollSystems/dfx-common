@@ -1,6 +1,11 @@
 import {UndefinedOrNullOr} from '../types';
 
 export class Converter {
+  /**
+   * Converts parameter from <code>T | null</code> to <code>T | undefined</code>
+   * @param {T|undefined} value Value to convert
+   * @return {T|null} Returns <code>T | undefined</code>
+   */
   public static nullToUndefined<T>(value: T | null): T | undefined {
     if (value === null) {
       return undefined;
@@ -8,6 +13,11 @@ export class Converter {
     return value;
   }
 
+  /**
+   * Converts parameter from <code>T | undefined</code> to <code>T | null</code>
+   * @param {T|undefined} value Value to convert
+   * @return {T|null} Returns <code>T | null</code>
+   */
   public static undefinedToNull<T>(value: T | undefined): T | null {
     if (value === undefined) {
       return null;
@@ -18,7 +28,7 @@ export class Converter {
   //region to boolean
   /**
    * Converts string or number to boolean
-   * @param {string|number|boolean} value Value to check
+   * @param {string|number|boolean} value Value to convert
    * @return {boolean} Returns <code>true</code> if value is <code>"1"</code>, <code>1</code> or <code>"true"</code>,
    * <code>false</code> if not
    */

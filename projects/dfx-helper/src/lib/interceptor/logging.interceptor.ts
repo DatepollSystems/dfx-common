@@ -1,14 +1,26 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest} from '@angular/common/http';
+import {Inject, Injectable} from '@angular/core';
 import {catchError, Observable, throwError} from 'rxjs';
 
 import {LoggerFactory} from '../helper/logger';
+import {AbstractIgnoreableInterceptor} from './abstract-ignoreable.interceptor';
+import {HELPER_CONFIG, HelperConfig} from '../helper.config';
+
+export const LOGGING_INTERCEPTOR = new HttpContextToken(() => false);
 
 @Injectable()
-export class LoggingInterceptor implements HttpInterceptor {
+export class LoggingInterceptor extends AbstractIgnoreableInterceptor {
   private lumber = LoggerFactory.getLogger('HttpClient');
 
+  constructor(@Inject(HELPER_CONFIG) private config: HelperConfig) {
+    super(LOGGING_INTERCEPTOR, config.loggingInterceptorIgnorePaths);
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.shouldIntercept(req)) {
+      return next.handle(req);
+    }
+
     let text = 'URL: "' + req.url + '"';
     if (req.params) {
       text += ' | params: "' + req.params.toString() + '"';

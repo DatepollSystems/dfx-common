@@ -1,4 +1,4 @@
-import {RememberResult} from '../decorators/remember-result';
+import {RememberResult} from '../lib/decorators/remember-result';
 
 describe('RememberResult', () => {
   beforeEach(() => {

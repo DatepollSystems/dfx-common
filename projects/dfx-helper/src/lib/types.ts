@@ -1,6 +1,5 @@
 import {IHasID} from './entities/has-id.interface';
 import {IHasName} from './entities/has-name.interface';
-import {HttpContext, HttpHeaders, HttpParams} from '@angular/common/http';
 
 export type AnyOr<T> = T | any;
 export type UndefinedOr<T> = T | undefined;

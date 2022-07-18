@@ -1,5 +1,5 @@
 /**
- * Makes the method run outside of Angular's change detection
+ * Makes the method run outside of Angular change detection
  *
  * <b>Requires ngZone implementation</b>
  * @since 4.0.0
