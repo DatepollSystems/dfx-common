@@ -2,7 +2,6 @@ import {IList} from './list.interface';
 import {ICompute, IMap, IPredicate} from '../functions.interface';
 import {ManyOrUndefinedOrNullOr, UndefinedOrNullOr} from '../types';
 import {GenericHelper} from '../helper/generic-helper';
-import {listOf} from './list';
 
 export abstract class ACommonList<listType extends IList<T>, T> extends Array<T> implements IList<T> {
   protected constructor(items?: ManyOrUndefinedOrNullOr<T>) {
@@ -17,6 +16,8 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
   }
 
   public abstract create(list?: listType): listType;
+
+  public abstract createSimpleList<U>(): IList<U>;
 
   public clone(): listType {
     return this.create(this.thisAsT());
@@ -49,7 +50,9 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
 
   public add(items: ManyOrUndefinedOrNullOr<T>): listType {
     if (Array.isArray(items)) {
-      items.forEach((item) => this.push(item));
+      for (const item of items) {
+        this.push(item);
+      }
     } else if (items) {
       this.push(items);
     }
@@ -58,11 +61,11 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
 
   public addIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): listType {
     if (Array.isArray(items)) {
-      items.forEach((item) => {
+      for (const item of items) {
         if (item && filterFn(item)) {
           this.add(item);
         }
-      });
+      }
     } else {
       if (items && filterFn(items)) {
         this.add(items);
@@ -77,14 +80,14 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
 
   public remove(items: ManyOrUndefinedOrNullOr<T>): listType {
     if (Array.isArray(items)) {
-      items.forEach((item) => {
+      for (const item of items) {
         if (item) {
           const itemIndex = this.indexOf(item);
           if (itemIndex !== -1) {
             this.splice(itemIndex, 1);
           }
         }
-      });
+      }
     } else if (items) {
       const itemIndex = this.indexOf(items);
       if (itemIndex !== -1) {
@@ -96,14 +99,14 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
 
   public removeIf(items: ManyOrUndefinedOrNullOr<T>, filterFn: IPredicate<T>): listType {
     if (Array.isArray(items)) {
-      items.forEach((item) => {
+      for (const item of items) {
         if (item && filterFn(item)) {
           const itemIndex = this.indexOf(item);
           if (itemIndex !== -1) {
             this.splice(itemIndex, 1);
           }
         }
-      });
+      }
     } else if (items && filterFn(items)) {
       const itemIndex = this.indexOf(items);
       if (itemIndex !== -1) {
@@ -138,7 +141,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
   }
 
   public override map<mappedType>(callbackFn: IMap<T, listType, mappedType>): IList<mappedType> {
-    const result = listOf<mappedType>();
+    const result = this.createSimpleList<mappedType>();
     for (let index = 0; index < this.length; index++) {
       result.add(callbackFn(this[index], index, this.thisAsT()));
     }
@@ -146,7 +149,7 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
   }
 
   public mapIf<mappedType>(callbackFn: IMap<T, listType, mappedType>, filterFn: IPredicate<T>): IList<mappedType> {
-    const result = listOf<mappedType>();
+    const result = this.createSimpleList<mappedType>();
     for (let index = 0; index < this.length; index++) {
       const item = this[index];
       if (filterFn(item)) {
@@ -175,11 +178,11 @@ export abstract class ACommonList<listType extends IList<T>, T> extends Array<T>
 
   private computeIf(items: ManyOrUndefinedOrNullOr<T>, callbackFn: ICompute<T>, filterFn: IPredicate<T>): listType {
     if (Array.isArray(items)) {
-      items.forEach((item) => {
+      for (const item of items) {
         if (item && filterFn(item)) {
           callbackFn(item);
         }
-      });
+      }
     } else if (items && filterFn(items)) {
       callbackFn(items);
     }

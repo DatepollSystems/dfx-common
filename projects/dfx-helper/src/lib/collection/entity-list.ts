@@ -2,6 +2,8 @@ import {IList} from './list.interface';
 import {ACommonList} from './list.abstract';
 import {IEntity} from '../entities/entity.interface';
 import {ManyOrUndefinedOrNullOr, StringOrNumber, UndefinedOrNullOr} from '../types';
+import {List} from './list';
+import {listOf} from './list.functions';
 
 export type IEntityList<T extends IEntity<StringOrNumber>> = IList<T>;
 
@@ -12,6 +14,10 @@ export class EntityList<T extends IEntity<StringOrNumber>> extends ACommonList<E
 
   public create(list?: EntityList<T>): EntityList<T> {
     return new EntityList<T>(list);
+  }
+
+  public createSimpleList<U>(): List<U> {
+    return listOf<U>();
   }
 
   public override containsAny(item: UndefinedOrNullOr<T>): boolean {
@@ -46,8 +52,4 @@ export class EntityList<T extends IEntity<StringOrNumber>> extends ACommonList<E
     }
     return -1;
   }
-}
-
-export function eListOf<T extends IEntity<StringOrNumber>>(...items: T[]): EntityList<T> {
-  return new EntityList<T>(items);
 }

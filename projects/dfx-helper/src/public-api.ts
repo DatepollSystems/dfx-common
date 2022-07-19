@@ -55,3 +55,5 @@ export * from './lib/functions.interface';
 export * from './lib/helper.config';
 export * from './lib/key-value-pair';
 export * from './lib/types';
+export {eListOf} from './lib/collection/list.functions';
+export {listOf} from './lib/collection/list.functions';
