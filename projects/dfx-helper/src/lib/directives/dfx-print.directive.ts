@@ -5,11 +5,14 @@ Licensed under MIT license
 
 import {Directive, HostListener, Input, NgModule} from '@angular/core';
 import {ArrayHelper} from '../helper/array-helper';
+import {LoggerFactory} from '../helper/logger';
 
 @Directive({
   selector: 'button[dfxPrint]',
 })
 export class DfxPrintDirective {
+  private logger = LoggerFactory.getLogger('DfxPrintDirective');
+
   @Input() printSectionId!: string;
   @Input() printTitle?: string;
   @Input() useExistingCss = false;
@@ -104,7 +107,8 @@ export class DfxPrintDirective {
     const printContents = this.getHtmlContent();
     const popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
     if (!popupWin) {
-      throw new Error('Could not create popup window');
+      this.logger.error('print', 'Could not create popup window');
+      return;
     }
     popupWin.document.open();
     popupWin.document.write(`
