@@ -35,13 +35,13 @@ describe('RememberResult', () => {
 });
 
 class Test {
-  @RememberResult
+  @RememberResult()
   public static test(test: string): string {
     CallChecker.call();
     return test;
   }
 
-  @RememberResult
+  @RememberResult()
   public static test2(): void {
     CallChecker.call();
   }

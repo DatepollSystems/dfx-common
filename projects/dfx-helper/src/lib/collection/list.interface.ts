@@ -10,6 +10,8 @@ export interface IList<T> extends Array<T>, IGenericImplTrait<IList<T>> {
    */
   create(list?: IList<T>): IList<T>;
 
+  createSimpleList<U>(): IList<U>;
+
   /**
    * Returns new (cloned) list
    */
