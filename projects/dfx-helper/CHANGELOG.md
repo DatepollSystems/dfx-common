@@ -1,4 +1,12 @@
-Changelog
+# Changelog
+
+## 4.5.1 (2022-07-19)
+
+### Bug Fixes
+
+- **helper:** list initialization broken ([753180e](https://gitlab.com/DatePoll/common/dfx-common/-/commit/753180e03861b5446962d879bcca4cc94f2941b4))
+- **helper:** remember results ([b49a569](https://gitlab.com/DatePoll/common/dfx-common/-/commit/b49a569265401e6b2371e7e5a45261174325e201))
+- version ([5eb386f](https://gitlab.com/DatePoll/common/dfx-common/-/commit/5eb386fb1beed7afbd659b33a03ad1ce13b6c485))
 
 ## 4.5.0 (2022-07-18)
 
