@@ -30,8 +30,9 @@ export class Logger {
 
   private _log(logType: LogType, methodeName: string, description: string, object: UndefinedOr<any> = undefined): Logger {
     const date = new Date();
-    const milli = date.getMilliseconds() > 99 ? date.getMilliseconds() : date.getMilliseconds() + ' ';
-    let header = DateHelper.getFormatted(date) + ':' + milli + ' | ';
+    const milli = date.getMilliseconds();
+    const milliS = milli > 99 ? milli : milli > 9 ? milli + ' ' : milli + '  ';
+    let header = DateHelper.getFormatted(date) + ':' + milliS + ' | ';
     switch (logType) {
       case LogType.LOG:
         header += 'LOG     |';
