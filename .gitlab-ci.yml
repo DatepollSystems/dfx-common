@@ -54,6 +54,8 @@ build-dev:
 
 deploy-dev:
   stage: deploy
+  tags:
+    - 'dafnik'
   dependencies:
     - build-dev
   only:
@@ -98,6 +100,8 @@ build-helper:
 
 deploy-helper-release-zip:
   stage: deploy
+  tags:
+    - 'dafnik'
   dependencies:
     - build-helper
   only:
@@ -157,6 +161,8 @@ build-translate:
 
 deploy-translate-release-zip:
   stage: deploy
+  tags:
+    - 'dafnik'
   allow_failure: true
   dependencies:
     - build-translate
@@ -216,6 +222,8 @@ build-bootstrap-table-demo:
 
 deploy-bootstrap-table-demo:
   stage: deploy
+  tags:
+    - 'dafnik'
   dependencies:
     - build-bootstrap-table-demo
   only:
@@ -254,6 +262,8 @@ build-bootstrap-table:
 
 deploy-bootstrap-table-release-zip:
   stage: deploy
+  tags:
+    - 'dafnik'
   dependencies:
     - build-bootstrap-table
   only:
