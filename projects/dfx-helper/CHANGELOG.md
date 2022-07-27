@@ -1,4 +1,17 @@
-# Changelog
+Changelog
+
+### 4.5.2 (2022-07-27)
+
+### Features
+
+- **helper:** add unsubscribeAll() to abstract component ([61c255a](https://gitlab.com/DatePoll/common/dfx-common/-/commit/61c255a6cc974c10e07212d1c9835bab2bfa03b0))
+- **helper:** enhance http interceptor logging ([fa0d0e3](https://gitlab.com/DatePoll/common/dfx-common/-/commit/fa0d0e324c874f574a97a366acca74ed88a1e2c3))
+
+### Bug Fixes
+
+- **helper:** do not send refresh selected entity with subject ([b06d6c9](https://gitlab.com/DatePoll/common/dfx-common/-/commit/b06d6c91349cea67684d4db23fc76117fa60ba91))
+- **helper:** log unaligned bug ([16a50c2](https://gitlab.com/DatePoll/common/dfx-common/-/commit/16a50c2b5ccdd573b81238845e9923483efa5074))
+- version ([5eb386f](https://gitlab.com/DatePoll/common/dfx-common/-/commit/5eb386fb1beed7afbd659b33a03ad1ce13b6c485))
 
 ## 4.5.1 (2022-07-19)
 
