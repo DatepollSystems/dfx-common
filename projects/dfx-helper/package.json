@@ -1,6 +1,6 @@
 {
   "name": "dfx-helper",
-  "version": "4.5.1",
+  "version": "4.5.2",
   "description": "Web-development / Typescript / Angular Library with tons of utility tools helping in all projects",
   "private": false,
   "license": "MIT",
@@ -29,8 +29,8 @@
     "url": "git+https://gitlab.com/DatePoll/common/dfx-common.git"
   },
   "peerDependencies": {
-    "@angular/common": "14.0.6",
-    "@angular/core": "14.0.6",
+    "@angular/common": "14.1.0",
+    "@angular/core": "14.1.0",
     "rxjs": "7.5.6"
   }
 }

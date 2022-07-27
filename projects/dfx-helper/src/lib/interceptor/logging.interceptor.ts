@@ -1,6 +1,6 @@
-import {HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest} from '@angular/common/http';
+import {HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
-import {catchError, Observable, throwError} from 'rxjs';
+import {catchError, finalize, Observable, tap, throwError} from 'rxjs';
 
 import {LoggerFactory} from '../helper/logger';
 import {AbstractIgnoreableInterceptor} from './abstract-ignoreable.interceptor';
@@ -22,20 +22,32 @@ export class LoggingInterceptor extends AbstractIgnoreableInterceptor {
     }
 
     let text = 'URL: "' + req.url + '"';
-    if (req.params) {
+    if (req.params.keys().length > 0) {
       text += ' | params: "' + req.params.toString() + '"';
     }
-    this.lumber.log(req.method, text, req.body);
 
+    const startTime = Date.now();
     return next.handle(req).pipe(
+      tap({
+        next: (event) => {
+          if (event instanceof HttpResponse) {
+            const elapsedTime = Date.now() - startTime;
+            text = 'Status: Success | ' + text + ' | Elapsed time: ' + elapsedTime + 'ms';
+            this.lumber.log(req.method, text);
+            this.lumber.log(req.method, 'Request body', req.body);
+            this.lumber.log(req.method, 'Request response', event);
+          }
+        },
+      }),
       catchError((error: any) => {
         if (error instanceof ErrorEvent) {
           text += ` | Error: ${error.message}`;
         } else if (error instanceof HttpErrorResponse) {
           text += ` | Error Status: ${error.status} | ${error.message}`;
         }
-        this.lumber.error(req.method, text);
-        console.log(error);
+        const elapsedTime = Date.now() - startTime;
+        text = 'Status: Error   | ' + text + ' | Elapsed time: ' + elapsedTime + 'ms';
+        this.lumber.error(req.method, text, error);
 
         return throwError(() => text);
       })

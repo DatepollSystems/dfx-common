@@ -23,7 +23,9 @@ export abstract class ASelectableEntityService<idType extends StringOrNumber, En
     this.allChange.subscribe((entities) => {
       for (const entity of entities) {
         if (this.selected?.id === entity.id) {
-          this.setSelected(entity);
+          this.selected = entity;
+          StorageHelper.set(this.selectedStorageKey, this.selected);
+          break;
         }
       }
     });

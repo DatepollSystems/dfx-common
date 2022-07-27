@@ -13,9 +13,13 @@ export abstract class AComponent implements OnDestroy {
     return this;
   }
 
-  public ngOnDestroy(): void {
+  protected unsubscribeAll(): void {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.unsubscribeAll();
   }
 }
