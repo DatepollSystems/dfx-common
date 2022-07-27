@@ -4,10 +4,16 @@ describe('Converter', () => {
   it('toNumber', () => {
     expect(Converter.toNumber(null)).toBe(Number.MAX_SAFE_INTEGER);
     expect(Converter.toNumber(undefined)).toBe(Number.MAX_SAFE_INTEGER);
+    expect(Converter.toNumber(12)).toBe(12);
   });
   it('toString', () => {
     expect(Converter.toString(null)).toBe('');
     expect(Converter.toString(undefined)).toBe('');
+    expect(Converter.toString('irgendwas')).toBe('irgendwas');
+  });
+  it('toBoolean', () => {
+    expect(Converter.toBoolean(true)).toBeTrue();
+    expect(Converter.toBoolean(false)).toBeFalse();
   });
   it('stringToBoolean', () => {
     expect(Converter.stringToBoolean('true')).toBeTrue();
@@ -50,5 +56,13 @@ describe('Converter', () => {
     expect(Converter.booleanToNumber(true)).toBeDefined();
     expect(Converter.booleanToNumber(true)).toBe(1);
     expect(Converter.booleanToNumber(false)).toBe(0);
+  });
+  it('nullToUndefined', () => {
+    let test: string | null = null;
+    expect(Converter.nullToUndefined(test)).toBeUndefined();
+  });
+  it('undefinedToNull', () => {
+    let test: string | undefined = undefined;
+    expect(Converter.undefinedToNull(test)).toBeNull();
   });
 });
