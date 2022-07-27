@@ -30,7 +30,7 @@ describe('TranslateService', () => {
 
   it('should use default values', () => {
     expect(translateService.defaultLanguage).toBe('en');
-    expect(translateService.selectedTranslation).toBe('en');
+    expect(translateService.getSelectedLanguage()).toBe('en');
     expect(translateService.useLocalStorage).toBeTrue();
     expect(translateService.languagesWithAutoTranslation.length).toBe(2);
   });
@@ -77,12 +77,12 @@ describe('TranslateService', () => {
   it('change language to local storage one', async () => {
     await translateService.use();
     expect(translateService.defaultLanguage).toBe('en');
-    expect(localStorage.getItem('language')).toBe('en');
+    expect(translateService.getSelectedLanguage()).toBe('en');
   });
 
   it('set error language', async () => {
     await translateService.use('es');
-    expect(translateService.selectedTranslation).toBe('es');
+    expect(translateService.getSelectedLanguage()).toBe('es');
     expect(localStorage.getItem('language')).toBe('es');
   });
 });

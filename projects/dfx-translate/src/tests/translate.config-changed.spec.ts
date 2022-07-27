@@ -33,7 +33,7 @@ describe('TranslateConfigChanged', () => {
 
   it('should use default values', () => {
     expect(translateService.defaultLanguage).toBe('de');
-    expect(translateService.selectedTranslation).toBe('de');
+    expect(translateService.getSelectedLanguage()).toBe('de');
     expect(translateService.useLocalStorage).toBeTrue();
     expect(translateService.languagesWithAutoTranslation.length).toBe(0);
   });
@@ -42,13 +42,13 @@ describe('TranslateConfigChanged', () => {
     expect(translateService.translations).not.toEqual({});
   });
 
-  it('should store default language as cookie', () => {
-    expect(localStorage.getItem('language')).toBeDefined();
-    expect(localStorage.getItem('language')).toBe('de');
+  it('should not store default language as cookie', () => {
+    expect(localStorage.getItem('language')).toBeNull();
+    expect(translateService.getSelectedLanguage()).toBe('de');
   });
 
   it('should store changed language as cookie', async () => {
-    expect(localStorage.getItem('language')).toBeDefined();
+    expect(localStorage.getItem('language')).toBeNull();
     await translateService.use('en');
     expect(localStorage.getItem('language')).toBe('en');
   });
@@ -61,6 +61,6 @@ describe('TranslateConfigChanged', () => {
 
   it('should change language', async () => {
     await translateService.use('de');
-    expect(translateService.selectedTranslation).toBe('de');
+    expect(translateService.getSelectedLanguage()).toBe('de');
   });
 });

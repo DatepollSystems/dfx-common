@@ -43,7 +43,7 @@ describe('TranslateDirective', () => {
 
   it('should use configured values', () => {
     expect(translateService.defaultLanguage).toBe('en');
-    expect(translateService.selectedTranslation).toBe('en');
+    expect(translateService.getSelectedLanguage()).toBe('en');
     expect(translateService.languagesWithAutoTranslation.length).toBe(0);
     expect(translateService.useLocalStorage).toBeFalse();
     expect(localStorage.getItem('language')).toBeNull();

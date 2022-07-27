@@ -2,6 +2,7 @@ import {InjectionToken} from '@angular/core';
 
 export interface TranslateConfig {
   defaultLanguage?: string;
+  assetsPath?: string;
   useLocalStorage?: boolean;
   languagesWithAutoTranslation?: string[];
 }
